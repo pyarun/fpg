@@ -37,42 +37,6 @@ services.service("currentUserService", ["Restangular", "$log", "$q", "$cookies",
   }]);
 
 
-services.service('farmService', ['Restangular', '$cookies', function (Restangular, $cookies) {
-  var _db = Restangular.service("farms");
-  Restangular.extendModel('farms', function (model) {
-    model.getFullAddress = function () {
-      return ( model.farm_address.line1 + ' ' + model.farm_address.line2
-          + model.farm_address.area + ', ' + model.farm_address.city
-          + model.farm_address.state + ', ' + model.farm_address.country + '.' );
-    };
-    model.edit = false;
-    return model;
-  });
-  return{
-    list: function (queryParams) {
-      queryParams = queryParams || {};
-      return _db.getList(queryParams);
-    },
-    save: function (item) {
-      if (item.id) {
-        return item.save({}, {
-          "X-CSRFToken": $cookies['csrftoken']
-        });
-      }
-      else {
-        return _db.post(item, {}, {
-          "X-CSRFToken": $cookies['csrftoken']
-        });
-      }
-    },
-    remove: function (item) {
-      return item.remove({}, {
-        "X-CSRFToken": $cookies['csrftoken']
-      });
-    }
-  }
-}]);
-
 /*generic confirm box
  * Useage: confirmBox.pop(callbackfunction);
  * */

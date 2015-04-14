@@ -1,9 +1,7 @@
 'use strict';
 //starting point of angular application
 // all the angular configurations will be maintained here
-var organicApp = angular.module("organicApp", ["organicApp.controllers",
-  "organicApp.directives", "organicApp.services", "organicApp.directives", "ui.router", "ui.bootstrap", "ui.bootstrap.accordion",
-  "restangular", "ngCookies", "toastr"]);
+var organicApp = angular.module("organicApp", ["ui.router", "ui.bootstrap", "restangular", "ngCookies", "toastr"]);
 
 organicApp.constant("SETTINGS", {
   "STATIC_URL": djsettings.STATIC_URL,
@@ -16,40 +14,13 @@ organicApp.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "Restangu
                       $urlRouterProvider.otherwise('home');
 
                       //Routing for Learners Menu
-                      $stateProvider.state('profile', {
-                        url: '/profile',
-                        templateUrl: function ($stateParams) {
-                          return SETTINGS.TEMPLATE_DIR + 'profile.html';
-                        },
-                        controller: "ProfileCtrl"
-                      }).state('home', {
-                        url: '/home',
-                        templateUrl: function ($stateParams) {
-                          return SETTINGS.TEMPLATE_DIR + 'partial-home.html';
-                        }
-                      }).state('product', {
-                        url: '/product',
-                        templateUrl: function ($stateParams) {
-                          return SETTINGS.TEMPLATE_DIR + 'product.html';
-                        }
-
-                      }).state('grocers', {
-                        url: '/grocers',
-                        templateUrl: function ($stateParams) {
-                          return SETTINGS.TEMPLATE_DIR + 'grocers.html';
-                        }
-                      }).state('farms', {
-                        url: '/farms',
-                        templateUrl: function ($stateParams) {
-                          return SETTINGS.TEMPLATE_DIR + 'farms.html';
-                        }
-                      }).state('my-farms', {
-                        url: '/my-farms',
-                        templateUrl: function ($stateParams) {
-                          return SETTINGS.TEMPLATE_DIR + 'my-farms.html';
-                        },
-                        controller: "MyFarmsCtrl"
-                      });
+//                      $stateProvider.state('profile', {
+//                        url: '/profile',
+//                        templateUrl: function ($stateParams) {
+//                          return SETTINGS.TEMPLATE_DIR + 'profile.html';
+//                        },
+//                        controller: "ProfileCtrl"
+//                      });
 
                       RestangularProvider.setBaseUrl('/api/v1');
                       RestangularProvider.setRequestSuffix("/");

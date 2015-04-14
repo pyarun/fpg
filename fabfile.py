@@ -1,8 +1,10 @@
-from fabric.api import env, prefix, run, sudo, task, cd, prompt, get, put
 from string import Template
 import os
 import sys
 from tempfile import NamedTemporaryFile
+
+from fabric.api import env, prefix, run, sudo, task, cd, prompt, get, put
+
 
 curr_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -27,7 +29,7 @@ def setup_env():
     else:
         env.venv_path = os.path.join(env.project_root, env.venv_name)
 
-    env.code_root = os.path.join(env.project_root, env.project_name)
+    env.code_root = os.path.join(env.project_root, env.django_project_name)
 
     path = os.path.abspath(os.path.join(os.path.dirname(__file__), env.project_name))
     sys.path.insert(0, path)
@@ -69,57 +71,62 @@ def rebuild(branch="master"):
 @task
 def bootstrap():
     setup_env()
-    processes = [dict(
-        msg='Cloning repository, You can skip this, by pressing n/N:',
-        func=[setup_code]
-    ),
-                 dict(
-                     msg='Installing Sys Packages, You can skip this, by pressing n/N:"',
-                     func=[install_sys_packages]
-                 ),
-                 dict(
-                     msg='Setting up VirtualEnv, You can skip this, by pressing n/N:',
-                     func=[mkvenv, update_requirements]
-                 ),
-                 dict(
-                     msg='Generating Setting and Config files, You can skip this, by pressing n/N:',
-                     func=[generate_local_settings, generate_apache_vh,
-                           generate_wsgi_script,
-                           # generate_celery_conf
-                     ]
-                 ), dict(
-            msg='Setting up database, You can skip this, by pressing n/N:',
-            func=[setup_database]
-        ), dict(
-            msg='Setting up initial directories, You can skip this, by pressing n/N:',
-            func=[init_directories]
-        ), dict(
-            msg='Synchronizing django application, You can skip this, by pressing n/N:',
-            func=[update_requirements, build_bower_dependiences, sync_app]
+    processes = [
+        (
+            'Cloning repository, You can skip this, by pressing n/N:',
+            [setup_code]
         ),
-                 # dict(
-                 # msg='Loading Initial data, You can skip this, by pressing n/N:',
-                 # func=[load_initialdata]
-                 # ),dict(
-                 # msg='Initiaizing supervisor, You can skip this, by pressing n/N:',
-                 # func=[init_supervisor]
-                 # ),
-                 dict(
-                     msg='Creating Apache symbolic link, You can skip this, by pressing n/N:',
-                     func=[symbolik_link_apache]
-                 ),
-                 dict(
-                     msg='Creating Dajngo Super User, You can skip this, by pressing n/N:',
-                     func=[createsuperuser]
-                 )
-
-
+        (
+            'Installing Sys Packages, You can skip this, by pressing n/N:"',
+            [install_sys_packages]
+        ),
+        (
+            'Setting up VirtualEnv, You can skip this, by pressing n/N:',
+            [mkvenv, update_requirements]
+        ),
+        (
+            'Generating Setting and Config files, You can skip this, by pressing n/N:',
+            [generate_local_settings,
+             generate_apache_vh,
+             generate_wsgi_script,
+             # generate_celery_conf
+            ]
+        ),
+        (
+            'Setting up database, You can skip this, by pressing n/N:',
+            [setup_database]
+        ),
+        (
+            'Setting up initial directories, You can skip this, by pressing n/N:',
+            [init_directories]
+        ),
+        (
+            'Synchronizing django application, You can skip this, by pressing n/N:',
+            [update_requirements, build_bower_dependiences, sync_app]
+        ),
+        # (
+        # 'Loading Initial data, You can skip this, by pressing n/N:',
+        #     [load_initialdata]
+        # ),
+        # (
+        #     'Initiaizing supervisor, You can skip this, by pressing n/N:',
+        #     [init_supervisor]
+        # ),
+        (
+            'Creating Apache symbolic link, You can skip this, by pressing n/N:',
+            [symbolik_link_apache]
+        ),
+        (
+            'Creating Dajngo Super User, You can skip this, by pressing n/N:',
+            [createsuperuser]
+        )
     ]
 
     for k, funcs in processes:
         proceed = prompt(k, default="Y", validate=_validate_user_input)
-        for func in funcs:
-            func()
+        if proceed:
+            for func in funcs:
+                func()
 
 
 @task
@@ -133,9 +140,9 @@ def createsuperuser():
 def generate_local_settings():
     print "Generating local settings file."
     template_path = os.path.join(env.project_root, "templates", "local_settings")
-    settings_path = os.path.join(djapp(), env.project_name, "settings", "local_settings.py")
+    settings_path = os.path.join(djapp(), env.django_project_name, "settings", "local_settings.py")
     context = {
-        "project_name": env.project_name,
+        "django_project_name": env.django_project_name,
         "db_name": env.db_name,
         "db_user": env.db_user,
         "db_passwd": env.db_passwd,
@@ -161,7 +168,7 @@ def generate_local_settings():
 def generate_apache_vh():
     print "Generating apache virtualhost config."
     template_path = os.path.join(env.project_root, "templates", "apache_vh.conf")
-    file_path = os.path.join(djapp(), "apache", os.path.basename(env.project_root) + ".conf")
+    file_path = os.path.join(djapp(), "apache", env.project_name + ".conf")
     apache_conf_dir = os.path.join(djapp(), "apache")
 
     run('mkdir {} -p'.format(apache_conf_dir))
@@ -180,10 +187,10 @@ def generate_apache_vh():
 def generate_wsgi_script():
     print "Generating wsgi script"
     template_path = os.path.join(env.project_root, "templates", "wsgi")
-    file_path = os.path.join(djapp(), env.project_name, "wsgi.py")
+    file_path = os.path.join(djapp(), env.django_project_name, "wsgi.py")
     context = {
         "venv_path": env.venv_path,
-        "project_name": env.project_name
+        "django_project_name": env.django_project_name
     }
 
     generate_settings_file(template_path, file_path, context)
@@ -253,7 +260,6 @@ def symbolik_link_apache():
 def install_sys_packages():
     sudo("apt-get update")
     sudo("apt-get install %s" % " ".join(APTGET_PACKAGES))
-
     sudo("npm install -g bower")
 
 
