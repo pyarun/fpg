@@ -1,3 +1,4 @@
+from fabric.api import env, prefix, run, sudo, task, cd, prompt, get, put
 from string import Template
 import os
 import sys
@@ -9,7 +10,8 @@ APTGET_PACKAGES = ["pkg-config",
                    "postgresql", "libpq-dev", "vim", "libreadline6",
                    "libreadline6-dev", "python-dev", "python-setuptools",
                    "git",
-                   "python-pip", "python-virtualenv"
+                   "python-pip", "python-virtualenv",
+                   'nodejs', 'npm'
 ]
 
 venv = lambda: "source {}".format(os.path.join(env.venv_path, "bin/activate"))
@@ -59,6 +61,7 @@ def rebuild(branch="master"):
     with cd(djapp()):
         run("git checkout {} && git pull origin {}".format(branch, branch))
         update_requirements()
+        build_bower_dependiences()
         sync_app()
         touch()
 
@@ -92,7 +95,7 @@ def bootstrap():
             func=[init_directories]
         ), dict(
             msg='Synchronizing django application, You can skip this, by pressing n/N:',
-            func=[update_requirements, sync_app]
+            func=[update_requirements, build_bower_dependiences, sync_app]
         ),
                  # dict(
                  # msg='Loading Initial data, You can skip this, by pressing n/N:',
@@ -251,6 +254,8 @@ def install_sys_packages():
     sudo("apt-get update")
     sudo("apt-get install %s" % " ".join(APTGET_PACKAGES))
 
+    sudo("npm install -g bower")
+
 
 def mkvenv():
     print "making virtualenv"
@@ -377,3 +382,10 @@ def generate_settings_file(template_path, file_path, context):
         temp_file.seek(0)
         temp_file.truncate()
         temp_file.write(file_data)
+
+
+@task
+def build_bower_dependiences():
+    static_dir = os.path.join(djapp(), "static")
+    with cd(static_dir):
+        run("bower install")
