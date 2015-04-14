@@ -7,6 +7,7 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
+from django.core.exceptions import ImproperlyConfigured
 
 """
 Django settings for organic project.
@@ -201,3 +202,9 @@ STATICFILES_FINDERS = (
 ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window; you may, of course, use a different value.
 
 LOGIN_REDIRECT_URL = '/'
+
+
+try:
+    from local_settings import *
+except:
+    ImproperlyConfigured("local settings file is not configured for this server.")

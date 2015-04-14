@@ -28,7 +28,7 @@ urlpatterns = patterns('',
 
                        # apis
                        url(r"^api/v1/", include('profiles.urls')),
-                       url(r"^api/v1/", include('organic.api_urls')),
+                       url(r"^api/v1/", include('fpg.api_urls')),
 
 
                        # third party
