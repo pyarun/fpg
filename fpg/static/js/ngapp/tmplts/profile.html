@@ -1,0 +1,146 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- Sidebar -->
+    <div class="col-sm-3 col-md-2 sidebar">
+      <ul class="nav nav-sidebar">
+        <li class="active"><a href="#">Profile</a></li>
+        <li><a ui-sref="home">My Produce</a></li>
+        <li><a ui-sref="my-farms">My Farms</a></li>
+        <li><a ui-sref="grocers">Grocers Near Me</a></li>
+      </ul>
+    </div>
+
+    <!-- Profile -->
+    <div class="col-sm-9 col-md-10">
+      <div class="well well-lg">
+        <div class="row">
+          <div class="col-xs-12 col-sm-9 col-md-9" ng-show="!user.edit">
+            <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+
+
+            <p><strong>Address</strong>: {{ user.userprofile.address.lane1 }},
+              {{ user.userprofile.address.lane2 ? user.userprofile.address.lane2 : ''}},
+              {{ user.userprofile.address.area }}, {{ user.userprofile.address.city }},
+              {{ user.userprofile.address.state }}, {{ user.userprofile.address.country }}
+
+            <p><strong>Email: </strong> {{ user.email }} </p>
+
+            <p><strong>contact: </strong> {{ user.userprofile.contact_number}} </p>
+            <button class="btn btn-primary btn-sm" ng-click="user.edit=true">Edit</button>
+
+          </div>
+
+          <!-- Edit mode -->
+          <div class="row" ng-show="user.edit">
+            <form novalidate="" name="editForm">
+              <div class="col-md-4">
+                <div class="form-group"
+                     ng-class="{'has-error':editForm.first_name.$error.required && (!editForm.first_name.$pristine || editForm.showFormErrors)}">
+                  <label for="firstname">First Name</label>
+                  <input type="text" name="first_name" class="form-control"
+                         ng-model="user.first_name"
+                         placeholder="First Name" required>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group"
+                     ng-class="{'has-error':editForm.last_name.$error.required && (!editForm.last_name.$pristine || editForm.showFormErrors)}">
+                  <label for="lastname">Last Name</label>
+                  <input type="text" name="last_name" class="form-control" ng-model="user.last_name"
+                         placeholder="Last Name" required>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group"
+                     ng-class="{'has-error':editForm.contact_number.$error.required && (!editForm.contact_number.$pristine || editForm.showFormErrors)}">
+                  <label for="contact">Contact Number</label>
+                  <input type="text" name="contact" class="form-control"
+                         ng-model="user.userprofile.contact_number"
+                         placeholder="Contact Number" required>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group"
+                     ng-class="{'has-error':editForm.email.$error.required && (!editForm.email.$pristine || editForm.showFormErrors)}">
+                  <label for="contact">Email</label>
+                  <input type="text" name="contact" class="form-control"
+                         ng-model="user.userprofile.email"
+                         placeholder="Email id" required>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4"
+                   ng-class="{'has-error':editForm.country.$error.required && (!editForm.country.$pristine || editForm.showFormErrors)}">
+                <label for="country">Country</label>
+                <input type="text" name="country" class="form-control"
+                       ng-model="user.userprofile.address.country"
+                       placeholder="Country" required>
+              </div>
+
+              <div class="form-group col-md-4"
+                   ng-class="{'has-error':editForm.state.$error.required && (!editForm.state.$pristine || editForm.showFormErrors)}">
+                <label for="state">State</label>
+                <input type="text" name="state" class="form-control"
+                       ng-model="user.userprofile.address.state"
+                       placeholder="State" required>
+              </div>
+
+              <div class="form-group col-md-4"
+                   ng-class="{'has-error':editForm.city.$error.required && (!editForm.city.$pristine || editForm.showFormErrors)}">
+                <label for="city">City</label>
+                <input type="text" name="city" class="form-control"
+                       ng-model="user.userprofile.address.city"
+                       placeholder="City" required>
+              </div>
+
+              <div class="form-group col-md-4"
+                   ng-class="{'has-error':editForm.area.$error.required && (!editForm.area.$pristine || editForm.showFormErrors)}">
+                <label for="area">Area</label>
+                <input type="text" name="area" class="form-control"
+                       ng-model="user.userprofile.address.area"
+                       placeholder="Area" required>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="form-group"
+                     ng-class="{'has-error':editForm.lane1.$error.required && (!editForm.lane1.$pristine || editForm.showFormErrors)}">
+                  <label for="lane1">Address Lane 1</label>
+                  <input type="text" name="lane1" class="form-control"
+                         ng-model="user.userprofile.address.lane1"
+                         placeholder="Address lane 1" required>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="line2">Address Line 2</label>
+                  <input type="text" name="line2" class="form-control"
+                         ng-model="user.userprofile.address.lane2"
+                         placeholder="Address lane 2">
+                </div>
+              </div>
+              <div class="col-lg-12">
+
+                <button class="btn btn-primary pull-right" ng-click="save(user,editForm)">Save
+                </button>
+              </div>
+
+            </form>
+          </div>
+
+
+          <div class="col-xs-12 col-sm-3 col-md-3 text-center">
+            <figure>
+              <img src="{{ user.profile_pic }}" alt="" class="img-circle img-responsive">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

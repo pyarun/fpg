@@ -1,0 +1,7 @@
+.well-transparent {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 0px;
+  box-shadow: none;
+  margin-bottom: 0px;
+}

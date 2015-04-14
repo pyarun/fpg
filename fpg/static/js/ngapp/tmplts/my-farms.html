@@ -1,0 +1,168 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- Sidebar -->
+    <div class="col-sm-3 col-md-2 sidebar">
+      <ul class="nav nav-sidebar">
+        <li class="active"><a href="#">Profile</a></li>
+        <li><a ui-sref="home">My Produce</a></li>
+        <li><a ui-sref="my-farms">My Farms</a></li>
+        <li><a ui-sref="grocers">Grocers Near Me</a></li>
+      </ul>
+    </div>
+
+    <!-- My Farms -->
+    <div class="col-sm-9 col-md-10">
+      <div class="row">
+        <div class="panel panel-default" id="insider">
+          <div class="panel-heading">
+            <h3 class="panel-title">My Farms</h3>
+          </div>
+          <div class="panel-body">
+            <accordion close-others="true">
+              <accordion-group heading="{{ farm.name }}"
+                               ng-repeat="farm in objectList track by $index">
+                <div class="row" ng-show="!farm.edit">
+                  <div class="col-md-8">
+                    <strong>Description: </strong>{{ farm.description }}<br/>
+                    <strong>Address: </strong>{{ farm.getFullAddress() }}
+                    <a class="btn btn-xs btn-default"
+                       href="https://www.google.com/maps/@-{{ farm.lattitude }},{{ farm.longitude }},8z">
+                      <span class="glyphicon glyphicon-map-marker"></span>
+                      Show on map
+                    </a><br/>
+                    <strong>Contact: </strong>{{ farm.contact_number }}
+                    <a class="btn btn-xs btn-default" href="tel:{{ farm.contact_number }}">
+                      <span class="glyphicon glyphicon-earphone"></span> Call</a><br/><br/>
+                    <button class="btn btn-primary btn-sm" ng-click="farm.edit=true">Edit</button>
+                    <button class="btn btn-danger btn-sm" ng-click="remove(farm)">Delete</button>
+                  </div>
+                  <div class="col-md-4">
+                    <img src="{{ SETTINGS.STATIC_URL }}img/farm.jpg" class="img pull-right">
+                  </div>
+
+                </div>
+
+                <!-- Edit mode -->
+                <div class="row" ng-show="farm.edit">
+                  <form novalidate="" name="editForm">
+                    <div class="col-md-6">
+                      <div class="form-group"
+                           ng-class="{'has-error':editForm.fname.$error.required && (!editForm.fname.$pristine || editForm.showFormErrors)}">
+                        <label for="fname">Farm Name</label>
+                        <input type="text" name="fname" class="form-control" ng-model="farm.name"
+                               placeholder="Farm Name" required>
+                      </div>
+                      <div class="form-group"
+                           ng-class="{'has-error':editForm.desc.$error.required && (!editForm.desc.$pristine || editForm.showFormErrors)}">
+                        <label for="desc">Description</label>
+                        <textarea name="desc" class="form-control" ng-model="farm.description"
+                                  placeholder="Description" required></textarea>
+                      </div>
+                      <div class="form-group"
+                           ng-class="{'has-error':editForm.contact.$error.required && (!editForm.contact.$pristine || editForm.showFormErrors)}">
+                        <label for="contact">Contact Number</label>
+                        <input type="text" name="contact" class="form-control"
+                               ng-model="farm.contact_number"
+                               placeholder="Contact Number" required>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-md-6"
+                             ng-class="{'has-error':editForm.lattitude.$error.required && (!editForm.lattitude.$pristine || editForm.showFormErrors)}">
+                          <label for="lattitude">Lattitude</label>
+                          <input type="text" name="lattitude" class="form-control"
+                                 ng-model="farm.latitude"
+                                 placeholder="lattitude" required>
+                        </div>
+                        <div class="form-group col-md-6"
+                             ng-class="{'has-error':editForm.longitude.$error.required && (!editForm.longitude.$pristine || editForm.showFormErrors)}">
+                          <label for="longitude">Longitude</label>
+                          <input type="text" name="longitude" class="form-control"
+                                 ng-model="farm.longitude"
+                                 placeholder="longitude" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group"
+                           ng-class="{'has-error':editForm.lane1.$error.required && (!editForm.lane1.$pristine || editForm.showFormErrors)}">
+                        <label for="lane1">Address Line 1</label>
+                        <input type="text" name="lane1" class="form-control"
+                               ng-model="farm.farm_address.lane1"
+                               placeholder="Address line 1" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="lane2">Address Line 2</label>
+                        <input type="text" name="lane2" class="form-control"
+                               ng-model="farm.farm_address.lane2"
+                               placeholder="Address line 2">
+                      </div>
+                      <br/>
+
+                      <div class="row">
+                        <div class="form-group col-md-6"
+                             ng-class="{'has-error':editForm.area.$error.required && (!editForm.area.$pristine || editForm.showFormErrors)}">
+                          <label for="area">Area</label>
+                          <input type="text" name="area" class="form-control"
+                                 ng-model="farm.farm_address.area"
+                                 placeholder="Area" required>
+                        </div>
+                        <div class="form-group col-md-6"
+                             ng-class="{'has-error':editForm.city.$error.required && (!editForm.city.$pristine || editForm.showFormErrors)}">
+                          <label for="city">City</label>
+                          <input type="text" name="city" class="form-control"
+                                 ng-model="farm.farm_address.city"
+                                 placeholder="City" required>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-md-6"
+                             ng-class="{'has-error':editForm.state.$error.required && (!editForm.state.$pristine || editForm.showFormErrors)}">
+                          <label for="state">State</label>
+                          <input type="text" name="state" class="form-control"
+                                 ng-model="farm.farm_address.state"
+                                 placeholder="State" required>
+                        </div>
+                        <div class="form-group col-md-6"
+                             ng-class="{'has-error':editForm.country.$error.required && (!editForm.country.$pristine || editForm.showFormErrors)}">
+                          <label for="country">Country</label>
+                          <input type="text" name="country" class="form-control"
+                                 ng-model="farm.farm_address.country"
+                                 placeholder="Country" required>
+                        </div>
+                      </div>
+                      <button class="btn btn-primary pull-right" ng-click="save(farm,editForm)">
+                        Save
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+              </accordion-group>
+            </accordion>
+          </div>
+          <div class="panel-footer">
+            <button class="btn btn-primary btn-sm" ng-click="addNew()">Add Farm</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Activities</h3>
+          </div>
+          <div class="panel-body row">
+            <div class="col-md-12">
+              <ul>
+                <li ng-repeat="activity in user.activities track by $index">
+                  {{ activity.text }} <span class="text-muted pull-right">{{ activity.date }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
