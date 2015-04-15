@@ -285,6 +285,7 @@ def sync_app():
     print "sync application"
     with cd(djapp()):
         with prefix(venv()):
+            run("python manage.py syncdb")
             run("python manage.py migrate")
             run("python manage.py collectstatic  --noinput")
             # run("python manage.py compress --force")

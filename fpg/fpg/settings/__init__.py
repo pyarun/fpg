@@ -203,6 +203,8 @@ ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window; you may, of course, u
 
 LOGIN_REDIRECT_URL = '/'
 
+AUTH_USER_MODEL = 'auth.User'
+
 
 try:
     from local_settings import *
