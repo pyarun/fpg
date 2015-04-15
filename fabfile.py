@@ -13,7 +13,7 @@ APTGET_PACKAGES = ["pkg-config",
                    "libreadline6-dev", "python-dev", "python-setuptools",
                    "git",
                    "python-pip", "python-virtualenv",
-                   'nodejs', 'npm'
+                   'nodejs'
 ]
 
 venv = lambda: "source {}".format(os.path.join(env.venv_path, "bin/activate"))
@@ -31,7 +31,7 @@ def setup_env():
 
     env.code_root = os.path.join(env.project_root, env.django_project_name)
 
-    path = os.path.abspath(os.path.join(os.path.dirname(__file__), env.project_name))
+    path = os.path.abspath(os.path.join(os.path.dirname(__file__), env.django_project_name))
     sys.path.insert(0, path)
 
 
