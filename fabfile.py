@@ -53,6 +53,12 @@ def print_fab_config():
         print template_file.read()
 
 
+def checkout_branch(branch='master'):
+    setup_env()
+    with cd(djapp()):
+        run("git checkout {} && git pull origin {}".format(branch, branch))
+
+
 @task
 def rebuild(branch="master"):
     """
@@ -61,7 +67,7 @@ def rebuild(branch="master"):
     setup_env()
     # install_sys_packages()
     with cd(djapp()):
-        run("git checkout {} && git pull origin {}".format(branch, branch))
+        checkout_branch(branch)
         update_requirements()
         build_bower_dependiences()
         sync_app()
@@ -102,7 +108,7 @@ def bootstrap():
         ),
         (
             'Synchronizing django application, You can skip this, by pressing n/N:',
-            [update_requirements, build_bower_dependiences, sync_app]
+            [checkout_branch, update_requirements, build_bower_dependiences, sync_app]
         ),
         # (
         # 'Loading Initial data, You can skip this, by pressing n/N:',
@@ -174,7 +180,7 @@ def generate_apache_vh():
     run('mkdir {} -p'.format(apache_conf_dir))
 
     context = {
-        'project_name': env.project_name,
+        'django_project_name': env.django_project_name,
         "project_root": env.project_root,
         "apache_server_name": env.apache_server_name,
         "apache_server_alias": env.apache_server_alias,
