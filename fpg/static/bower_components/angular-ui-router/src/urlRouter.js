@@ -6,16 +6,16 @@
  * @requires $locationProvider
  *
  * @description
- * `$urlRouterProvider` has the responsibility of watching `$location`.
- * When `$location` changes it runs through a list of rules one by one until a
- * match is found. `$urlRouterProvider` is used behind the scenes anytime you specify
+ * `$urlRouterProvider` has the responsibility of watching `$location`. 
+ * When `$location` changes it runs through a list of rules one by one until a 
+ * match is found. `$urlRouterProvider` is used behind the scenes anytime you specify 
  * a url in a state configuration. All urls are compiled into a UrlMatcher object.
  *
  * There are several methods on `$urlRouterProvider` that make it useful to use directly
  * in your module config.
  */
 $UrlRouterProvider.$inject = ['$locationProvider', '$urlMatcherFactoryProvider'];
-function $UrlRouterProvider($locationProvider, $urlMatcherFactory) {
+function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
   var rules = [], otherwise = null, interceptDeferred = false, listener;
 
   // Returns a string that is a prefix of all strings matching the RegExp
@@ -93,8 +93,8 @@ function $UrlRouterProvider($locationProvider, $urlMatcherFactory) {
    * });
    * </pre>
    *
-   * @param {string|object} rule The url path you want to redirect to or a function
-   * rule that returns the url path. The function version is passed two params:
+   * @param {string|object} rule The url path you want to redirect to or a function 
+   * rule that returns the url path. The function version is passed two params: 
    * `$injector` and `$location` services, and must return a url string.
    *
    * @return {object} `$urlRouterProvider` - `$urlRouterProvider` instance
@@ -102,9 +102,7 @@ function $UrlRouterProvider($locationProvider, $urlMatcherFactory) {
   this.otherwise = function (rule) {
     if (isString(rule)) {
       var redirect = rule;
-      rule = function () {
-        return redirect;
-      };
+      rule = function () { return redirect; };
     }
     else if (!isFunction(rule)) throw new Error("'rule' must be a function");
     otherwise = rule;
@@ -166,30 +164,26 @@ function $UrlRouterProvider($locationProvider, $urlMatcherFactory) {
       matcher: function (what, handler) {
         if (handlerIsString) {
           redirect = $urlMatcherFactory.compile(handler);
-          handler = ['$match', function ($match) {
-            return redirect.format($match);
-          }];
+          handler = ['$match', function ($match) { return redirect.format($match); }];
         }
         return extend(function ($injector, $location) {
           return handleIfMatch($injector, handler, what.exec($location.path(), $location.search()));
         }, {
-                        prefix: isString(what.prefix) ? what.prefix : ''
-                      });
+          prefix: isString(what.prefix) ? what.prefix : ''
+        });
       },
       regex: function (what, handler) {
         if (what.global || what.sticky) throw new Error("when() RegExp must not be global or sticky");
 
         if (handlerIsString) {
           redirect = handler;
-          handler = ['$match', function ($match) {
-            return interpolate(redirect, $match);
-          }];
+          handler = ['$match', function ($match) { return interpolate(redirect, $match); }];
         }
         return extend(function ($injector, $location) {
           return handleIfMatch($injector, handler, what.exec($location.path()));
         }, {
-                        prefix: regExpPrefix(what)
-                      });
+          prefix: regExpPrefix(what)
+        });
       }
     };
 
@@ -248,7 +242,7 @@ function $UrlRouterProvider($locationProvider, $urlMatcherFactory) {
    * </pre>
    *
    * @param {boolean} defer Indicates whether to defer location change interception. Passing
-   no parameter is equivalent to `true`.
+            no parameter is equivalent to `true`.
    */
   this.deferIntercept = function (defer) {
     if (defer === undefined) defer = true;
@@ -269,7 +263,7 @@ function $UrlRouterProvider($locationProvider, $urlMatcherFactory) {
    */
   this.$get = $get;
   $get.$inject = ['$location', '$rootScope', '$injector', '$browser'];
-  function $get($location, $rootScope, $injector, $browser) {
+  function $get(   $location,   $rootScope,   $injector,   $browser) {
 
     var baseHref = $browser.baseHref(), location = $location.url(), lastPushedUrl;
 
@@ -294,7 +288,6 @@ function $UrlRouterProvider($locationProvider, $urlMatcherFactory) {
         if (isString(handled)) $location.replace().url(handled);
         return true;
       }
-
       var n = rules.length, i;
 
       for (i = 0; i < n; i++) {
@@ -338,15 +331,15 @@ function $UrlRouterProvider($locationProvider, $urlMatcherFactory) {
        * });
        * </pre>
        */
-      sync: function () {
+      sync: function() {
         update();
       },
 
-      listen: function () {
+      listen: function() {
         return listen();
       },
 
-      update: function (read) {
+      update: function(read) {
         if (read) {
           location = $location.url();
           return;
@@ -357,7 +350,7 @@ function $UrlRouterProvider($locationProvider, $urlMatcherFactory) {
         $location.replace();
       },
 
-      push: function (urlMatcher, params, options) {
+      push: function(urlMatcher, params, options) {
         $location.url(urlMatcher.format(params || {}));
         lastPushedUrl = options && options.$$avoidResync ? $location.url() : undefined;
         if (options && options.replace) $location.replace();
@@ -388,14 +381,14 @@ function $UrlRouterProvider($locationProvider, $urlMatcherFactory) {
        *
        * @returns {string} Returns the fully compiled URL, or `null` if `params` fail validation against `urlMatcher`
        */
-      href: function (urlMatcher, params, options) {
+      href: function(urlMatcher, params, options) {
         if (!urlMatcher.validates(params)) return null;
 
         var isHtml5 = $locationProvider.html5Mode();
         if (angular.isObject(isHtml5)) {
           isHtml5 = isHtml5.enabled;
         }
-
+        
         var url = urlMatcher.format(params);
         options = options || {};
 

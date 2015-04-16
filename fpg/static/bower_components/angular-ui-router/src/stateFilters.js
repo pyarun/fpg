@@ -35,5 +35,5 @@ function $IncludedByStateFilter($state) {
 }
 
 angular.module('ui.router.state')
-    .filter('isState', $IsStateFilter)
-    .filter('includedByState', $IncludedByStateFilter);
+  .filter('isState', $IsStateFilter)
+  .filter('includedByState', $IncludedByStateFilter);

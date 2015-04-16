@@ -26,26 +26,26 @@
  * functionality, call `$uiViewScrollProvider.useAnchorScroll()`.*
  *
  * @param {string=} onload Expression to evaluate whenever the view updates.
- *
+ * 
  * @example
- * A view can be unnamed or named.
+ * A view can be unnamed or named. 
  * <pre>
  * <!-- Unnamed -->
- * <div ui-view></div>
- *
+ * <div ui-view></div> 
+ * 
  * <!-- Named -->
  * <div ui-view="viewName"></div>
  * </pre>
  *
- * You can only have one unnamed view within any template (or root html). If you are only using a
+ * You can only have one unnamed view within any template (or root html). If you are only using a 
  * single view and it is unnamed then you can populate it like so:
  * <pre>
- * <div ui-view></div>
+ * <div ui-view></div> 
  * $stateProvider.state("home", {
  *   template: "<h1>HELLO!</h1>"
  * })
  * </pre>
- *
+ * 
  * The above is a convenient shortcut equivalent to specifying your view explicitly with the {@link ui.router.state.$stateProvider#views `views`}
  * config property, by name, in this case an empty name:
  * <pre>
@@ -57,13 +57,13 @@
  *   }    
  * })
  * </pre>
- *
- * But typically you'll only use the views property if you name your view or have more than one view
- * in the same template. There's not really a compelling reason to name a view if its the only one,
+ * 
+ * But typically you'll only use the views property if you name your view or have more than one view 
+ * in the same template. There's not really a compelling reason to name a view if its the only one, 
  * but you could if you wanted, like so:
  * <pre>
  * <div ui-view="main"></div>
- * </pre>
+ * </pre> 
  * <pre>
  * $stateProvider.state("home", {
  *   views: {
@@ -73,14 +73,14 @@
  *   }    
  * })
  * </pre>
- *
+ * 
  * Really though, you'll use views to set up multiple views:
  * <pre>
  * <div ui-view></div>
- * <div ui-view="chart"></div>
- * <div ui-view="data"></div>
+ * <div ui-view="chart"></div> 
+ * <div ui-view="data"></div> 
  * </pre>
- *
+ * 
  * <pre>
  * $stateProvider.state("home", {
  *   views: {
@@ -112,12 +112,12 @@
  * </pre>
  */
 $ViewDirective.$inject = ['$state', '$injector', '$uiViewScroll', '$interpolate'];
-function $ViewDirective($state, $injector, $uiViewScroll, $interpolate) {
+function $ViewDirective(   $state,   $injector,   $uiViewScroll,   $interpolate) {
 
   function getService() {
-    return ($injector.has) ? function (service) {
+    return ($injector.has) ? function(service) {
       return $injector.has(service) ? $injector.get(service) : null;
-    } : function (service) {
+    } : function(service) {
       try {
         return $injector.get(service);
       } catch (e) {
@@ -133,26 +133,20 @@ function $ViewDirective($state, $injector, $uiViewScroll, $interpolate) {
   // Returns a set of DOM manipulation functions based on which Angular version
   // it should use
   function getRenderer(attrs, scope) {
-    var statics = function () {
+    var statics = function() {
       return {
-        enter: function (element, target, cb) {
-          target.after(element);
-          cb();
-        },
-        leave: function (element, cb) {
-          element.remove();
-          cb();
-        }
+        enter: function (element, target, cb) { target.after(element); cb(); },
+        leave: function (element, cb) { element.remove(); cb(); }
       };
     };
 
     if ($animate) {
       return {
-        enter: function (element, target, cb) {
+        enter: function(element, target, cb) {
           var promise = $animate.enter(element, null, target, cb);
           if (promise && promise.then) promise.then(cb);
         },
-        leave: function (element, cb) {
+        leave: function(element, cb) {
           var promise = $animate.leave(element, cb);
           if (promise && promise.then) promise.then(cb);
         }
@@ -163,14 +157,8 @@ function $ViewDirective($state, $injector, $uiViewScroll, $interpolate) {
       var animate = $animator && $animator(scope, attrs);
 
       return {
-        enter: function (element, target, cb) {
-          animate.enter(element, null, target);
-          cb();
-        },
-        leave: function (element, cb) {
-          animate.leave(element);
-          cb();
-        }
+        enter: function(element, target, cb) {animate.enter(element, null, target); cb(); },
+        leave: function(element, cb) { animate.leave(element); cb(); }
       };
     }
 
@@ -185,14 +173,14 @@ function $ViewDirective($state, $injector, $uiViewScroll, $interpolate) {
     compile: function (tElement, tAttrs, $transclude) {
       return function (scope, $element, attrs) {
         var previousEl, currentEl, currentScope, latestLocals,
-            onloadExp = attrs.onload || '',
+            onloadExp     = attrs.onload || '',
             autoScrollExp = attrs.autoscroll,
-            renderer = getRenderer(attrs, scope);
+            renderer      = getRenderer(attrs, scope);
 
-        scope.$on('$stateChangeSuccess', function () {
+        scope.$on('$stateChangeSuccess', function() {
           updateView(false);
         });
-        scope.$on('$viewContentLoading', function () {
+        scope.$on('$viewContentLoading', function() {
           updateView(false);
         });
 
@@ -210,7 +198,7 @@ function $ViewDirective($state, $injector, $uiViewScroll, $interpolate) {
           }
 
           if (currentEl) {
-            renderer.leave(currentEl, function () {
+            renderer.leave(currentEl, function() {
               previousEl = null;
             });
 
@@ -221,16 +209,16 @@ function $ViewDirective($state, $injector, $uiViewScroll, $interpolate) {
 
         function updateView(firstTime) {
           var newScope,
-              name = getUiViewName(scope, attrs, $element, $interpolate),
-              previousLocals = name && $state.$current && $state.$current.locals[name];
+              name            = getUiViewName(scope, attrs, $element, $interpolate),
+              previousLocals  = name && $state.$current && $state.$current.locals[name];
 
           if (!firstTime && previousLocals === latestLocals) return; // nothing to do
           newScope = scope.$new();
           latestLocals = $state.$current.locals[name];
 
-          var clone = $transclude(newScope, function (clone) {
+          var clone = $transclude(newScope, function(clone) {
             renderer.enter(clone, $element, function onUiViewEnter() {
-              if (currentScope) {
+              if(currentScope) {
                 currentScope.$emit('$viewContentAnimationEnded');
               }
 
@@ -264,7 +252,7 @@ function $ViewDirective($state, $injector, $uiViewScroll, $interpolate) {
 }
 
 $ViewDirectiveFill.$inject = ['$compile', '$controller', '$state', '$interpolate'];
-function $ViewDirectiveFill($compile, $controller, $state, $interpolate) {
+function $ViewDirectiveFill (  $compile,   $controller,   $state,   $interpolate) {
   return {
     restrict: 'ECA',
     priority: -400,
@@ -273,9 +261,9 @@ function $ViewDirectiveFill($compile, $controller, $state, $interpolate) {
       return function (scope, $element, attrs) {
         var current = $state.$current,
             name = getUiViewName(scope, attrs, $element, $interpolate),
-            locals = current && current.locals[name];
+            locals  = current && current.locals[name];
 
-        if (!locals) {
+        if (! locals) {
           return;
         }
 
@@ -307,7 +295,7 @@ function $ViewDirectiveFill($compile, $controller, $state, $interpolate) {
 function getUiViewName(scope, attrs, element, $interpolate) {
   var name = $interpolate(attrs.uiView || attrs.name || '')(scope);
   var inherited = element.inheritedData('$uiView');
-  return name.indexOf('@') >= 0 ? name : (name + '@' + (inherited ? inherited.state.name : ''));
+  return name.indexOf('@') >= 0 ?  name :  (name + '@' + (inherited ? inherited.state.name : ''));
 }
 
 angular.module('ui.router.state').directive('uiView', $ViewDirective);

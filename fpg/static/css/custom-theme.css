@@ -5,3 +5,9 @@
   box-shadow: none;
   margin-bottom: 0px;
 }
+
+.transparent{
+  box-shadow: none;
+  background: transparent;
+  border: 0;
+}

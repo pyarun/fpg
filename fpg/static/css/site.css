@@ -1,0 +1,38 @@
+/* main-container
+-------------------------------------------------- */
+#real-estate{margin-top:40px;}
+
+/* Footer styles
+-------------------------------------------------- */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #fff;
+  border-top: 1px #eee solid;
+}
+html {
+  position: relative;
+  min-height: 100%;
+}
+body{
+  margin-top:40px;
+}
+
+section#header{
+  background-color: #F05F40;
+}
+section#aboutus{
+  background-color: #fff;
+  min-height: 400px;
+}
+section#other{
+  background-color: #222;
+  min-height: 400px;
+}
+
+section#header, section#aboutus, section#other{
+  padding-top:100px;padding-bottom: 100px;
+}

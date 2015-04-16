@@ -39,375 +39,375 @@ module.exports = function (grunt) {
   // Project configuration.
   grunt.initConfig({
 
-                     // Metadata.
-                     pkg: grunt.file.readJSON('package.json'),
-                     banner: '/*!\n' +
-                         ' * Bootstrap v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
-                         ' * Copyright 2011-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-                         ' * Licensed under <%= pkg.license.type %> (<%= pkg.license.url %>)\n' +
-                         ' */\n',
-                     jqueryCheck: configBridge.config.jqueryCheck.join('\n'),
-                     jqueryVersionCheck: configBridge.config.jqueryVersionCheck.join('\n'),
+    // Metadata.
+    pkg: grunt.file.readJSON('package.json'),
+    banner: '/*!\n' +
+            ' * Bootstrap v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
+            ' * Copyright 2011-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+            ' * Licensed under <%= pkg.license.type %> (<%= pkg.license.url %>)\n' +
+            ' */\n',
+    jqueryCheck: configBridge.config.jqueryCheck.join('\n'),
+    jqueryVersionCheck: configBridge.config.jqueryVersionCheck.join('\n'),
 
-                     // Task configuration.
-                     clean: {
-                       dist: 'dist',
-                       docs: 'docs/dist'
-                     },
+    // Task configuration.
+    clean: {
+      dist: 'dist',
+      docs: 'docs/dist'
+    },
 
-                     jshint: {
-                       options: {
-                         jshintrc: 'js/.jshintrc'
-                       },
-                       grunt: {
-                         options: {
-                           jshintrc: 'grunt/.jshintrc'
-                         },
-                         src: ['Gruntfile.js', 'grunt/*.js']
-                       },
-                       core: {
-                         src: 'js/*.js'
-                       },
-                       test: {
-                         options: {
-                           jshintrc: 'js/tests/unit/.jshintrc'
-                         },
-                         src: 'js/tests/unit/*.js'
-                       },
-                       assets: {
-                         src: ['docs/assets/js/src/*.js', 'docs/assets/js/*.js', '!docs/assets/js/*.min.js']
-                       }
-                     },
+    jshint: {
+      options: {
+        jshintrc: 'js/.jshintrc'
+      },
+      grunt: {
+        options: {
+          jshintrc: 'grunt/.jshintrc'
+        },
+        src: ['Gruntfile.js', 'grunt/*.js']
+      },
+      core: {
+        src: 'js/*.js'
+      },
+      test: {
+        options: {
+          jshintrc: 'js/tests/unit/.jshintrc'
+        },
+        src: 'js/tests/unit/*.js'
+      },
+      assets: {
+        src: ['docs/assets/js/src/*.js', 'docs/assets/js/*.js', '!docs/assets/js/*.min.js']
+      }
+    },
 
-                     jscs: {
-                       options: {
-                         config: 'js/.jscsrc'
-                       },
-                       grunt: {
-                         src: '<%= jshint.grunt.src %>'
-                       },
-                       core: {
-                         src: '<%= jshint.core.src %>'
-                       },
-                       test: {
-                         src: '<%= jshint.test.src %>'
-                       },
-                       assets: {
-                         options: {
-                           requireCamelCaseOrUpperCaseIdentifiers: null
-                         },
-                         src: '<%= jshint.assets.src %>'
-                       }
-                     },
+    jscs: {
+      options: {
+        config: 'js/.jscsrc'
+      },
+      grunt: {
+        src: '<%= jshint.grunt.src %>'
+      },
+      core: {
+        src: '<%= jshint.core.src %>'
+      },
+      test: {
+        src: '<%= jshint.test.src %>'
+      },
+      assets: {
+        options: {
+          requireCamelCaseOrUpperCaseIdentifiers: null
+        },
+        src: '<%= jshint.assets.src %>'
+      }
+    },
 
-                     concat: {
-                       options: {
-                         banner: '<%= banner %>\n<%= jqueryCheck %>\n<%= jqueryVersionCheck %>',
-                         stripBanners: false
-                       },
-                       bootstrap: {
-                         src: [
-                           'js/transition.js',
-                           'js/alert.js',
-                           'js/button.js',
-                           'js/carousel.js',
-                           'js/collapse.js',
-                           'js/dropdown.js',
-                           'js/modal.js',
-                           'js/tooltip.js',
-                           'js/popover.js',
-                           'js/scrollspy.js',
-                           'js/tab.js',
-                           'js/affix.js'
-                         ],
-                         dest: 'dist/js/<%= pkg.name %>.js'
-                       }
-                     },
+    concat: {
+      options: {
+        banner: '<%= banner %>\n<%= jqueryCheck %>\n<%= jqueryVersionCheck %>',
+        stripBanners: false
+      },
+      bootstrap: {
+        src: [
+          'js/transition.js',
+          'js/alert.js',
+          'js/button.js',
+          'js/carousel.js',
+          'js/collapse.js',
+          'js/dropdown.js',
+          'js/modal.js',
+          'js/tooltip.js',
+          'js/popover.js',
+          'js/scrollspy.js',
+          'js/tab.js',
+          'js/affix.js'
+        ],
+        dest: 'dist/js/<%= pkg.name %>.js'
+      }
+    },
 
-                     uglify: {
-                       options: {
-                         preserveComments: 'some'
-                       },
-                       core: {
-                         src: '<%= concat.bootstrap.dest %>',
-                         dest: 'dist/js/<%= pkg.name %>.min.js'
-                       },
-                       customize: {
-                         src: configBridge.paths.customizerJs,
-                         dest: 'docs/assets/js/customize.min.js'
-                       },
-                       docsJs: {
-                         src: configBridge.paths.docsJs,
-                         dest: 'docs/assets/js/docs.min.js'
-                       }
-                     },
+    uglify: {
+      options: {
+        preserveComments: 'some'
+      },
+      core: {
+        src: '<%= concat.bootstrap.dest %>',
+        dest: 'dist/js/<%= pkg.name %>.min.js'
+      },
+      customize: {
+        src: configBridge.paths.customizerJs,
+        dest: 'docs/assets/js/customize.min.js'
+      },
+      docsJs: {
+        src: configBridge.paths.docsJs,
+        dest: 'docs/assets/js/docs.min.js'
+      }
+    },
 
-                     qunit: {
-                       options: {
-                         inject: 'js/tests/unit/phantom.js'
-                       },
-                       files: 'js/tests/index.html'
-                     },
+    qunit: {
+      options: {
+        inject: 'js/tests/unit/phantom.js'
+      },
+      files: 'js/tests/index.html'
+    },
 
-                     less: {
-                       compileCore: {
-                         options: {
-                           strictMath: true,
-                           sourceMap: true,
-                           outputSourceFiles: true,
-                           sourceMapURL: '<%= pkg.name %>.css.map',
-                           sourceMapFilename: 'dist/css/<%= pkg.name %>.css.map'
-                         },
-                         src: 'less/bootstrap.less',
-                         dest: 'dist/css/<%= pkg.name %>.css'
-                       },
-                       compileTheme: {
-                         options: {
-                           strictMath: true,
-                           sourceMap: true,
-                           outputSourceFiles: true,
-                           sourceMapURL: '<%= pkg.name %>-theme.css.map',
-                           sourceMapFilename: 'dist/css/<%= pkg.name %>-theme.css.map'
-                         },
-                         src: 'less/theme.less',
-                         dest: 'dist/css/<%= pkg.name %>-theme.css'
-                       }
-                     },
+    less: {
+      compileCore: {
+        options: {
+          strictMath: true,
+          sourceMap: true,
+          outputSourceFiles: true,
+          sourceMapURL: '<%= pkg.name %>.css.map',
+          sourceMapFilename: 'dist/css/<%= pkg.name %>.css.map'
+        },
+        src: 'less/bootstrap.less',
+        dest: 'dist/css/<%= pkg.name %>.css'
+      },
+      compileTheme: {
+        options: {
+          strictMath: true,
+          sourceMap: true,
+          outputSourceFiles: true,
+          sourceMapURL: '<%= pkg.name %>-theme.css.map',
+          sourceMapFilename: 'dist/css/<%= pkg.name %>-theme.css.map'
+        },
+        src: 'less/theme.less',
+        dest: 'dist/css/<%= pkg.name %>-theme.css'
+      }
+    },
 
-                     autoprefixer: {
-                       options: {
-                         browsers: configBridge.config.autoprefixerBrowsers
-                       },
-                       core: {
-                         options: {
-                           map: true
-                         },
-                         src: 'dist/css/<%= pkg.name %>.css'
-                       },
-                       theme: {
-                         options: {
-                           map: true
-                         },
-                         src: 'dist/css/<%= pkg.name %>-theme.css'
-                       },
-                       docs: {
-                         src: ['docs/assets/css/anchor.css', 'docs/assets/css/src/docs.css']
-                       },
-                       examples: {
-                         expand: true,
-                         cwd: 'docs/examples/',
-                         src: ['**/*.css'],
-                         dest: 'docs/examples/'
-                       }
-                     },
+    autoprefixer: {
+      options: {
+        browsers: configBridge.config.autoprefixerBrowsers
+      },
+      core: {
+        options: {
+          map: true
+        },
+        src: 'dist/css/<%= pkg.name %>.css'
+      },
+      theme: {
+        options: {
+          map: true
+        },
+        src: 'dist/css/<%= pkg.name %>-theme.css'
+      },
+      docs: {
+        src: ['docs/assets/css/anchor.css', 'docs/assets/css/src/docs.css']
+      },
+      examples: {
+        expand: true,
+        cwd: 'docs/examples/',
+        src: ['**/*.css'],
+        dest: 'docs/examples/'
+      }
+    },
 
-                     csslint: {
-                       options: {
-                         csslintrc: 'less/.csslintrc'
-                       },
-                       dist: [
-                         'dist/css/bootstrap.css',
-                         'dist/css/bootstrap-theme.css'
-                       ],
-                       examples: [
-                         'docs/examples/**/*.css'
-                       ],
-                       docs: {
-                         options: {
-                           ids: false,
-                           'overqualified-elements': false
-                         },
-                         src: 'docs/assets/css/src/docs.css'
-                       }
-                     },
+    csslint: {
+      options: {
+        csslintrc: 'less/.csslintrc'
+      },
+      dist: [
+        'dist/css/bootstrap.css',
+        'dist/css/bootstrap-theme.css'
+      ],
+      examples: [
+        'docs/examples/**/*.css'
+      ],
+      docs: {
+        options: {
+          ids: false,
+          'overqualified-elements': false
+        },
+        src: 'docs/assets/css/src/docs.css'
+      }
+    },
 
-                     cssmin: {
-                       options: {
-                         // TODO: disable `zeroUnits` optimization once clean-css 3.2 is released
-                         //    and then simplify the fix for https://github.com/twbs/bootstrap/issues/14837 accordingly
-                         compatibility: 'ie8',
-                         keepSpecialComments: '*',
-                         advanced: false
-                       },
-                       minifyCore: {
-                         src: 'dist/css/<%= pkg.name %>.css',
-                         dest: 'dist/css/<%= pkg.name %>.min.css'
-                       },
-                       minifyTheme: {
-                         src: 'dist/css/<%= pkg.name %>-theme.css',
-                         dest: 'dist/css/<%= pkg.name %>-theme.min.css'
-                       },
-                       docs: {
-                         src: [
-                           'docs/assets/css/src/pygments-manni.css',
-                           'docs/assets/css/src/anchor.css',
-                           'docs/assets/css/src/docs.css'
+    cssmin: {
+      options: {
+        // TODO: disable `zeroUnits` optimization once clean-css 3.2 is released
+        //    and then simplify the fix for https://github.com/twbs/bootstrap/issues/14837 accordingly
+        compatibility: 'ie8',
+        keepSpecialComments: '*',
+        advanced: false
+      },
+      minifyCore: {
+        src: 'dist/css/<%= pkg.name %>.css',
+        dest: 'dist/css/<%= pkg.name %>.min.css'
+      },
+      minifyTheme: {
+        src: 'dist/css/<%= pkg.name %>-theme.css',
+        dest: 'dist/css/<%= pkg.name %>-theme.min.css'
+      },
+      docs: {
+        src: [
+          'docs/assets/css/src/pygments-manni.css',
+          'docs/assets/css/src/anchor.css',
+          'docs/assets/css/src/docs.css'
 
-                         ],
-                         dest: 'docs/assets/css/docs.min.css'
-                       }
-                     },
+        ],
+        dest: 'docs/assets/css/docs.min.css'
+      }
+    },
 
-                     usebanner: {
-                       options: {
-                         position: 'top',
-                         banner: '<%= banner %>'
-                       },
-                       files: {
-                         src: 'dist/css/*.css'
-                       }
-                     },
+    usebanner: {
+      options: {
+        position: 'top',
+        banner: '<%= banner %>'
+      },
+      files: {
+        src: 'dist/css/*.css'
+      }
+    },
 
-                     csscomb: {
-                       options: {
-                         config: 'less/.csscomb.json'
-                       },
-                       dist: {
-                         expand: true,
-                         cwd: 'dist/css/',
-                         src: ['*.css', '!*.min.css'],
-                         dest: 'dist/css/'
-                       },
-                       examples: {
-                         expand: true,
-                         cwd: 'docs/examples/',
-                         src: '**/*.css',
-                         dest: 'docs/examples/'
-                       },
-                       docs: {
-                         src: 'docs/assets/css/src/docs.css',
-                         dest: 'docs/assets/css/src/docs.css'
-                       }
-                     },
+    csscomb: {
+      options: {
+        config: 'less/.csscomb.json'
+      },
+      dist: {
+        expand: true,
+        cwd: 'dist/css/',
+        src: ['*.css', '!*.min.css'],
+        dest: 'dist/css/'
+      },
+      examples: {
+        expand: true,
+        cwd: 'docs/examples/',
+        src: '**/*.css',
+        dest: 'docs/examples/'
+      },
+      docs: {
+        src: 'docs/assets/css/src/docs.css',
+        dest: 'docs/assets/css/src/docs.css'
+      }
+    },
 
-                     copy: {
-                       fonts: {
-                         expand: true,
-                         src: 'fonts/*',
-                         dest: 'dist/'
-                       },
-                       docs: {
-                         expand: true,
-                         cwd: 'dist/',
-                         src: [
-                           '**/*'
-                         ],
-                         dest: 'docs/dist/'
-                       }
-                     },
+    copy: {
+      fonts: {
+        expand: true,
+        src: 'fonts/*',
+        dest: 'dist/'
+      },
+      docs: {
+        expand: true,
+        cwd: 'dist/',
+        src: [
+          '**/*'
+        ],
+        dest: 'docs/dist/'
+      }
+    },
 
-                     connect: {
-                       server: {
-                         options: {
-                           port: 3000,
-                           base: '.'
-                         }
-                       }
-                     },
+    connect: {
+      server: {
+        options: {
+          port: 3000,
+          base: '.'
+        }
+      }
+    },
 
-                     jekyll: {
-                       options: {
-                         config: '_config.yml'
-                       },
-                       docs: {},
-                       github: {
-                         options: {
-                           raw: 'github: true'
-                         }
-                       }
-                     },
+    jekyll: {
+      options: {
+        config: '_config.yml'
+      },
+      docs: {},
+      github: {
+        options: {
+          raw: 'github: true'
+        }
+      }
+    },
 
-                     jade: {
-                       options: {
-                         pretty: true,
-                         data: getLessVarsData
-                       },
-                       customizerVars: {
-                         src: 'docs/_jade/customizer-variables.jade',
-                         dest: 'docs/_includes/customizer-variables.html'
-                       },
-                       customizerNav: {
-                         src: 'docs/_jade/customizer-nav.jade',
-                         dest: 'docs/_includes/nav/customize.html'
-                       }
-                     },
+    jade: {
+      options: {
+        pretty: true,
+        data: getLessVarsData
+      },
+      customizerVars: {
+        src: 'docs/_jade/customizer-variables.jade',
+        dest: 'docs/_includes/customizer-variables.html'
+      },
+      customizerNav: {
+        src: 'docs/_jade/customizer-nav.jade',
+        dest: 'docs/_includes/nav/customize.html'
+      }
+    },
 
-                     htmllint: {
-                       options: {
-                         ignore: [
-                           'Attribute "autocomplete" not allowed on element "button" at this point.',
-                           'Attribute "autocomplete" not allowed on element "input" at this point.',
-                           'Element "img" is missing required attribute "src".'
-                         ]
-                       },
-                       src: '_gh_pages/**/*.html'
-                     },
+    htmllint: {
+      options: {
+        ignore: [
+          'Attribute "autocomplete" not allowed on element "button" at this point.',
+          'Attribute "autocomplete" not allowed on element "input" at this point.',
+          'Element "img" is missing required attribute "src".'
+        ]
+      },
+      src: '_gh_pages/**/*.html'
+    },
 
-                     watch: {
-                       src: {
-                         files: '<%= jshint.core.src %>',
-                         tasks: ['jshint:src', 'qunit', 'concat']
-                       },
-                       test: {
-                         files: '<%= jshint.test.src %>',
-                         tasks: ['jshint:test', 'qunit']
-                       },
-                       less: {
-                         files: 'less/**/*.less',
-                         tasks: 'less'
-                       }
-                     },
+    watch: {
+      src: {
+        files: '<%= jshint.core.src %>',
+        tasks: ['jshint:src', 'qunit', 'concat']
+      },
+      test: {
+        files: '<%= jshint.test.src %>',
+        tasks: ['jshint:test', 'qunit']
+      },
+      less: {
+        files: 'less/**/*.less',
+        tasks: 'less'
+      }
+    },
 
-                     sed: {
-                       versionNumber: {
-                         pattern: (function () {
-                           var old = grunt.option('oldver');
-                           return old ? RegExp.quote(old) : old;
-                         })(),
-                         replacement: grunt.option('newver'),
-                         recursive: true
-                       }
-                     },
+    sed: {
+      versionNumber: {
+        pattern: (function () {
+          var old = grunt.option('oldver');
+          return old ? RegExp.quote(old) : old;
+        })(),
+        replacement: grunt.option('newver'),
+        recursive: true
+      }
+    },
 
-                     'saucelabs-qunit': {
-                       all: {
-                         options: {
-                           build: process.env.TRAVIS_JOB_ID,
-                           throttled: 10,
-                           maxRetries: 3,
-                           maxPollRetries: 4,
-                           urls: ['http://127.0.0.1:3000/js/tests/index.html?hidepassed'],
-                           browsers: grunt.file.readYAML('grunt/sauce_browsers.yml')
-                         }
-                       }
-                     },
+    'saucelabs-qunit': {
+      all: {
+        options: {
+          build: process.env.TRAVIS_JOB_ID,
+          throttled: 10,
+          maxRetries: 3,
+          maxPollRetries: 4,
+          urls: ['http://127.0.0.1:3000/js/tests/index.html?hidepassed'],
+          browsers: grunt.file.readYAML('grunt/sauce_browsers.yml')
+        }
+      }
+    },
 
-                     exec: {
-                       npmUpdate: {
-                         command: 'npm update'
-                       }
-                     },
+    exec: {
+      npmUpdate: {
+        command: 'npm update'
+      }
+    },
 
-                     compress: {
-                       main: {
-                         options: {
-                           archive: 'bootstrap-<%= pkg.version %>-dist.zip',
-                           mode: 'zip',
-                           level: 9,
-                           pretty: true
-                         },
-                         files: [
-                           {
-                             expand: true,
-                             cwd: 'dist/',
-                             src: ['**'],
-                             dest: 'bootstrap-<%= pkg.version %>-dist'
-                           }
-                         ]
-                       }
-                     }
+    compress: {
+      main: {
+        options: {
+          archive: 'bootstrap-<%= pkg.version %>-dist.zip',
+          mode: 'zip',
+          level: 9,
+          pretty: true
+        },
+        files: [
+          {
+            expand: true,
+            cwd: 'dist/',
+            src: ['**'],
+            dest: 'bootstrap-<%= pkg.version %>-dist'
+          }
+        ]
+      }
+    }
 
-                   });
+  });
 
 
   // These plugins provide necessary tasks.
@@ -428,21 +428,21 @@ module.exports = function (grunt) {
   var testSubtasks = [];
   // Skip core tests if running a different subset of the test suite
   if (runSubset('core') &&
-    // Skip core tests if this is a Savage build
+      // Skip core tests if this is a Savage build
       process.env.TRAVIS_REPO_SLUG !== 'twbs-savage/bootstrap') {
     testSubtasks = testSubtasks.concat(['dist-css', 'dist-js', 'csslint:dist', 'test-js', 'docs']);
   }
   // Skip HTML validation if running a different subset of the test suite
   if (runSubset('validate-html') &&
-    // Skip HTML5 validator on Travis when [skip validator] is in the commit message
+      // Skip HTML5 validator on Travis when [skip validator] is in the commit message
       isUndefOrNonZero(process.env.TWBS_DO_VALIDATOR)) {
     testSubtasks.push('validate-html');
   }
   // Only run Sauce Labs tests if there's a Sauce access key
   if (typeof process.env.SAUCE_ACCESS_KEY !== 'undefined' &&
-    // Skip Sauce if running a different subset of the test suite
+      // Skip Sauce if running a different subset of the test suite
       runSubset('sauce-js-unit') &&
-    // Skip Sauce on Travis when [skip sauce] is in the commit message
+      // Skip Sauce on Travis when [skip sauce] is in the commit message
       isUndefOrNonZero(process.env.TWBS_DO_SAUCE)) {
     testSubtasks.push('connect');
     testSubtasks.push('saucelabs-qunit');
@@ -468,9 +468,7 @@ module.exports = function (grunt) {
   // This can be overzealous, so its changes should always be manually reviewed!
   grunt.registerTask('change-version-number', 'sed');
 
-  grunt.registerTask('build-glyphicons-data', function () {
-    generateGlyphiconsData.call(this, grunt);
-  });
+  grunt.registerTask('build-glyphicons-data', function () { generateGlyphiconsData.call(this, grunt); });
 
   // task for building customizer
   grunt.registerTask('build-customizer', ['build-customizer-html', 'build-raw-files']);
