@@ -59,6 +59,9 @@ INSTALLED_APPS = (
 
     'profiles',
     'utils',
+    'address',
+    'facility',
+
 
 )
 
@@ -129,7 +132,7 @@ MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, "media"))
 MEDIA_URL = "/media/"
 
 AUTHENTICATION_BACKENDS = (
-    'organic.emailauthbackend.EmailAuthBackend',
+    'fpg.emailauthbackend.EmailAuthBackend',
 )
 
 ANONYMOUS_USER_ID = None
