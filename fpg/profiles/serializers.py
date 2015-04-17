@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from profiles.models import UserProfile
-from utils.models import Address
+from address.models import Address
+
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -14,24 +15,24 @@ class UserProfileSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(source='user.last_name')
     email = serializers.CharField(source='user.email')
 
-    address = serializers.SerializerMethodField('get_user_address');
+    # address = serializers.SerializerMethodField('get_user_address');
 
 
-    def get_user_address(self, obj):
-        address = Address.objects.get(id=obj.id)
-        user_address = {'lane1': address.lane1,
-                        'lane2': address.lane2,
-                        'area': address.area,
-                        'city': address.city,
-                        'state': address.state,
-                        'country': address.country
-        }
-        return user_address
+    # def get_user_address(self, obj):
+    #     address = Address.objects.get(id=obj.id)
+    #     user_address = {'lane1': address.lane1,
+    #                     'lane2': address.lane2,
+    #                     'area': address.area,
+    #                     'city': address.city,
+    #                     'state': address.state,
+    #                     'country': address.country
+    #     }
+    #     return user_address
 
     class Meta():
         model = UserProfile
         fields = (
-            'id', 'first_name', 'last_name', 'email', 'contact_number', 'address', 'area',
+            'id', 'first_name', 'last_name', 'email', 'contact_number',
             'about_me')
 
     def _set_user_info(self, profile, user_data):
