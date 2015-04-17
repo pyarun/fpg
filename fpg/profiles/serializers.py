@@ -104,5 +104,4 @@ class CurrentUserSerializer(BaseUserSerializer):
 
     class Meta(BaseUserSerializer.Meta):
         fields = ('id', 'first_name', 'last_name', 'full_name', 'email', 'userprofile')
-        # fields = ('id', 'first_name', 'last_name', 'full_name', 'email',)
         read_only_fields = ( 'email',)
