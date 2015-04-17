@@ -4,6 +4,9 @@ from rest_framework import serializers
 from profiles.models import UserProfile
 from address.models import Address
 
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -15,25 +18,21 @@ class UserProfileSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(source='user.last_name')
     email = serializers.CharField(source='user.email')
 
-    # address = serializers.SerializerMethodField('get_user_address');
+    address = AddressSerializer()
 
+    address_detail = serializers.SerializerMethodField('get_detail_address')
 
-    # def get_user_address(self, obj):
-    #     address = Address.objects.get(id=obj.id)
-    #     user_address = {'lane1': address.lane1,
-    #                     'lane2': address.lane2,
-    #                     'area': address.area,
-    #                     'city': address.city,
-    #                     'state': address.state,
-    #                     'country': address.country
-    #     }
-    #     return user_address
+    def get_detail_address(self, obj):
+        user_address = Address.objects.get(id=obj.id)
+        dict = user_address.as_dict()
+        return dict
 
     class Meta():
         model = UserProfile
         fields = (
             'id', 'first_name', 'last_name', 'email', 'contact_number',
-            'about_me')
+            'about_me', 'address', 'address_detail')
+
 
     def _set_user_info(self, profile, user_data):
         user = profile.user
@@ -52,6 +51,23 @@ class UserProfileSerializer(serializers.ModelSerializer):
         if user_data:
             self._set_user_info(profile, user_data)
         return profile
+
+    def update(self, instance, validated_data):
+        '''
+        This function is overidden to allow nested writable serialization
+        '''
+        addrdict = validated_data.pop('address')
+
+        #Save inner address object
+        for attr, value in addrdict.items():
+            setattr(instance.address, attr, value)
+        instance.address.save()
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        user = super(UserProfileSerializer, self).update(instance,validated_data)
+        return user
 
 
 class BaseUserSerializer(serializers.ModelSerializer):
