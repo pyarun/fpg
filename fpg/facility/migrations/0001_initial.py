@@ -8,8 +8,8 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('utils', '0001_initial'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('address', '__first__'),
     ]
 
@@ -19,9 +19,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=200, null=True, blank=True)),
-                ('date', models.DateField()),
-                ('start_time', models.TimeField()),
-                ('end_time', models.TimeField()),
+                ('date', models.DateField(help_text=b'Booking date')),
+                ('start_time', models.TimeField(help_text=b'start time of booking')),
+                ('end_time', models.TimeField(help_text=b'end time of booking')),
             ],
             options={
             },
@@ -32,10 +32,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=100)),
-                ('contact_number', models.CharField(max_length=12, null=True, blank=True)),
-                ('description', models.CharField(max_length=400, null=True, blank=True)),
-                ('address', models.OneToOneField(null=True, blank=True, to='address.Address')),
-                ('owner', models.OneToOneField(null=True, blank=True, to=settings.AUTH_USER_MODEL)),
+                ('contact_number', models.CharField(max_length=12)),
+                ('description', models.TextField(null=True, blank=True)),
+                ('address', models.OneToOneField(to='address.Address')),
+                ('owner', models.ForeignKey(help_text=b'Owner of the club', to=settings.AUTH_USER_MODEL)),
             ],
             options={
             },
@@ -45,14 +45,14 @@ class Migration(migrations.Migration):
             name='Resource',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=100, null=True, blank=True)),
-                ('type', models.CharField(max_length=100, null=True, blank=True)),
-                ('open_time', models.TimeField(null=True, blank=True)),
-                ('close_time', models.TimeField(null=True, blank=True)),
-                ('fees', models.PositiveIntegerField()),
-                ('photo', models.ImageField(upload_to=b'resources')),
-                ('status', models.CharField(default=b'available', max_length=32, choices=[(b'available', b'Available'), (b'unavailable', b'Unavailable')])),
-                ('description', models.CharField(max_length=400, null=True, blank=True)),
+                ('name', models.CharField(max_length=100)),
+                ('type', models.CharField(help_text=b'Type of ground or resource', max_length=100, null=True, blank=True)),
+                ('open_time', models.TimeField(help_text=b'Time from which resource is available')),
+                ('close_time', models.TimeField(help_text=b'Time up to resource is available')),
+                ('fee', models.PositiveIntegerField(help_text=b'Cost of the resource per hour')),
+                ('photo', models.ImageField(null=True, upload_to=b'resources', blank=True)),
+                ('status', models.CharField(default=b'available', help_text=b'Status of resource whether it is available for booking or not', max_length=32, choices=[(b'available', b'Available'), (b'unavailable', b'Unavailable')])),
+                ('description', models.TextField(null=True, blank=True)),
                 ('club', models.ForeignKey(to='facility.Club')),
                 ('sport', models.ForeignKey(to='utils.Sports')),
             ],
@@ -64,6 +64,12 @@ class Migration(migrations.Migration):
             model_name='booking',
             name='resource',
             field=models.ForeignKey(to='facility.Resource'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='booking',
+            name='user',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
             preserve_default=True,
         ),
     ]
