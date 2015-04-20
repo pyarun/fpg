@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from facility.models import Club, Resource
 
 from profiles.models import UserProfile
 from address.models import Address
@@ -93,27 +92,3 @@ class CurrentUserSerializer(BaseUserSerializer):
     class Meta(BaseUserSerializer.Meta):
         fields = ('id', 'first_name', 'last_name', 'full_name', 'email', 'userprofile')
         read_only_fields = ( 'email',)
-
-
-class ClubSerializer(serializers.ModelSerializer):
-    '''
-        User can create, update, list and delete Clubs
-    '''
-    address = AddressSerializer()
-
-    class Meta:
-        model = Club
-        fields = ('id','name','owner','address', 'contact_number', 'description')
-
-
-class ResourceSerializer(serializers.ModelSerializer):
-    '''
-        For create, update, delete, list resources.
-    '''
-
-    class Meta:
-        model = Resource
-        fields = ('id', 'name', 'type', 'club', 'open_time', 'close_time', 'fee', 'sport', 'photo',
-                  'status', 'description')
-
-
