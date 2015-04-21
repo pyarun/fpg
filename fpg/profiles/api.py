@@ -26,9 +26,9 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
 class UserProfileView(viewsets.mixins.RetrieveModelMixin,
                       viewsets.mixins.UpdateModelMixin,
-                      # viewsets.mixins.ListModelMixin,
+                      viewsets.mixins.ListModelMixin,
                       viewsets.GenericViewSet,
-):
+                    ):
     '''
         User profile view to list, update, retrive the user profiles
     '''
