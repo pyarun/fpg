@@ -62,5 +62,4 @@ class TestApiUser(APITestCase):
 
         url = reverse('user_profile-detail', args=(user_id,))
         response = self.client.patch(url, data)
-        print response.data
         self.assertEqual(response.status_code, 200)
