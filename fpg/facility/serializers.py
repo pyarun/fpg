@@ -1,27 +1,30 @@
 from rest_framework import serializers
-from facility.models import Club, Resource, Booking
 
+from facility.models import Club, Resource, Booking
 from profiles.serializers import AddressSerializer
 
 
 class ClubSerializer(serializers.ModelSerializer):
-    '''
+    """
         User can create, update, list and delete Clubs
-    '''
+    """
     address = AddressSerializer()
 
     class Meta:
         model = Club
-        fields = ('id','name','owner','address', 'contact_number', 'description')
+        fields = ('id', 'name', 'owner', 'address', 'contact_number', 'description')
 
 
 class ResourceSerializer(serializers.ModelSerializer):
-    '''
+    """
         For create, update, delete, list resources.
-    '''
-
+    """
     club_details = serializers.SerializerMethodField('club_info')
     sport_details = serializers.SerializerMethodField('sport_info')
+    class Meta:
+        model = Resource
+        fields = ('id', 'name', 'type', 'club', 'club_details', 'open_time', 'close_time', 'fee', 'sport', 'sport_details', 'photo',
+                  'status', 'description')
 
     def club_info(self, obj):
         club_object = obj.club
@@ -44,7 +47,6 @@ class ResourceSerializer(serializers.ModelSerializer):
 
                         }
         }
-
         return club_dict
 
 
@@ -55,38 +57,33 @@ class ResourceSerializer(serializers.ModelSerializer):
                         'name':sport_object.name,
                         'description': sport_object.description
         }
-
         return sport_dict
-
-    class Meta:
-        model = Resource
-        fields = ('id', 'name', 'type', 'club', 'club_details' ,'open_time', 'close_time',
-                  'fee', 'sport', 'sport_details', 'photo', 'status', 'description')
 
 
 class BookingSerializer(serializers.ModelSerializer):
-    '''
+    """
         For create, update, list, delete bookings
-    '''
-
+    """
     resource_details = serializers.SerializerMethodField('resource_info')
-
-    def resource_info(self, obj):
-        resouce_object = obj.resource
-
-        resource_dict = {
-                        'name' : resouce_object.name,
-                        'type': resouce_object.type,
-                        'open_time': resouce_object.open_time,
-                        'close_time': resouce_object.close_time,
-                        'status' : resouce_object.status,
-                        'sport' : resouce_object.sport.name,
-                        'photo' : resouce_object.photo.url,
-                        'fee' : resouce_object.fee,
-                        'club' : resouce_object.club.id
-        }
-        return resource_dict
 
     class Meta:
         model = Booking
-        fields = ('id', 'user', 'title', 'date', 'start_time', 'end_time', 'resource', 'resource_details')
+        fields = ('id', 'user', 'title', 'date', 'start_time', 'end_time', 'resource', 'resource_details' )
+
+
+    def resource_info(self, obj):
+        resource = obj.resource
+
+        resource_dict = {
+            'name': resource.name,
+            'type': resource.type,
+            'open_time': resource.open_time,
+            'close_time': resource.close_time,
+            'status': resource.status,
+            'sport': resource.sport.name,
+            'photo': resource.photo.url,
+            'fee': resource.fee,
+            'club': resource.club.id
+        }
+        return resource_dict
+

@@ -4,9 +4,9 @@ from utils.serializers import SportSerializer
 
 
 class SportsView(viewsets.ModelViewSet):
-    '''
+    """
         create, delete, update, list sports
-    '''
+    """
     model = Sports
     serializer_class = SportSerializer
     queryset = Sports.objects.all()

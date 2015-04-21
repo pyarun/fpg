@@ -8,10 +8,10 @@ from django.views.generic.base import TemplateView
 
 
 class Organiclogin(TemplateView):
-    '''
+    """
     login mechanism based on userID as email and password
     if user is already logged in user will be directed to dashboard
-    '''
+    """
 
     template_name = "account/login.html"
 

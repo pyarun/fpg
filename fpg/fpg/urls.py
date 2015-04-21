@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.conf.urls import patterns, include, url
+from django.conf import settings
 
 from fpg.views import HomeTemplateView, LoginTemplateView
 
-from django.conf import settings
 
 # ... your normal urlpatterns here
 
@@ -38,5 +38,6 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('',
-    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-    'document_root': settings.MEDIA_ROOT}))
+                        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+                            'document_root': settings.MEDIA_ROOT})
+)

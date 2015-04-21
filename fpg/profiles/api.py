@@ -1,17 +1,16 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework import permissions
-from rest_framework.viewsets import GenericViewSet
 
 from profiles.models import UserProfile
 from profiles.serializers import UserProfileSerializer, CurrentUserSerializer
 
 
-
-class IsOwnerOrReadOnly(permissions.BasePermission):
+class UserProfileOwnerOrReadOnly(permissions.BasePermission):
     """
-         Logged in user can edit their own profile, but cannot edit other's profile.
-         They can see others profile. Superuser can access all profiles
+        Allows update, delete operations to owner of the profile.
+        Restrict other users to Read only access.
+        Superusers can preform all operations on user profiles
     """
 
     def has_object_permission(self, request, view, obj):
@@ -24,27 +23,26 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         return obj.user == request.user
 
 
-class UserProfileView(viewsets.mixins.RetrieveModelMixin,
-                      viewsets.mixins.UpdateModelMixin,
-                      viewsets.mixins.ListModelMixin,
-                      viewsets.GenericViewSet,
-                    ):
-    '''
+class UserProfileViewSet(viewsets.mixins.RetrieveModelMixin,
+                         viewsets.mixins.UpdateModelMixin,
+                         viewsets.mixins.ListModelMixin,
+                         viewsets.GenericViewSet):
+    """
         User profile view to list, update, retrive the user profiles
-    '''
-
+    """
     serializer_class = UserProfileSerializer
     model = UserProfile
     queryset = UserProfile.objects.all()
 
     permission_classes = (
-        IsOwnerOrReadOnly,
+        UserProfileOwnerOrReadOnly,
     )
 
 
-class CurrentUserView(viewsets.mixins.RetrieveModelMixin,
-                      viewsets.mixins.UpdateModelMixin,
-                      viewsets.mixins.ListModelMixin, GenericViewSet):
+class CurrentUserViewSet(viewsets.mixins.RetrieveModelMixin,
+                         viewsets.mixins.UpdateModelMixin,
+                         viewsets.mixins.ListModelMixin,
+                         viewsets.GenericViewSet):
     model = User
     serializer_class = CurrentUserSerializer
 
@@ -58,4 +56,7 @@ class CurrentUserView(viewsets.mixins.RetrieveModelMixin,
         if self.request.DATA.has_key("password") and self.request.DATA["password"]:
             obj.set_password(self.request.DATA["password"])
 
-        GenericViewSet.pre_save(self, obj)
+        # CurrentUserViewSet.pre_save(self, obj)
+
+    #add a additional view to allow password reset
+    # def reset_password(self):
