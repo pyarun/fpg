@@ -4,6 +4,9 @@ from django.conf.urls import patterns, include, url
 
 from fpg.views import HomeTemplateView, LoginTemplateView
 
+from django.conf import settings
+
+# ... your normal urlpatterns here
 
 urlpatterns = patterns('',
 
@@ -33,3 +36,7 @@ urlpatterns = patterns('',
                        url(r'^photologue/', include('photologue.urls', namespace='photologue')),
 
 )
+
+urlpatterns += patterns('',
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+    'document_root': settings.MEDIA_ROOT}))
