@@ -5,7 +5,7 @@ from facility.serializers import ClubSerializer, ResourceSerializer, BookingSeri
 
 class ClubView(viewsets.ModelViewSet):
     '''
-        Club to create update delete and list the clubs
+        Club to create, update, delete and list the clubs
     '''
 
     model = Club
@@ -24,7 +24,7 @@ class ResourceView(viewsets.ModelViewSet):
 
 class BookingView(viewsets.ModelViewSet):
     '''
-
+        To list, create, update, delete resources.
     '''
     model = Booking
     serializer_class = BookingSerializer
