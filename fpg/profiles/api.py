@@ -2,9 +2,10 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.viewsets import GenericViewSet
+from facility.models import Club, Resource
 
 from profiles.models import UserProfile
-from profiles.serializers import UserProfileSerializer, CurrentUserSerializer
+from profiles.serializers import UserProfileSerializer, CurrentUserSerializer, ClubSerializer
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -58,3 +59,12 @@ class CurrentUserView(viewsets.mixins.RetrieveModelMixin,
             obj.set_password(self.request.DATA["password"])
 
         GenericViewSet.pre_save(self, obj)
+
+class ClubView(viewsets.ModelViewSet):
+    '''
+        Club to create update delete and list the clubs
+    '''
+
+    model = Club
+    serializer_class = ClubSerializer
+    queryset = Club.objects.all()

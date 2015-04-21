@@ -1,12 +1,13 @@
 from rest_framework import routers
 from django.conf.urls import patterns, include, url
 
-from profiles.api import UserProfileView, CurrentUserView
+from profiles.api import UserProfileView, CurrentUserView, ClubView
 
 
 router = routers.DefaultRouter()
 router.register(r'user', UserProfileView, base_name='userprofile')
 router.register(r"me", CurrentUserView, base_name="current_user")
+router.register(r"club", ClubView, base_name="club")
 
 urlpatterns = patterns('',
                        url(r'^api-auth/',
