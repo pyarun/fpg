@@ -119,3 +119,14 @@ class ClubSerializer(serializers.ModelSerializer):
         fields = ('id','name','owner','address', 'contact_number', 'description')
 
 
+class ResourceSerializer(serializers.ModelSerializer):
+    '''
+        For create, update, delete, list resources.
+    '''
+
+    class Meta:
+        model = Resource
+        fields = ('id', 'name', 'type', 'club', 'open_time', 'close_time', 'fee', 'sport', 'photo',
+                  'status', 'description')
+
+

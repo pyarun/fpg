@@ -5,7 +5,7 @@ from rest_framework.viewsets import GenericViewSet
 from facility.models import Club, Resource
 
 from profiles.models import UserProfile
-from profiles.serializers import UserProfileSerializer, CurrentUserSerializer, ClubSerializer
+from profiles.serializers import UserProfileSerializer, CurrentUserSerializer, ClubSerializer, ResourceSerializer
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -68,3 +68,12 @@ class ClubView(viewsets.ModelViewSet):
     model = Club
     serializer_class = ClubSerializer
     queryset = Club.objects.all()
+
+class ResourceView(viewsets.ModelViewSet):
+    '''
+        To list, create, update, delete resources.
+    '''
+
+    model = Resource
+    serializer_class =  ResourceSerializer
+    queryset = Resource.objects.all()
