@@ -11,3 +11,10 @@
   background: transparent;
   border: 0;
 }
+
+/**
+Utility classes
+*/
+.bkg-white{
+  background-color: #fff;
+}
