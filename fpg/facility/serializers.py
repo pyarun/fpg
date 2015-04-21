@@ -1,3 +1,4 @@
+from address.models import Address
 from rest_framework import serializers
 
 from facility.models import Club, Resource, Booking
@@ -13,6 +14,34 @@ class ClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
         fields = ('id', 'name', 'owner', 'address', 'contact_number', 'description')
+
+    def create(self, validated_data):
+        """
+        This function is overidden to allow nested writable serialization
+        """
+        addrdict = validated_data.pop('address')
+        addrobj = Address.objects.create(**addrdict)
+        validated_data['address'] = addrobj
+        club = super(ClubSerializer, self).create(validated_data)
+        return club
+
+
+    def update(self, instance, validated_data):
+        '''
+        Overridden to allow nested writable serialization
+        '''
+        addrdict = validated_data.pop('address')
+
+        # Save inner address object
+        for attr, value in addrdict.items():
+            setattr(instance.address, attr, value)
+        instance.address.save()
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        club = super(ClubSerializer, self).update(instance, validated_data)
+        return club
 
 
 class ResourceSerializer(serializers.ModelSerializer):
@@ -58,6 +87,7 @@ class ResourceSerializer(serializers.ModelSerializer):
                         'description': sport_object.description
         }
         return sport_dict
+
 
 
 class BookingSerializer(serializers.ModelSerializer):
