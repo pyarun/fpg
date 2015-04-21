@@ -1,7 +1,7 @@
-from address.models import Address
 from django.contrib.auth.models import User
 from django.db import models
 
+from address.models import Address
 from utils.models import Sports
 
 
@@ -35,7 +35,7 @@ class Resource(models.Model):
     sport = models.ForeignKey(Sports)
     photo = models.ImageField(upload_to='resources', null=True, blank=True)
     status = models.CharField(choices=STATUS, max_length=32, default=STATUS[0][0],
-                              help_text='Status of resource whether it is available for booking or not')
+                        help_text='Status of resource whether it is available for booking or not')
     description = models.TextField(null=True, blank=True)
 
     def __unicode__(self):

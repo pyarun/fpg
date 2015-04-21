@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from address.models import Address
 
 from profiles.models import UserProfile
-from address.models import Address
+
 
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,19 +14,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
     """
         Serializer for user-profile
     """
-
     first_name = serializers.CharField(source='user.first_name')
     last_name = serializers.CharField(source='user.last_name')
     email = serializers.CharField(source='user.email')
-
     address = AddressSerializer()
-
     address_detail = serializers.SerializerMethodField('get_detail_address')
-
-    def get_detail_address(self, obj):
-        user_address = Address.objects.get(id=obj.id)
-        dict = user_address.as_dict()
-        return dict
 
     class Meta():
         model = UserProfile
@@ -33,6 +26,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'id', 'first_name', 'last_name', 'email', 'contact_number',
             'about_me', 'address', 'address_detail')
 
+    def get_detail_address(self, obj):
+        return obj.address.as_dict()
 
     def _set_user_info(self, profile, user_data):
         user = profile.user
@@ -43,6 +38,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
         return user
 
     def save(self, **kwargs):
+        """
+        Overridden to allow saving additional information, which donot directly maps to
+        Profile Model
+        """
         user_data = None
         if self.validated_data.has_key("user"):
             user_data = self.validated_data.pop("user")
@@ -54,11 +53,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         '''
-        This function is overidden to allow nested writable serialization
+        Overridden to allow nested writable serialization
         '''
         addrdict = validated_data.pop('address')
 
-        #Save inner address object
+        # Save inner address object
         for attr, value in addrdict.items():
             setattr(instance.address, attr, value)
         instance.address.save()
@@ -66,7 +65,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
-        user = super(UserProfileSerializer, self).update(instance,validated_data)
+        user = super(UserProfileSerializer, self).update(instance, validated_data)
         return user
 
 
@@ -79,7 +78,6 @@ class BaseUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-
 
     def validate_email(self, attrs, source):
         """
