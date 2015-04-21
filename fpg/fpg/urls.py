@@ -27,9 +27,7 @@ urlpatterns = patterns('',
                        url(r'^login$', LoginTemplateView.as_view()),
 
                        # apis
-                       url(r"^api/v1/", include('profiles.urls')),
                        url(r"^api/v1/", include('fpg.api_urls')),
-
 
                        # third party
                        url(r'^photologue/', include('photologue.urls', namespace='photologue')),

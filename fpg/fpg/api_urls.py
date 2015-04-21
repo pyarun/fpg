@@ -1,8 +1,17 @@
 from rest_framework import routers
 from django.conf.urls import url, include
+from facility.api import ClubView, ResourceView, BookingView
+from profiles.api import UserProfileView, CurrentUserView
 
 
 router = routers.DefaultRouter()
+
+router.register(r'user', UserProfileView, base_name='userprofile')
+router.register(r"me", CurrentUserView, base_name="current_user")
+router.register(r"club", ClubView, base_name="club")
+router.register(r"resource", ResourceView, base_name="resource")
+router.register(r"booking", BookingView, base_name="booking")
+
 
 urlpatterns = [
     url(r'^', include(router.urls)),
