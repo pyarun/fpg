@@ -57,3 +57,6 @@ class CurrentUserViewSet(viewsets.mixins.RetrieveModelMixin,
             obj.set_password(self.request.DATA["password"])
 
         # CurrentUserViewSet.pre_save(self, obj)
+
+    #add a additional view to allow password reset
+    # def reset_password(self):

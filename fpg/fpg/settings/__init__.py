@@ -173,7 +173,7 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-        'nlms': {
+        'fpg': {
             'handlers': ['console', 'mail_admins'],
             'level': 'DEBUG'
         }

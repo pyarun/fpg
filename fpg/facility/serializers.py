@@ -49,18 +49,16 @@ class ResourceSerializer(serializers.ModelSerializer):
 
                      }
         }
-
         return club_dict
 
 
     def sport_info(selfn, obj):
-        sport = Sports.objects.get(id=obj.id)
+        sport = obj.sport
         sport_dict = {
             'id': sport.id,
             'name': sport.name,
             'description': sport.description
         }
-
         return sport_dict
 
 
@@ -77,8 +75,6 @@ class BookingSerializer(serializers.ModelSerializer):
 
     def resource_info(self, obj):
         resource = obj.resource
-
-        # import ipdb; ipdb.set_trace()
         resource_dict = {
             'name': resource.name,
             'type': resource.type,
