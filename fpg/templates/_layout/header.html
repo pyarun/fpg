@@ -24,9 +24,20 @@
             </ul>
           </li>
 
-
+          {% verbatim %}
           <li><a ui-sref="home" >Home</a></li>
-          <li><a ui-sref="login" >Login</a></li>
+          <li ng-if="! currentUser.is_authenticated"><a ui-sref="login" >Login</a></li>
+          <li ng-if="currentUser.is_authenticated" class="dropdown" dropdown on-toggle="toggled(open)">
+            <a type="button" class="dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+              {{ currentUser.full_name || currentUser.email }}<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="">Profile</a></li>
+              <li><a href="">Logout</a></li>
+            </ul>
+          </li>
+          {% endverbatim %}
+
         </ul>
 
       </div>
