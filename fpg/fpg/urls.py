@@ -26,8 +26,11 @@ urlpatterns = patterns('',
                            auth_views.password_reset_done,
                            name='password_reset_done'),
                        url(r'^accounts/', include('registration.backends.default.urls')),
-                       url(r'^$', HomeTemplateView.as_view(), name="home"),
                        url(r'^login$', LoginTemplateView.as_view()),
+
+                        #home
+                        url(r'^$', HomeTemplateView.as_view(), name="home"),
+
 
                        # apis
                        url(r"^api/v1/", include('fpg.api_urls')),
@@ -37,7 +40,9 @@ urlpatterns = patterns('',
 
 )
 
-urlpatterns += patterns('',
-                        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-                            'document_root': settings.MEDIA_ROOT})
-)
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+                            (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+                                'document_root': settings.MEDIA_ROOT})
+    )

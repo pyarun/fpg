@@ -2,7 +2,7 @@ from django.views.generic.base import TemplateView
 
 
 class HomeTemplateView(TemplateView):
-    template_name = '_layout/base.html'
+    template_name = 'home.html'
 
 
 class LoginTemplateView(TemplateView):

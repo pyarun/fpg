@@ -1,52 +1,34 @@
-<!--Navbar 1-->
-<nav id="nav1" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="container" ng-init="navbar1Collapsed=true">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse"
-              data-ng-click="navbar1Collapsed = !navbar1Collapsed">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a id="brand" class="navbar-brand" href="#"><img height="85" id="logo"
-                                                       src="{{STATIC_URL}}img/logo.png"></img></a>
-    </div>
-    {% if user.is_authenticated %}
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse"
-         collapse="navbar1Collapsed">
-      <ul class="nav navbar-nav navbar-right">
-        {% if user.is_authenticated %}
-        <li class="dropdown">
-          <a href="" class="dropdown-toggle">{{user}}<b
-              class="caret"></b><span id="usericon"
-                                      class="glyphicon glyphicon-user pull-right"></span></a>
-          <ul class="dropdown-menu">
-            <li>
-              <a ui-sref="profile">My Profile</a>
-            </li>
-            <li>
-              <a ui-sref="farms">Farms</a>
-            </li>
-            <li>
-              <a ui-sref="home">Produce</a>
-            </li>
-            <li>
-              <a ui-sref="grocers">Grocers</a>
-            </li>
-            <li class="divider"></li>
-            <li>
-              <a href="{% url 'auth_logout' %}">log out</a>
-            </li>
-          </ul>
-        </li>
+  <div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a href="https://bootswatch.com/" class="navbar-brand">Find Playground</a>
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="navbar-collapse collapse" id="navbar-main">
 
-        {% endif %}
-      </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <!-- quick links for dev mode only -->
+          <li class="dropdown" dropdown on-toggle="toggled(open)">
+            <a type="button" class="dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+              RAW Page links <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="./landing.html">Landing Page</a></li>
+              <li><a href="./search_results.html">Search Results</a></li>
+              <li><a href="./club.html">Club</a></li>
+            </ul>
+          </li>
+
+
+          <li><a ui-sref="home" >Home</a></li>
+          <li><a ui-sref="login" >Login</a></li>
+        </ul>
+
+      </div>
     </div>
-    <!-- /.navbar-collapse -->
-    {% endif %}
   </div>
-</nav>
