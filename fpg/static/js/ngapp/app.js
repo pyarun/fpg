@@ -44,7 +44,7 @@ organicApp.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "Restangu
       }).state('login', {
         url: '/login',
         templateUrl: function ($stateParams) {
-          return SETTINGS.TEMPLATE_DIR + 'home.html';
+          return SETTINGS.TEMPLATE_DIR + 'auth/login.html';
         }
       }).state('register', {
         url: '/register',

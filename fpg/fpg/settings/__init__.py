@@ -52,7 +52,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'django_js_reverse',
     'debug_toolbar',
-    'registration',
+
     'rest_framework',
     'photologue',
     'sortedm2m',
@@ -61,7 +61,11 @@ INSTALLED_APPS = (
     'utils',
     'address',
     'facility',
-
+    'rest_framework.authtoken',
+    'rest_auth',
+    # 'allauth',
+    # 'allauth.account',
+    # 'rest_auth.registration',
 
 )
 
@@ -208,6 +212,8 @@ LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'auth.User'
 
+
+REST_SESSION_LOGIN = True
 
 try:
     from local_settings import *
