@@ -1,23 +1,38 @@
 'use strict';
-var services = angular.module("organicApp.services", []);
+var services = angular.module("fpgApp.services", []);
 
 /*Provides information of current logged in user*/
 
 services.service("currentUserService", ["Restangular", "$log", "$q", "$cookies",
   function (Restangular, $log, $q, $cookies) {
-
+    $log.debug("hellosdfsdfsdf");
     var _user = $q.defer();
+    var _key=null;
     var user = null;
-    var _db = Restangular.one("me").get().then(function (response) {
-      _user.resolve(response);
-      user = response;
-    });
+    var _is_authenticated=null;
+
+    function getUser(){
+      Restangular.one("me").get().then(function (response) {
+        _user.resolve(response);
+        user = response;
+        user.is_authenticated=true;
+      });
+      return _user.promise;
+    }
+
+
 
     return {
+      "getKey": function(){
+        return _key;
+      },
+      "setKey": function(key){
+        _key=key;
+      },
       "getUser": function () {
         return user;
       },
-      "promise": _user.promise,
+      "promise": getUser,
       "update": function (euser) {
         var temp = euser.save({}, {
           "X-CSRFToken": $cookies['csrftoken']

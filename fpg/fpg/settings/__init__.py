@@ -49,27 +49,33 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    #3rd party plugins
     'django_extensions',
     'django_js_reverse',
     'debug_toolbar',
-
     'rest_framework',
     'photologue',
     'sortedm2m',
-
-    'profiles',
-    'utils',
-    'address',
-    'facility',
+    'djangular',
     'rest_framework.authtoken',
     'rest_auth',
     # 'allauth',
     # 'allauth.account',
     # 'rest_auth.registration',
 
+    #custom apps
+    'profiles',
+    'utils',
+    'address',
+    'facility',
+
+
 )
 
 MIDDLEWARE_CLASSES = (
+
+    'djangular.middleware.DjangularUrlMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

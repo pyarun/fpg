@@ -1,5 +1,5 @@
 'use strict';
-var controllers = angular.module("organicApp.controllers", []);
+var controllers = angular.module("fpgApp.controllers", []);
 
 controllers.controller("ProfileCtrl", ["$scope", "$log" , "currentUserService", "toastr",
 
@@ -28,3 +28,32 @@ controllers.controller("ProfileCtrl", ["$scope", "$log" , "currentUserService", 
     };
 
   }]);
+
+controllers.controller("LoginCtrl", ["$scope", "$rootScope", "$log", "toastr", "djangoUrl", "$http", "$state",
+    "currentUserService",
+  function($scope, $rootScope, $log, toastr, djangoUrl, $http, $state, currentUserService){
+    $scope.login = function(){
+
+      if($scope.loginForm.$valid){
+
+        $log.debug($scope.loginModel);
+        $http.post(djangoUrl.reverse('rest_login'), $scope.loginModel).success(function(response){
+          currentUserService.setKey(response.key);
+          currentUserService.promise().then(function(response){
+            $rootScope.currentUser=response;
+          });
+
+          $state.go("home")
+
+        }).error(function(response){
+          alert(_.values(response));
+        });
+
+      }else{
+        alert("error");
+      }
+
+
+    }
+
+}]);
