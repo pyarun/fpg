@@ -1,0 +1,69 @@
+<div class="container text-center">
+
+
+
+  <div class="well well-transparent">
+    <a id="logo-lg" href="#"><img src="/static/img/play.png"/> </a>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3 ">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <form class="form-horizontal ajax-post" role="form" action="{% url 'rest_register' %}">
+            <h1>sign up</h1>
+
+
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <div class="well well-transparent">
+
+                  <div class="form-group">
+
+                    <input name="email" type="text" class="form-control" id="email"
+                           placeholder="Email">
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <input name="username" type="text" class="form-control" id="username"
+                           placeholder="Username">
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <input name="password1" type="password" class="form-control" id="password1"
+                           placeholder="Password">
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <input name="password2" type="password" class="form-control" id="password2"
+                           placeholder="Repeat password">
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <button type="submit" class="btn btn-default">Sign up</button>
+
+                  </div>
+                  <div class="form-group">
+                    Already have an Account -
+                    <a ui-sref="login">Login</a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="form-group api-response"></div>
+          </form>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

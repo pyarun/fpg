@@ -49,17 +49,17 @@ organicApp.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "Restangu
       }).state('register', {
         url: '/register',
         templateUrl: function ($stateParams) {
-          return SETTINGS.TEMPLATE_DIR + 'home.html';
+          return SETTINGS.TEMPLATE_DIR + 'auth/register.html';
         }
       }).state('forgot_password', {
         url: '/forgot_password',
         templateUrl: function ($stateParams) {
-          return SETTINGS.TEMPLATE_DIR + 'home.html';
+          return SETTINGS.TEMPLATE_DIR + 'auth/forgot_password.html';
         }
       }).state('reset_password', {
         url: '/reset_password',
         templateUrl: function ($stateParams) {
-          return SETTINGS.TEMPLATE_DIR + 'home.html';
+          return SETTINGS.TEMPLATE_DIR + 'auth/reset_password.html';
         }
       });
 
