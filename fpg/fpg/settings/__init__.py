@@ -52,13 +52,19 @@ INSTALLED_APPS = (
     'django_extensions',
     'django_js_reverse',
     'debug_toolbar',
-    'registration',
+
     'rest_framework',
     'photologue',
     'sortedm2m',
 
     'profiles',
     'utils',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+
 
 )
 
@@ -129,7 +135,7 @@ MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, "media"))
 MEDIA_URL = "/media/"
 
 AUTHENTICATION_BACKENDS = (
-    'organic.emailauthbackend.EmailAuthBackend',
+    'fpg.emailauthbackend.EmailAuthBackend',
 )
 
 ANONYMOUS_USER_ID = None
@@ -206,7 +212,18 @@ LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'auth.User'
 
 
+REST_SESSION_LOGIN = True
+
 try:
     from local_settings import *
 except:
     ImproperlyConfigured("local settings file is not configured for this server.")
+
+
+# EMAIL Server config
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'viresh.purohit@vertisinfotech.com'
+EMAIL_HOST_PASSWORD = 'viru1992'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'noreply@vertisinfotech.com'
