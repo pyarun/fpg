@@ -1,21 +1,16 @@
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.conf.urls import patterns, include, url
-from django.conf import settings
-from django.views.generic.base import TemplateView, RedirectView
 
 from fpg.views import HomeTemplateView
+from fpg.views import HomeTemplateView, LoginTemplateView
+from django.views.generic.base import TemplateView, RedirectView
 
 
 urlpatterns = patterns('',
 
                        url(r'^admin/', include(admin.site.urls)),
 
-                       url(r'^user-details/$',
-                           TemplateView.as_view(template_name="user_details.html"),
-                           name='user-details'),
-
-                       # home
-                       url(r'^$', HomeTemplateView.as_view(), name="home"),
 
                        # apis
                        url(r"^api/v1/", include('fpg.api_urls')),
@@ -26,6 +21,8 @@ urlpatterns = patterns('',
                         # url(r'^account/', include('allauth.urls')),
                        # url(r'^accounts/profile/$', RedirectView.as_view(url='/'),
                        #     name='profile-redirect'),
+                        # home
+                       url(r'^$', HomeTemplateView.as_view(), name="home"),
 
                        # third party
                        url(r'^photologue/', include('photologue.urls', namespace='photologue')),
