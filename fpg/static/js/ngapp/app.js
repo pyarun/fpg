@@ -1,17 +1,17 @@
 'use strict';
 //starting point of angular application
 // all the angular configurations will be maintained here
-var organicApp = angular.module("fpgApp", ["ui.router", "ui.bootstrap", "restangular", "ngCookies", "toastr",
+var fpg = angular.module("fpgApp", ["ui.router", "ui.bootstrap", "restangular", "ngCookies", "toastr",
    "ng.django.urls",
     "fpgApp.controllers", 'fpgApp.services'
 ]);
 
-organicApp.constant("SETTINGS", {
+fpg.constant("SETTINGS", {
   "STATIC_URL": djsettings.STATIC_URL,
   "TEMPLATE_DIR": djsettings.STATIC_URL + 'js/ngapp/tmplts/'
 });
 
-organicApp.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProvider", "toastrConfig",
+fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProvider", "toastrConfig",
     "$httpProvider",
     function ($stateProvider, $urlRouterProvider, SETTINGS, RestangularProvider, toastrConfig,
         $httpProvider) {
@@ -68,6 +68,12 @@ organicApp.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "Restangu
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'auth/reset_password.html';
         }
+      }).state('profile', {
+        url: '/profile',
+        templateUrl: function ($stateParams) {
+          return SETTINGS.TEMPLATE_DIR + 'profile.html';
+        },
+        controller : 'ProfileCtrl'
       });
 
 }]);
@@ -76,7 +82,7 @@ organicApp.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "Restangu
 
 
 
-organicApp.run(["$rootScope", "SETTINGS", function ($rootScope, SETTINGS) {
+fpg.run(["$rootScope", "SETTINGS", function ($rootScope, SETTINGS) {
   //Add settings in $rootScope so that they can be directly accessed in HTML
   $rootScope.SETTINGS = SETTINGS;
 }]);

@@ -5,7 +5,6 @@ var services = angular.module("fpgApp.services", []);
 
 services.service("currentUserService", ["Restangular", "$log", "$q", "$cookies",
   function (Restangular, $log, $q, $cookies) {
-    $log.debug("hellosdfsdfsdf");
     var _user = $q.defer();
     var _key=null;
     var user = null;
@@ -55,32 +54,32 @@ services.service("currentUserService", ["Restangular", "$log", "$q", "$cookies",
 /*generic confirm box
  * Useage: confirmBox.pop(callbackfunction);
  * */
-services.service("confirmBox", ["SETTINGS", "$modal",
-  function (SETTINGS, $modal) {
-    return {
-      pop: function (callback) {
-        $modal.open({
-                      templateUrl: SETTINGS.TEMPLATE_DIR + 'confirm-modal.html',
-                      controller: ["$scope", "$modalInstance", "okFunc",
-                        function ($scope, $modalInstance, okFunc) {
-
-                          $scope.action = function () {
-                            $modalInstance.close("ok");
-                            okFunc();
-                          };
-                          $scope.cancel = function () {
-                            $modalInstance.dismiss('cancel');
-                          };
-
-                        }],
-                      size: "sm",
-                      resolve: {
-                        okFunc: function () {
-                          return callback;
-                        }
-                      }
-                    });
-
-      }
-    };
-  }]);
+//services.service("confirmBox", ["SETTINGS", "$modal",
+//  function (SETTINGS, $modal) {
+//    return {
+//      pop: function (callback) {
+//        $modal.open({
+//                      templateUrl: SETTINGS.TEMPLATE_DIR + 'confirm-modal.html',
+//                      controller: ["$scope", "$modalInstance", "okFunc",
+//                        function ($scope, $modalInstance, okFunc) {
+//
+//                          $scope.action = function () {
+//                            $modalInstance.close("ok");
+//                            okFunc();
+//                          };
+//                          $scope.cancel = function () {
+//                            $modalInstance.dismiss('cancel');
+//                          };
+//
+//                        }],
+//                      size: "sm",
+//                      resolve: {
+//                        okFunc: function () {
+//                          return callback;
+//                        }
+//                      }
+//                    });
+//
+//      }
+//    };
+//  }]);

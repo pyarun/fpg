@@ -32,7 +32,8 @@
               {{ currentUser.full_name || currentUser.email }}<span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="">Profile</a></li>
+
+                <li><a ui-sref="profile" href="#/profile">My Profile</a></li>
               <li><a href="">Logout</a></li>
             </ul>
           </li>

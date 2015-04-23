@@ -1,11 +1,12 @@
 'use strict';
 var controllers = angular.module("fpgApp.controllers", []);
 
-controllers.controller("ProfileCtrl", ["$scope", "$log" , "currentUserService", "toastr",
+controllers.controller("ProfileCtrl", ["$scope", "$log" , "currentUserService",
 
-  function ($scope, $log, currentUserService, toastr) {
+  function ($scope, $log, currentUserService) {
     currentUserService.promise.then(function (response) {
       $scope.user = response;
+      debugger;
     });
 
 
@@ -17,13 +18,13 @@ controllers.controller("ProfileCtrl", ["$scope", "$log" , "currentUserService", 
       if (form.$valid) {
         currentUserService.save(object).then(function (response) {
           object.edit = false;
-          toastr.success('Saved Successfully');
+          //toastr.success('Saved Successfully');
         }, function () {
-          toastr.error('Error while saving.');
+          //toastr.error('Error while saving.');
         });
       } else {
         form.showFormErrors = true;
-        toastr.error('Correct form errors');
+        //toastr.error('Correct form errors');
       }
     };
 

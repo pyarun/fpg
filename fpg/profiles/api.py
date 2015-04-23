@@ -1,4 +1,7 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
+from django.http.response import HttpResponse
+from django.middleware import http
 from rest_framework import viewsets
 from rest_framework import permissions
 
@@ -46,8 +49,9 @@ class CurrentUserViewSet(viewsets.mixins.RetrieveModelMixin,
     model = User
     serializer_class = CurrentUserSerializer
 
+
     def get_object(self, queryset=None):
-        return self.request.user
+       return self.request.user
 
     def list(self, request, *args, **kwargs):
         return self.retrieve(request)
