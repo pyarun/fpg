@@ -6,8 +6,6 @@ from django.conf import settings
 from fpg.views import HomeTemplateView, LoginTemplateView
 
 
-# ... your normal urlpatterns here
-
 urlpatterns = patterns('',
 
                        url(r'^admin/', include(admin.site.urls)),
