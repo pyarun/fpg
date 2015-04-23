@@ -3,19 +3,22 @@ var services = angular.module("fpgApp.services", []);
 
 /*Provides information of current logged in user*/
 
-services.service("currentUserService", ["Restangular", "$log", "$q", "$cookies",
-  function (Restangular, $log, $q, $cookies) {
+services.service("currentUserService", ["Restangular", "$log", "$q", "$cookies", "$rootScope",
+    "$state",
+  function (Restangular, $log, $q, $cookies, $rootScope, $state) {
     $log.debug("hellosdfsdfsdf");
     var _user = $q.defer();
-    var _key=null;
     var user = null;
-    var _is_authenticated=null;
 
     function getUser(){
-      Restangular.one("me").get().then(function (response) {
+      Restangular.one("me").get().then(function (response) { //success
         _user.resolve(response);
         user = response;
         user.is_authenticated=true;
+        $rootScope.currentUser = user;
+      }, function(response){  //error
+        $rootScope.currentUser = undefined;
+        $state.go("login");
       });
       return _user.promise;
     }
@@ -24,10 +27,10 @@ services.service("currentUserService", ["Restangular", "$log", "$q", "$cookies",
 
     return {
       "getKey": function(){
-        return _key;
+        return user.key;
       },
       "setKey": function(key){
-        _key=key;
+        user.key=key;
       },
       "getUser": function () {
         return user;

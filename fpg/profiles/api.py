@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.permissions import IsAuthenticated
 
 from profiles.models import UserProfile
 from profiles.serializers import UserProfileSerializer, CurrentUserSerializer
@@ -45,6 +46,7 @@ class CurrentUserViewSet(viewsets.mixins.RetrieveModelMixin,
                          viewsets.GenericViewSet):
     model = User
     serializer_class = CurrentUserSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_object(self, queryset=None):
         return self.request.user

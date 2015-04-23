@@ -46,13 +46,19 @@ organicApp.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "Restangu
         url: '/home',
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'home.html';
+        },
+        data:{
+          requireLogin:true
         }
       }).state('login', {
         url: '/login',
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'auth/login.html';
         },
-        controller: "LoginCtrl"
+        controller: "LoginCtrl",
+        data:{
+          requireLogin:false
+        }
       }).state('register', {
         url: '/register',
         templateUrl: function ($stateParams) {
@@ -76,7 +82,22 @@ organicApp.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "Restangu
 
 
 
-organicApp.run(["$rootScope", "SETTINGS", function ($rootScope, SETTINGS) {
+organicApp.run(["$rootScope", "SETTINGS", "currentUserService", "$state",
+  function ($rootScope, SETTINGS, currentUserService, $state) {
   //Add settings in $rootScope so that they can be directly accessed in HTML
   $rootScope.SETTINGS = SETTINGS;
+
+
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+    var requireLogin = toState.data.requireLogin;
+    if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
+      event.preventDefault();
+      // get me a login modal!
+      currentUserService.promise().then(function(response){
+        console.log(response)
+        return $state.go(toState.name, toParams);
+      });
+    }
+  });
+
 }]);
