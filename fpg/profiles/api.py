@@ -1,9 +1,7 @@
 from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
-from django.http.response import HttpResponse
-from django.middleware import http
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.permissions import IsAuthenticated
 
 from profiles.models import UserProfile
 from profiles.serializers import UserProfileSerializer, CurrentUserSerializer
@@ -47,7 +45,10 @@ class CurrentUserViewSet(viewsets.mixins.RetrieveModelMixin,
                          viewsets.mixins.ListModelMixin,
                          viewsets.GenericViewSet):
     model = User
+    # serializer_class = UserProfileSerializer
     serializer_class = CurrentUserSerializer
+    permission_classes = [IsAuthenticated]
+
 
 
     def get_object(self, queryset=None):
@@ -56,11 +57,29 @@ class CurrentUserViewSet(viewsets.mixins.RetrieveModelMixin,
     def list(self, request, *args, **kwargs):
         return self.retrieve(request)
 
-    def pre_save(self, obj):
-        if self.request.DATA.has_key("password") and self.request.DATA["password"]:
-            obj.set_password(self.request.DATA["password"])
+    def update(self, request, *args, **kwargs):
+        # import ipdb;ipdb.set_trace()
+        kwargs["partial"] = True
+        return super(CurrentUserViewSet, self).update(request, *args, **kwargs)
+
+
+
+    # def pre_save(self, obj):
+    #     if self.request.DATA.has_key("password") and self.request.DATA["password"]:
+    #         obj.set_password(self.request.DATA["password"])
 
         # CurrentUserViewSet.pre_save(self, obj)
 
     #add a additional view to allow password reset
     # def reset_password(self):
+
+# class CountryViewSet(viewsets.mixins.RetrieveModelMixin,
+#                          viewsets.mixins.UpdateModelMixin,
+#                          viewsets.mixins.ListModelMixin,
+#                          viewsets.GenericViewSet):
+#     """
+#
+#     """
+#     serializer_class = CountrySerializer
+#     model = Country
+#     queryset = Country.objects.all()

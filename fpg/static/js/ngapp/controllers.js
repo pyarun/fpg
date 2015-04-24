@@ -1,20 +1,15 @@
 'use strict';
 var controllers = angular.module("fpgApp.controllers", []);
 
-controllers.controller("ProfileCtrl", ["$scope", "$log" , "currentUserService",
+controllers.controller("ProfileCtrl", ["$scope", "$log" ,"$rootScope", "currentUserService",
 
-  function ($scope, $log, currentUserService) {
-    currentUserService.promise.then(function (response) {
-      $scope.user = response;
-      debugger;
-    });
+  function ($scope, $log, $rootScope, currentUserService) {
 
-
+//    debugger;
     $scope.save = function (object, form) {
       /**
        * Get list from service and store it in objectList
        */
-      debugger;
       if (form.$valid) {
         currentUserService.save(object).then(function (response) {
           object.edit = false;

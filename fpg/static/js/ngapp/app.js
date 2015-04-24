@@ -46,13 +46,19 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
         url: '/home',
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'home.html';
+        },
+        data:{
+          requireLogin:true
         }
       }).state('login', {
         url: '/login',
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'auth/login.html';
         },
-        controller: "LoginCtrl"
+        controller: "LoginCtrl",
+        data:{
+          requireLogin:false
+        }
       }).state('register', {
         url: '/register',
         templateUrl: function ($stateParams) {
@@ -73,7 +79,10 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'profile.html';
         },
-        controller : 'ProfileCtrl'
+        controller : 'ProfileCtrl',
+        data:{
+          requireLogin:true
+        }
       });
 
 }]);
@@ -82,7 +91,22 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
 
 
 
-fpg.run(["$rootScope", "SETTINGS", function ($rootScope, SETTINGS) {
+fpg.run(["$rootScope", "SETTINGS", "currentUserService", "$state",
+  function ($rootScope, SETTINGS, currentUserService, $state) {
   //Add settings in $rootScope so that they can be directly accessed in HTML
   $rootScope.SETTINGS = SETTINGS;
+
+
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+    var requireLogin = toState.data.requireLogin;
+    if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
+      event.preventDefault();
+      // get me a login modal!
+      currentUserService.promise().then(function(response){
+        console.log(response)
+        return $state.go(toState.name, toParams);
+      });
+    }
+  });
+
 }]);
