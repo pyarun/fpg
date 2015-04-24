@@ -1,69 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% block meta %}
-      <meta name="description" content="">
-      <meta name="author" content="">
-    {% endblock meta %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% block meta %}
+    <meta name="description" content="">
+    <meta name="author" content="">
+  {% endblock meta %}
+  <base href="/">
+  {% block title %}
+    <title>{% block page_title %}Organic{% endblock page_title %}</title>
+  {% endblock title %}
 
-    {% block title %}
-      <title>{% block page_title %}Organic{% endblock page_title %}</title>
-    {% endblock title %}
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-simplex-theme.css" type="text/css">
 
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-simplex-theme.css" type="text/css">
-
-    <!--&lt;!&ndash; Custom Fonts &ndash;&gt;
+  <!--&lt;!&ndash; Custom Fonts &ndash;&gt;
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
 -->
-    <!-- Plugin CSS -->
-   <!-- <link rel="stylesheet" href="css/animate.min.css" type="text/css">
+  <!-- Plugin CSS -->
+  <!-- <link rel="stylesheet" href="css/animate.min.css" type="text/css">
 -->
-    <!-- Custom styles for this website -->
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/custom-theme.css" type="text/css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/site.css" type="text/css">
+  <!-- Custom styles for this website -->
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/custom-theme.css" type="text/css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/site.css" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
 
   {% block css %}{% endblock css %}
-    {% include '_layout/jssettings.html' %}
+  {% include '_layout/jssettings.html' %}
   {% block headjs %}{% endblock headjs %}
 </head>
 
-
-
-
-</head>
 <body {% block ngApp %}ng-app="fpgApp"{% endblock ngApp %}>
 {% block body %}
-<div class="wrapper">
-  {% block header %}
-  {% include "_layout/header.html" %}
-  {% endblock header %}
+  <div class="wrapper">
+    {% block header %}
+      {% include "_layout/header.html" %}
+    {% endblock header %}
 
-  {% block content %}
-  {% block sub-nav %}{% endblock sub-nav %}
+    {% block content %}
+      {% block sub-nav %}{% endblock sub-nav %}
 
-  <!-- Partial content comes in here -->
-  <div ui-view>
-    {% block main-container %}
-    {% endblock main-container %}
+      <!-- Partial content comes in here -->
+      <div ui-view>
+        {% block main-container %}
+        {% endblock main-container %}
+      </div>
+
+    {% endblock content %}
   </div>
-
-  {% endblock content %}
-</div>
-<div class="push"></div>
+  <div class="push"></div>
 {% endblock body %}
 
 {% block footer %}
