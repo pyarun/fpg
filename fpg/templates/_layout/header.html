@@ -33,10 +33,11 @@
             </a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="">Profile</a></li>
-              <li><a href="">Logout</a></li>
+               {% endverbatim %}
+              <li><a href="{% url 'auth_logout' %}">Logout</a></li>
             </ul>
           </li>
-          {% endverbatim %}
+
 
         </ul>
 
