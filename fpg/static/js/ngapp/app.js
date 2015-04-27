@@ -20,6 +20,8 @@ organicApp.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "Restangu
 
       RestangularProvider.setBaseUrl('/api/v1');
       RestangularProvider.setRequestSuffix("/");
+      $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+      $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
     //As a convention in web applications, Ajax requests shall send the HTTP-Header
       $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -57,18 +59,18 @@ organicApp.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "Restangu
         url: '/register',
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'auth/register.html';
-        }
+        },controller: "RegisterCtrl"
       }).state('forgot_password', {
         url: '/forgot_password',
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'auth/forgot_password.html';
-        }
+        },controller: "passwordCtrl"
       }).state('reset_password', {
         url: '/reset_password',
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'auth/reset_password.html';
         }
-      });
+      }).state('email_confirm',{url:'/email_confirm'});
 
 }]);
 

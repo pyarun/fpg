@@ -59,8 +59,9 @@ INSTALLED_APPS = (
     'djangular',
     'rest_framework.authtoken',
     'rest_auth',
-    # 'allauth',
-    # 'allauth.account',
+    'registration',
+    'allauth',
+    'allauth.account',
     # 'rest_auth.registration',
 
     #custom apps
@@ -216,10 +217,35 @@ ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window; you may, of course, u
 
 LOGIN_REDIRECT_URL = '/'
 
+
 AUTH_USER_MODEL = 'auth.User'
 
 
 REST_SESSION_LOGIN = True
+
+
+
+
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
+
+
+
+
+
+SITE_ID = 1
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.TokenAuthentication',
+    ),
+
+}
+
 
 try:
     from local_settings import *

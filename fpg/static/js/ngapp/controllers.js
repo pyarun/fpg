@@ -69,11 +69,11 @@ controllers.controller("passwordCtrl", ["$scope", "$rootScope", "$log", "toastr"
          var csrf = $cookies['csrftoken'];
 
          $log.debug($scope.resetModel);
-        $http.post(djangoUrl.reverse('rest_password_reset'), $scope.resetModel).success(function(response){
+         $http.post(djangoUrl.reverse('rest_password_reset'), $scope.resetModel).success(function(response){
 
 
+          toastr.success(_.values(response));
 
-          $state.go("home")
 
         }).error(function(response){
 
@@ -94,13 +94,10 @@ controllers.controller("RegisterCtrl", ["$scope", "$rootScope", "$log", "toastr"
   function($scope, $rootScope, $log, toastr, djangoUrl, $http, $state, currentUserService,$cookies){
 
     $scope.register = function(){
-      alert("helllo");
-      var csrf = $cookies['csrftoken'];
-      if($scope.registerForm.$valid){
-         var csrf = $cookies['csrftoken'];
+    if($scope.registerForm.$valid){
 
          $log.debug($scope.registerModel);
-        $http.post(djangoUrl.reverse('rest_register'), $scope.registerModel).success(function(response){
+         $http.post(djangoUrl.reverse('rest_register'), $scope.registerModel).success(function(response){
 
 
          toastr.success("Email is sent to : "+response.email);
@@ -108,7 +105,7 @@ controllers.controller("RegisterCtrl", ["$scope", "$rootScope", "$log", "toastr"
 
         }).error(function(response){
 
-       toastr.error(response.email[0]);
+       toastr.error(response[Object.keys(response)[0]]);
         });
 
       }else{
