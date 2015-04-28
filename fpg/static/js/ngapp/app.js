@@ -83,6 +83,15 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
         data:{
           requireLogin:true
         }
+      }).state('club', {
+        url: '/club',
+        templateUrl: function ($stateParams) {
+          return SETTINGS.TEMPLATE_DIR + 'my-clubs.html';
+        },
+        controller : 'MyClubsCtrl',
+        data:{
+          requireLogin:true
+        }
       });
 
 }]);

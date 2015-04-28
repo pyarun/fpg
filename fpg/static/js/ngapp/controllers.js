@@ -5,7 +5,11 @@ controllers.controller("ProfileCtrl", ["$scope", "$log" ,"$rootScope", "currentU
 
   function ($scope, $log, $rootScope, currentUserService) {
 
-//    debugger;
+//    CountryService.list().then(function(response){
+//    $scope.countryList = response;
+//
+//    });
+
     $scope.save = function (object, form) {
       /**
        * Get list from service and store it in objectList
@@ -52,4 +56,24 @@ controllers.controller("LoginCtrl", ["$scope", "$rootScope", "$log", "toastr", "
 
     }
 
+}]);
+
+
+controllers.controller("MyClubsCtrl", ["$scope", "clubService", "$log", "toastr","$rootScope",
+    function ($scope, clubService, $log, toastr, $rootScope) {
+    $scope.queryParams = {owner:$rootScope.currentUser.id};
+    $scope.objectList = [];
+
+
+    $scope.loadData = function () {
+        /**
+         * Get list from service and store it in objectList
+         */
+        return clubService.list($scope.queryParams).then(function (response) {
+            $scope.objectList = response;
+            $log.debug($scope.objectList);
+        });
+    };
+
+    $scope.loadData();
 }]);

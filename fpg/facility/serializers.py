@@ -16,6 +16,28 @@ class ClubSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'owner', 'address', 'contact_number', 'description')
 
 
+    def update(self, instance, validated_data):
+        """
+        This function is overidden to allow nested writable serialization
+        """
+
+        address = validated_data.pop('address')
+
+        # Save address
+        for attr, value in address.iteritems():
+            setattr(instance.address, attr, value)
+        instance.address.save()
+
+
+        # save rest fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        user = super(ClubSerializer, self).update(instance, validated_data)
+        return user
+
+
+
 class ResourceSerializer(serializers.ModelSerializer):
     """
         For create, update, delete, list resources.
@@ -38,15 +60,13 @@ class ResourceSerializer(serializers.ModelSerializer):
                      'description': club.description,
                      'address': {
                          'id': club.address.id,
-                         'country': club.address.locality.state.country.name,
-                         'state': club.address.locality.state.name,
-                         'raw': club.address.raw,
-                         'route': club.address.route,
-                         'locality': club.address.locality.name,
-                         'postal_code': club.address.locality.postal_code,
+                         'country': club.address.country,
+                         'state': club.address.state,
+                         'lane1':club.address.lane1,
+                         'lane2':club.address.lane2,
+                         'area':club.address.area,
                          'latitude': club.address.latitude,
                          'longitude': club.address.longitude,
-
                      }
         }
         return club_dict

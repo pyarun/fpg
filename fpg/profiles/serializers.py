@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from address.models import Address
 
 from profiles.models import UserProfile
+from utils.models import Address
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -15,15 +15,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
         Serializer for user-profile
     """
     address = AddressSerializer(required=False)
-    address_detail = serializers.SerializerMethodField('get_detail_address')
 
     class Meta():
         model = UserProfile
         fields = (
-            'id', 'contact_number', 'about_me', 'address', 'address_detail')
-
-    def get_detail_address(self, obj):
-        return obj.address.as_dict()
+            'id', 'contact_number', 'about_me', 'address', )
 
     def _set_user_info(self, profile, user_data):
         user = profile.user
@@ -105,25 +101,24 @@ class CurrentUserSerializer(BaseUserSerializer):
         """
         This function is overidden to allow nested writable serialization
         """
-        # import ipdb; ipdb.set_trace()
-        profile_dict = None
-        if validated_data.has_key('profile'):
-            profile_dict = validated_data.pop('profile')
+        profiledict = validated_data.pop('profile')
+        address = profiledict.pop('address')
+
+        # Save address
+        for attr, value in address.iteritems():
+            setattr(instance.profile.address, attr, value)
+        instance.profile.address.save()
+
+        # save userprofile
+        for attr, value in profiledict.iteritems():
+            if attr == 'user':
+                value = instance
+            setattr(instance.profile, attr, value)
+        instance.profile.save()
+
+        # save rest fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
 
         user = super(CurrentUserSerializer, self).update(instance, validated_data)
-
-        if profile_dict:
-            prof_serializer = UserProfileSerializer(user.profile, data=profile_dict, partial=True)
-            if prof_serializer.is_valid():
-                prof_serializer.save()
-
         return user
-
-
-# class CountrySerializer(serializers.ModelSerializer):
-#     """
-#
-#     """
-#     class Meta:
-#         model = Country
-#         fields = ('name', 'code')
