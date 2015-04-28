@@ -17,10 +17,13 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
     function ($stateProvider, $urlRouterProvider, SETTINGS, RestangularProvider, toastrConfig,
         $httpProvider) {
 
-      $urlRouterProvider.otherwise('home');
+    $locationProvider.html5Mode(true);
+    $urlRouterProvider.otherwise('home');
 
-      RestangularProvider.setBaseUrl('/api/v1');
-      RestangularProvider.setRequestSuffix("/");
+    RestangularProvider.setBaseUrl('/api/v1');
+    RestangularProvider.setRequestSuffix("/");
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
     //As a convention in web applications, Ajax requests shall send the HTTP-Header
       $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -97,24 +100,23 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
 
 
 
-
-
 fpg.run(["$rootScope", "SETTINGS", "currentUserService", "$state",
   function ($rootScope, SETTINGS, currentUserService, $state) {
-  //Add settings in $rootScope so that they can be directly accessed in HTML
-  $rootScope.SETTINGS = SETTINGS;
+    //Add settings in $rootScope so that they can be directly accessed in HTML
+    $rootScope.SETTINGS = SETTINGS;
 
 
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-    var requireLogin = toState.data.requireLogin;
-    if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
-      event.preventDefault();
-      // get me a login modal!
-      currentUserService.promise().then(function(response){
-        console.log(response)
-        return $state.go(toState.name, toParams);
-      });
-    }
-  });
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+      var requireLogin = toState.data.requireLogin;
+      if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
+        event.preventDefault();
+        // get me a login modal!
+        currentUserService.promise().then(function (response) {
+          console.log(response)
+          return $state.go(toState.name, toParams);
+        });
+      }
+    });
 
-}]);
+  }
+]);

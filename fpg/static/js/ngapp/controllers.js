@@ -30,26 +30,29 @@ controllers.controller("ProfileCtrl", ["$scope", "$log" ,"$rootScope", "currentU
   }]);
 
 controllers.controller("LoginCtrl", ["$scope", "$rootScope", "$log", "toastr", "djangoUrl", "$http", "$state",
-    "currentUserService",
-  function($scope, $rootScope, $log, toastr, djangoUrl, $http, $state, currentUserService){
-    $scope.login = function(){
+  "currentUserService",
+  function ($scope, $rootScope, $log, toastr, djangoUrl, $http, $state, currentUserService) {
+    $scope.login = function () {
 
-      if($scope.loginForm.$valid){
+      if ($scope.loginForm.$valid) {
 
         $log.debug($scope.loginModel);
-        $http.post(djangoUrl.reverse('rest_login'), $scope.loginModel).success(function(response){
-          currentUserService.setKey(response.key);
-          currentUserService.promise().then(function(response){
-            $rootScope.currentUser=response;
+        $http.post(djangoUrl.reverse('rest_login'), $scope.loginModel).success(function (response) {
+          var key = response.key;
+
+          currentUserService.promise().then(function (response) {
+//            $rootScope.currentUser=response;
+            $rootScope.currentUser.setKey(key);
+            $log.info($rootScope.currentUser);
           });
 
           $state.go("home")
 
-        }).error(function(response){
+        }).error(function (response) {
           alert(_.values(response));
         });
 
-      }else{
+      } else {
         alert("error");
       }
     }
