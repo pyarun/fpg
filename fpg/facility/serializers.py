@@ -2,13 +2,13 @@ from rest_framework import serializers
 
 from facility.models import Club, Resource, Booking
 from profiles.serializers import AddressSerializer
-from utils.models import Sports
+from utils.models import Sports, Address
 
 
 class ClubSerializer(serializers.ModelSerializer):
-    '''
+    """
         User can create, update, list and delete Clubs
-    '''
+    """
     address = AddressSerializer()
 
     class Meta:
@@ -16,11 +16,20 @@ class ClubSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'owner', 'address', 'contact_number', 'description')
 
 
+    def create(self, validated_data):
+        """
+        This function is overridden to allow nested writable serialization
+        """
+        address = validated_data.pop('address')
+        address_obj = Address.objects.create(**address)
+        validated_data['address'] = address_obj
+        club = super(ClubSerializer, self).create(validated_data)
+        return club
+
     def update(self, instance, validated_data):
         """
-        This function is overidden to allow nested writable serialization
+        This function is overridden to allow nested writable serialization
         """
-
         address = validated_data.pop('address')
 
         # Save address
@@ -28,14 +37,12 @@ class ClubSerializer(serializers.ModelSerializer):
             setattr(instance.address, attr, value)
         instance.address.save()
 
-
         # save rest fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
         user = super(ClubSerializer, self).update(instance, validated_data)
         return user
-
 
 
 class ResourceSerializer(serializers.ModelSerializer):

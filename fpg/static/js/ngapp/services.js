@@ -70,10 +70,6 @@ services.service("currentUserService", ["Restangular", "$log", "$q", "$cookies",
 services.service('clubService', ['Restangular', '$cookies', function (Restangular, $cookies) {
     var _db = Restangular.service("club");
     Restangular.extendModel('clubs', function(model){
-        model.getFullAddress = function(){
-            return (
-                model.club_address.state + ', '+ model.club_address.country +'.' );
-        };
         model.edit=false;
         return model;
     });
@@ -81,6 +77,56 @@ services.service('clubService', ['Restangular', '$cookies', function (Restangula
         list: function (queryParams) {
             queryParams = queryParams || {};
             return _db.getList(queryParams);
+        },
+        save: function (item) {
+            if (item.id) {
+                return item.save({}, {
+                    "X-CSRFToken": $cookies['csrftoken']
+                });
+            }
+            else {
+                return _db.post(item, {}, {
+                    "X-CSRFToken": $cookies['csrftoken']
+                });
+            }
+        },
+        remove: function(item){
+            debugger;
+           return item.remove({}, {
+
+                "X-CSRFToken": $cookies['csrftoken']
+            });
         }
     }
 }]);
+
+
+services.service("confirmBox", ["SETTINGS", "$modal",
+    function (SETTINGS, $modal) {
+        return {
+            pop: function (callback) {
+                $modal.open({
+                    templateUrl: SETTINGS.TEMPLATE_DIR + 'confirm-modal.html',
+                    controller: ["$scope", "$modalInstance", "okFunc",
+                        function ($scope, $modalInstance, okFunc) {
+
+                            $scope.action = function () {
+                                $modalInstance.close("ok");
+                                okFunc();
+                            };
+                            $scope.cancel = function () {
+                                $modalInstance.dismiss('cancel');
+                            };
+
+                        }],
+                    size: "sm",
+                    resolve: {
+                        okFunc: function () {
+                            return callback;
+                        }
+                    }
+                });
+
+            }
+        };
+    }]);

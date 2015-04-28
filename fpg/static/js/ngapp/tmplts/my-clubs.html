@@ -20,7 +20,7 @@
                 <h4 class=""><strong>My Clubs</strong></h4>
               </div>
               <div class="col-sm-2">
-                <button class="pull-right btn btn-primary btn-sm" ng-click="addNew()">Add Club</button>
+                <button class="pull-right btn btn-primary btn-sm" ng-click="addClub()">Add Club</button>
               </div>
                 </div>
             </div>
@@ -31,7 +31,6 @@
                     {{club.name}}
                   </accordion-heading>
                     <div class="row" ng-show="!club.edit">
-
                 <dl class="dl-horizontal">
                     <dt>
                         <span class="glyphicon glyphicon-user">
@@ -131,7 +130,7 @@
                       <div class="form-group" ng-class="{'has-error':editForm.description.$error.required && (!editForm.desc.$pristine || editForm.showFormErrors)}">
                         <label for="description">Description</label>
                         <textarea name="description" class="form-control" ng-model="club.description"
-                                  placeholder="Description" required></textarea>
+                                  placeholder="Description" ></textarea>
                       </div>
                       <div class="form-group" ng-class="{'has-error':editForm.contact.$error.required && (!editForm.contact.$pristine || editForm.showFormErrors)}">
                         <label for="contact">Contact Number</label>

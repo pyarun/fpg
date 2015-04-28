@@ -6,6 +6,7 @@ var fpg = angular.module("fpgApp", ["ui.router", "ui.bootstrap", "restangular", 
     "fpgApp.controllers", 'fpgApp.services'
 ]);
 
+
 fpg.constant("SETTINGS", {
   "STATIC_URL": djsettings.STATIC_URL,
   "TEMPLATE_DIR": djsettings.STATIC_URL + 'js/ngapp/tmplts/'
@@ -32,12 +33,10 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
         }
       });
 
-
-
       angular.extend(toastrConfig, {
         closeButton: true,
         timeOut: 2000,
-        positionClass: 'toast-position'
+        positionClass: 'toast-top-right'
       });
 
 

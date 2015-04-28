@@ -52,15 +52,13 @@ controllers.controller("LoginCtrl", ["$scope", "$rootScope", "$log", "toastr", "
       }else{
         alert("error");
       }
-
-
     }
 
 }]);
 
 
-controllers.controller("MyClubsCtrl", ["$scope", "clubService", "$log", "toastr","$rootScope",
-    function ($scope, clubService, $log, toastr, $rootScope) {
+controllers.controller("MyClubsCtrl", ["$scope", "clubService", "$log", "toastr","$rootScope","confirmBox",
+    function ($scope, clubService, $log, toastr, $rootScope, confirmBox) {
     $scope.queryParams = {owner:$rootScope.currentUser.id};
     $scope.objectList = [];
 
@@ -72,6 +70,51 @@ controllers.controller("MyClubsCtrl", ["$scope", "clubService", "$log", "toastr"
         return clubService.list($scope.queryParams).then(function (response) {
             $scope.objectList = response;
             $log.debug($scope.objectList);
+        });
+    };
+
+    $scope.save = function(object, form){
+        if(form.$valid){
+            clubService.save(object).then(function (response) {
+                angular.copy(response, object);
+                object.edit = false;
+                toastr.success('Saved Successfully');
+            })
+        }
+        else{
+            form.showFormErrors = true;
+        }
+    }
+
+    $scope.addClub = function () {
+        var newClub= {
+            "owner": $rootScope.currentUser.id,
+            "name": "new club",
+            "description": "",
+            "contact_number": "",
+            "address": {
+                "line1": "",
+                "line2": "",
+                "area": "",
+                "city": "",
+                "state": "",
+                "country": "",
+                "latitude": null,
+                "longitude": null
+            }
+        };
+        $scope.objectList.push(newClub);
+        newClub.edit = true;
+    };
+
+    $scope.remove = function(item){
+        confirmBox.pop(function(){
+            clubService.remove(item).then(function(){
+               $scope.objectList = _.without($scope.objectList, item);
+               toastr.success('Deleted')
+            },function(){
+                toastr.error('Error while deleting.');
+            });
         });
     };
 
