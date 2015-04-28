@@ -1,3 +1,4 @@
+from address.models import Address
 from rest_framework import serializers
 
 from facility.models import Club, Resource, Booking
@@ -14,6 +15,35 @@ class ClubSerializer(serializers.ModelSerializer):
         model = Club
         fields = ('id', 'name', 'owner', 'address', 'contact_number', 'description')
 
+    def create(self, validated_data):
+        """
+        This function is overidden to allow nested writable serialization
+        """
+        import ipdb;ipdb.set_trace()
+        addrdict = validated_data.pop('address')
+        addrobj = Address.objects.create(**addrdict)
+        validated_data['address'] = addrobj
+        club = super(ClubSerializer, self).create(validated_data)
+        return club
+
+
+    def update(self, instance, validated_data):
+        '''
+        Overridden to allow nested writable serialization
+        '''
+        addrdict = validated_data.pop('address')
+
+        # Save inner address object
+        for attr, value in addrdict.items():
+            setattr(instance.address, attr, value)
+        instance.address.save()
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        club = super(ClubSerializer, self).update(instance, validated_data)
+        return club
+
 
 class ResourceSerializer(serializers.ModelSerializer):
     """
@@ -23,27 +53,27 @@ class ResourceSerializer(serializers.ModelSerializer):
     sport_details = serializers.SerializerMethodField('sport_info')
     class Meta:
         model = Resource
-        fields = ('id', 'name', 'type', 'club', 'club_details', 'open_time', 'close_time', 'fee', 'sport', 'sport_details', 'photo',
-                  'status', 'description')
+        fields = ('id', 'name', 'type', 'club', 'club_details', 'open_time', 'close_time',
+                  'fee', 'sport', 'sport_details', 'photo', 'status', 'description')
 
     def club_info(self, obj):
-        club_object = obj.club
+        club = obj.club
 
-        club_dict = {   'id': club_object.id,
-                        'name': club_object.name,
-                        'owner': club_object.owner.get_full_name(),
-                        'contact_number':club_object.contact_number,
-                        'description':club_object.description,
+        club_dict = {   'id': club.id,
+                        'name': club.name,
+                        'owner': club.owner.get_full_name(),
+                        'contact_number':club.contact_number,
+                        'description':club.description,
                         'address': {
-                            'id': club_object.address.id,
-                            'country': club_object.address.locality.state.country.name,
-                            'state':club_object.address.locality.state.name,
-                            'raw': club_object.address.raw,
-                            'route': club_object.address.route,
-                            'locality':club_object.address.locality.name,
-                            'postal_code': club_object.address.locality.postal_code,
-                            'latitude': club_object.address.latitude,
-                            'longitude': club_object.address.longitude,
+                            'id': club.address.id,
+                            'country': club.address.locality.state.country.name,
+                            'state':club.address.locality.state.name,
+                            'raw': club.address.raw,
+                            'route': club.address.route,
+                            'locality':club.address.locality.name,
+                            'postal_code': club.address.locality.postal_code,
+                            'latitude': club.address.latitude,
+                            'longitude': club.address.longitude,
 
                         }
         }
@@ -51,13 +81,14 @@ class ResourceSerializer(serializers.ModelSerializer):
 
 
     def sport_info(selfn, obj):
-        sport_object = obj.sport
+        sport = obj.sport
         sport_dict = {
-                        'id': sport_object.id,
-                        'name':sport_object.name,
-                        'description': sport_object.description
+                        'id': sport.id,
+                        'name':sport.name,
+                        'description': sport.description
         }
         return sport_dict
+
 
 
 class BookingSerializer(serializers.ModelSerializer):
@@ -68,7 +99,8 @@ class BookingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Booking
-        fields = ('id', 'user', 'title', 'date', 'start_time', 'end_time', 'resource', 'resource_details' )
+        fields = ('id', 'user', 'title', 'date', 'start_time', 'end_time', 'resource',
+                  'resource_details' )
 
 
     def resource_info(self, obj):
@@ -81,7 +113,6 @@ class BookingSerializer(serializers.ModelSerializer):
             'close_time': resource.close_time,
             'status': resource.status,
             'sport': resource.sport.name,
-            'photo': resource.photo.url,
             'fee': resource.fee,
             'club': resource.club.id
         }

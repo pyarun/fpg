@@ -40,7 +40,6 @@ class TestApiUser(APITestCase):
     """
         Test case for user end point
     """
-
     def setUp(self):
         # self.user = create_superadmin()
         credentials = {'username': 'admin@admin.com', "password": "admin"}
@@ -56,7 +55,6 @@ class TestApiUser(APITestCase):
         user_id = UserProfile.objects.all()[0].id
         data = {
             'contact_number': '9899898',
-            'area': 'kothrud',
             'about_me': 'cool'
         }
 
