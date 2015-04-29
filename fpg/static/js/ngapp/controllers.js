@@ -32,7 +32,7 @@ controllers.controller("ProfileCtrl", ["$scope", "$log" , "currentUserService", 
 controllers.controller("LoginCtrl", ["$scope", "$rootScope", "$log", "toastr", "djangoUrl", "$http", "$state",
     "currentUserService","$cookies",
   function($scope, $rootScope, $log, toastr, djangoUrl, $http, $state, currentUserService,$cookies){
-
+    $scope.googleLoginLink = djangoUrl.reverse('google_login');
     $scope.login = function(){
       if($scope.loginForm.$valid){
 
