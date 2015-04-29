@@ -97,7 +97,6 @@ services.service('clubService', ['Restangular', '$cookies', function (Restangula
             }
         },
         remove: function(item){
-            debugger;
            return item.remove({}, {
 
                 "X-CSRFToken": $cookies['csrftoken']

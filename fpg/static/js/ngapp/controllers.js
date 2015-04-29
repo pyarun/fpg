@@ -70,6 +70,7 @@ controllers.controller("MyClubsCtrl", ["$scope", "clubService", "$log", "toastr"
         /**
          * Get list from service and store it in objectList
          */
+        $scope.newClubCreated = false;
         return clubService.list($scope.queryParams).then(function (response) {
             $scope.objectList = response;
             $log.debug($scope.objectList);
@@ -82,33 +83,45 @@ controllers.controller("MyClubsCtrl", ["$scope", "clubService", "$log", "toastr"
                 angular.copy(response, object);
                 object.edit = false;
                 toastr.success('Saved Successfully');
+                $scope.newClubCreated = false
             })
         }
         else{
             form.showFormErrors = true;
         }
+
+
+    }
+
+    $scope.clubRemove = function(club){
+        $scope.newClubCreated = false
+        $scope.objectList = _.without($scope.objectList, club)
+
     }
 
     $scope.addClub = function () {
-        var newClub= {
-            "owner": $rootScope.currentUser.id,
-            "name": "new club",
-            "description": "",
-            "contact_number": "",
-            "address": {
-                "line1": "",
-                "line2": "",
-                "area": "",
-                "city": "",
-                "state": "",
-                "country": "",
-                "latitude": null,
-                "longitude": null
-            }
-        };
-        $scope.objectList.push(newClub);
-        newClub.edit = true;
-    };
+        if($scope.newClubCreated == false) {
+            $scope.newClubCreated = true
+            var newClub = {
+                "owner": $rootScope.currentUser.id,
+                "name": "new club",
+                "description": "",
+                "contact_number": "",
+                "address": {
+                    "line1": "",
+                    "line2": "",
+                    "area": "",
+                    "city": "",
+                    "state": "",
+                    "country": "",
+                    "latitude": null,
+                    "longitude": null
+                }
+            };
+            $scope.objectList.push(newClub);
+            newClub.edit = true;
+        }
+       };
 
     $scope.remove = function(item){
         confirmBox.pop(function(){
