@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
     dependencies = [
         ('utils', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('address', '__first__'),
     ]
 
     operations = [
@@ -34,7 +33,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=100)),
                 ('contact_number', models.CharField(max_length=12)),
                 ('description', models.TextField(null=True, blank=True)),
-                ('address', models.OneToOneField(to='address.Address')),
+                ('address', models.OneToOneField(to='utils.Address')),
                 ('owner', models.ForeignKey(help_text=b'Owner of the club', to=settings.AUTH_USER_MODEL)),
             ],
             options={

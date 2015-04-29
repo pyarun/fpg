@@ -66,7 +66,6 @@ INSTALLED_APPS = (
     #custom apps
     'profiles',
     'utils',
-    'address',
     'facility',
 
 
@@ -220,6 +219,12 @@ AUTH_USER_MODEL = 'auth.User'
 
 
 REST_SESSION_LOGIN = True
+
+REST_FRAMEWORK = {
+   'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
+}
+
+
 
 try:
     from local_settings import *

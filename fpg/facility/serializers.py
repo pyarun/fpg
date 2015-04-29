@@ -1,8 +1,8 @@
-from address.models import Address
 from rest_framework import serializers
 
 from facility.models import Club, Resource, Booking
 from profiles.serializers import AddressSerializer
+from utils.models import Sports, Address
 
 
 class ClubSerializer(serializers.ModelSerializer):
@@ -45,6 +45,35 @@ class ClubSerializer(serializers.ModelSerializer):
         return club
 
 
+    def create(self, validated_data):
+        """
+        This function is overridden to allow nested writable serialization
+        """
+        address = validated_data.pop('address')
+        address_obj = Address.objects.create(**address)
+        validated_data['address'] = address_obj
+        club = super(ClubSerializer, self).create(validated_data)
+        return club
+
+    def update(self, instance, validated_data):
+        """
+        This function is overridden to allow nested writable serialization
+        """
+        address = validated_data.pop('address')
+
+        # Save address
+        for attr, value in address.iteritems():
+            setattr(instance.address, attr, value)
+        instance.address.save()
+
+        # save rest fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        user = super(ClubSerializer, self).update(instance, validated_data)
+        return user
+
+
 class ResourceSerializer(serializers.ModelSerializer):
     """
         For create, update, delete, list resources.
@@ -59,23 +88,21 @@ class ResourceSerializer(serializers.ModelSerializer):
     def club_info(self, obj):
         club = obj.club
 
-        club_dict = {   'id': club.id,
-                        'name': club.name,
-                        'owner': club.owner.get_full_name(),
-                        'contact_number':club.contact_number,
-                        'description':club.description,
-                        'address': {
-                            'id': club.address.id,
-                            'country': club.address.locality.state.country.name,
-                            'state':club.address.locality.state.name,
-                            'raw': club.address.raw,
-                            'route': club.address.route,
-                            'locality':club.address.locality.name,
-                            'postal_code': club.address.locality.postal_code,
-                            'latitude': club.address.latitude,
-                            'longitude': club.address.longitude,
-
-                        }
+        club_dict = {'id': club.id,
+                     'name': club.name,
+                     'owner': club.owner.get_full_name(),
+                     'contact_number': club.contact_number,
+                     'description': club.description,
+                     'address': {
+                         'id': club.address.id,
+                         'country': club.address.country,
+                         'state': club.address.state,
+                         'lane1':club.address.lane1,
+                         'lane2':club.address.lane2,
+                         'area':club.address.area,
+                         'latitude': club.address.latitude,
+                         'longitude': club.address.longitude,
+                     }
         }
         return club_dict
 
@@ -117,4 +144,3 @@ class BookingSerializer(serializers.ModelSerializer):
             'club': resource.club.id
         }
         return resource_dict
-

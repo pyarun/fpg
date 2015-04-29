@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from address.models import Address
 
 from profiles.models import UserProfile
+from utils.models import Address
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -14,20 +14,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
     """
         Serializer for user-profile
     """
-    first_name = serializers.CharField(source='user.first_name')
-    last_name = serializers.CharField(source='user.last_name')
-    email = serializers.CharField(source='user.email')
-    address = AddressSerializer()
-    address_detail = serializers.SerializerMethodField('get_detail_address')
+    address = AddressSerializer(required=False)
 
     class Meta():
         model = UserProfile
         fields = (
-            'id', 'first_name', 'last_name', 'email', 'contact_number',
-            'about_me', 'address', 'address_detail')
-
-    def get_detail_address(self, obj):
-        return obj.address.as_dict()
+            'id', 'contact_number', 'about_me', 'address', )
 
     def _set_user_info(self, profile, user_data):
         user = profile.user
@@ -55,18 +47,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
         '''
         Overridden to allow nested writable serialization
         '''
-        addrdict = validated_data.pop('address')
+        addrdict = None
+        if validated_data.has_key("address"):
+            addrdict = validated_data.pop('address')
 
-        # Save inner address object
-        for attr, value in addrdict.items():
-            setattr(instance.address, attr, value)
-        instance.address.save()
+        profile = super(UserProfileSerializer, self).update(instance, validated_data)
 
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
+        if addrdict:
+            add_serializer = AddressSerializer(profile.address, addrdict, partial=True)
+            if add_serializer.is_valid():
+                add_serializer.save()
 
-        user = super(UserProfileSerializer, self).update(instance, validated_data)
-        return user
+        return profile
 
 
 class BaseUserSerializer(serializers.ModelSerializer):
@@ -98,8 +90,35 @@ class CurrentUserSerializer(BaseUserSerializer):
     """
         for data to be sent for current logged in user
     """
-    userprofile = UserProfileSerializer(read_only=True)
+    profile = UserProfileSerializer()
 
     class Meta(BaseUserSerializer.Meta):
-        fields = ('id', 'first_name', 'last_name', 'full_name', 'email', 'userprofile')
+        fields = ('id', 'first_name', 'last_name', 'full_name', 'email', 'profile')
         read_only_fields = ( 'email',)
+
+
+    def update(self, instance, validated_data):
+        """
+        This function is overidden to allow nested writable serialization
+        """
+        profiledict = validated_data.pop('profile')
+        address = profiledict.pop('address')
+
+        # Save address
+        for attr, value in address.iteritems():
+            setattr(instance.profile.address, attr, value)
+        instance.profile.address.save()
+
+        # save userprofile
+        for attr, value in profiledict.iteritems():
+            if attr == 'user':
+                value = instance
+            setattr(instance.profile, attr, value)
+        instance.profile.save()
+
+        # save rest fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        user = super(CurrentUserSerializer, self).update(instance, validated_data)
+        return user

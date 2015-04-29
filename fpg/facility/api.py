@@ -1,8 +1,8 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 
 from facility.models import Club, Resource, Booking
 from facility.serializers import ClubSerializer, ResourceSerializer, BookingSerializer
-
+from rest_framework.viewsets import GenericViewSet
 
 class ClubView(viewsets.ModelViewSet):
     """
@@ -10,8 +10,12 @@ class ClubView(viewsets.ModelViewSet):
     """
     model = Club
     serializer_class = ClubSerializer
-    queryset = Club.objects.all()
+    # queryset = Club.objects.all()
+    filter_fields = ('id' ,'owner')
+    filter_backends = viewsets.ModelViewSet.filter_backends
 
+    def get_queryset(self):
+        return Club.objects.all()
 
 class ResourceView(viewsets.ModelViewSet):
     """

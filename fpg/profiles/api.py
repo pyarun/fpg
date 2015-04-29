@@ -1,3 +1,4 @@
+# from address.models import Country
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -29,7 +30,7 @@ class UserProfileViewSet(viewsets.mixins.RetrieveModelMixin,
                          viewsets.mixins.ListModelMixin,
                          viewsets.GenericViewSet):
     """
-        User profile view to list, update, retrive the user profiles
+        User profile view to list, update, retrieve the user profiles
     """
     serializer_class = UserProfileSerializer
     model = UserProfile
@@ -44,21 +45,23 @@ class CurrentUserViewSet(viewsets.mixins.RetrieveModelMixin,
                          viewsets.mixins.UpdateModelMixin,
                          viewsets.mixins.ListModelMixin,
                          viewsets.GenericViewSet):
+    """
+        To perform retrieve,update, list current user
+    """
     model = User
     serializer_class = CurrentUserSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self, queryset=None):
-        return self.request.user
+       return self.request.user
 
     def list(self, request, *args, **kwargs):
         return self.retrieve(request)
 
-    def pre_save(self, obj):
-        if self.request.DATA.has_key("password") and self.request.DATA["password"]:
-            obj.set_password(self.request.DATA["password"])
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        return super(CurrentUserViewSet, self).update(request, *args, **kwargs)
 
-        # CurrentUserViewSet.pre_save(self, obj)
 
-    #add a additional view to allow password reset
-    # def reset_password(self):
+
+
