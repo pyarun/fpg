@@ -2,57 +2,56 @@
 //starting point of angular application
 // all the angular configurations will be maintained here
 var fpg = angular.module("fpgApp", ["ui.router", "ui.bootstrap", "restangular", "ngCookies", "toastr",
-   "ng.django.urls",
-    "fpgApp.controllers", 'fpgApp.services'
+  "ng.django.urls",
+   "fpgApp.controllers", 'fpgApp.services'
 ]);
 
 
 fpg.constant("SETTINGS", {
-  "STATIC_URL": djsettings.STATIC_URL,
-  "TEMPLATE_DIR": djsettings.STATIC_URL + 'js/ngapp/tmplts/'
+ "STATIC_URL": djsettings.STATIC_URL,
+ "TEMPLATE_DIR": djsettings.STATIC_URL + 'js/ngapp/tmplts/'
 });
 
 fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProvider", "toastrConfig",
-    "$httpProvider","$locationProvider",
-    function ($stateProvider, $urlRouterProvider, SETTINGS, RestangularProvider, toastrConfig,
-        $httpProvider,$locationProvider) {
+   "$httpProvider","$locationProvider",
+   function ($stateProvider, $urlRouterProvider, SETTINGS, RestangularProvider, toastrConfig,
+       $httpProvider,$locationProvider) {
 
 //    $locationProvider.html5Mode(true);
-    $urlRouterProvider.otherwise('home');
+   $urlRouterProvider.otherwise('home');
+
+   RestangularProvider.setBaseUrl('/api/v1');
+   RestangularProvider.setRequestSuffix("/");
+   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+   //As a convention in web applications, Ajax requests shall send the HTTP-Header
+     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+     //Error pages
+     $stateProvider.state('page403', {
+       url: '/forbidden',
+       templateUrl: function ($stateParams) {
+         return SETTINGS.TEMPLATE_DIR + 'err/403.html';
+       }
+     });
+
+     angular.extend(toastrConfig, {
+       closeButton: true,
+       timeOut: 2000,
+       positionClass: 'toast-top-right'
+     });
 
 
-      RestangularProvider.setBaseUrl('/api/v1');
-      RestangularProvider.setRequestSuffix("/");
-      $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-      $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-
-    //As a convention in web applications, Ajax requests shall send the HTTP-Header
-      $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-      //Error pages
-      $stateProvider.state('page403', {
-        url: '/forbidden',
-        templateUrl: function ($stateParams) {
-          return SETTINGS.TEMPLATE_DIR + 'err/403.html';
-        }
-      });
-
-      angular.extend(toastrConfig, {
-        closeButton: true,
-        timeOut: 2000,
-        positionClass: 'toast-top-right'
-      });
-
-
-      //Routes
-      $stateProvider.state('home', {
-        url: '/home',
-        templateUrl: function ($stateParams) {
-          return SETTINGS.TEMPLATE_DIR + 'home.html';
-        },
-        data:{
-          requireLogin:true
-        }
+     //Routes
+     $stateProvider.state('home', {
+       url: '/home',
+       templateUrl: function ($stateParams) {
+         return SETTINGS.TEMPLATE_DIR + 'home.html';
+       },
+       data:{
+         requireLogin:true
+       }
       }).state('login', {
         url: '/login',
         templateUrl: function ($stateParams) {
@@ -102,7 +101,6 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
 
 
 }]);
-
 
 
 fpg.run(["$rootScope", "SETTINGS", "currentUserService", "$state",

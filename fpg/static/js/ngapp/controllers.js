@@ -34,6 +34,8 @@ controllers.controller("LoginCtrl", ["$scope", "$rootScope", "$log", "toastr", "
     "currentUserService","$cookies",
   function($scope, $rootScope, $log, toastr, djangoUrl, $http, $state, currentUserService,$cookies){
     $scope.googleLoginLink = djangoUrl.reverse('google_login');
+    $scope.facebookLoginLink = djangoUrl.reverse('facebook_login');
+
     $scope.login = function(){
       if($scope.loginForm.$valid){
 

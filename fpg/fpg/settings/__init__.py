@@ -62,7 +62,7 @@ INSTALLED_APPS = (
     'registration',
     'allauth',
     'allauth.account',
-
+    'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount',
     # 'rest_auth.registration',
@@ -88,6 +88,15 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'fpg.urls'
+
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook':
+       {'SCOPE': ['email', 'public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'METHOD': 'oauth2',
+        'LOCALE_FUNC': 'path.to.callable',
+        'VERIFIED_EMAIL': True,
+        'VERSION': 'v2.3'}}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
