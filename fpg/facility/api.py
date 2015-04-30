@@ -24,6 +24,8 @@ class ResourceView(viewsets.ModelViewSet):
     model = Resource
     serializer_class = ResourceSerializer
     queryset = Resource.objects.all()
+    filter_fields = ('id' ,'club')
+    filter_backends = viewsets.ModelViewSet.filter_backends
 
 
 class BookingView(viewsets.ModelViewSet):
