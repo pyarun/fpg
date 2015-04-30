@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from address.models import Address
-from utils.models import Sports
+from utils.models import Sports, Address
 
 
 class Club(models.Model):

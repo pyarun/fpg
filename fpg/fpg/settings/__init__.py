@@ -70,7 +70,6 @@ INSTALLED_APPS = (
     #custom apps
     'profiles',
     'utils',
-    'address',
     'facility',
 
 
@@ -248,6 +247,7 @@ REST_SESSION_LOGIN = True
 
 
 
+
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
 
 
@@ -267,6 +267,7 @@ REST_FRAMEWORK = {
     ),
 
 }
+
 
 
 try:

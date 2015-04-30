@@ -14,6 +14,8 @@ router.register(r"club", ClubView, base_name="club")
 router.register(r"resource", ResourceView, base_name="resource")
 router.register(r"booking", BookingView, base_name="booking")
 router.register(r"sport", SportsView, base_name="sport")
+# router.register(r"country", CountryViewSet, base_name="country")
+
 
 urlpatterns = router.urls
 
