@@ -9,9 +9,10 @@ $.backstretch([
 // "/static/img/football_10-wallpaper-1280x1024.jpg",
 //    "/static/img/football.jpg",
     "static/img/female.jpg",
+    "static/img/tennis.jpg",
     "static/img/wembley.jpg",
     "static/img/golf.jpg",
     "static/img/billiards.jpg",
-    "static/img/unnamed.jpg"
+    "static/img/unnamed.png"
 
   ], {duration: 3000, fade: 750});
