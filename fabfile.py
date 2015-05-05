@@ -174,7 +174,7 @@ def generate_local_settings():
 def generate_apache_vh():
     print "Generating apache virtualhost config."
     template_path = os.path.join(env.project_root, "templates", "apache_vh.conf")
-    file_path = os.path.join(djapp(), "apache", env.django_project_name + ".conf")
+    file_path = os.path.join(djapp(), "apache", env.project_name + ".conf")
     apache_conf_dir = os.path.join(djapp(), "apache")
 
     run('mkdir {} -p'.format(apache_conf_dir))
@@ -299,7 +299,7 @@ def sync_app():
 
 def touch():
     """ touch wsgi file to trigger reload """
-    wsgi_path = os.path.join(djapp(), env.django_project_name, 'wsgi.py')
+    wsgi_path = os.path.join(djapp(), env.project_name, 'wsgi.py')
     run('touch {}'.format(wsgi_path))
 
 
