@@ -1,0 +1,80 @@
+#This is the configuration file for bootstraping the application
+# All the fields are mandatory fields
+
+
+############Fabric config#############
+####if you are setting the application on the same machine where you are editing this file, 
+#### keep below setting as local 
+environment = 'local'
+host_string = localhost
+
+### github git repo
+#git_repo = git@github.com:numericorg/lms_vertis.git
+### vertis git repo
+git_repo = git@gitlab.vertis:pyTeam/find_playground.git
+
+
+#### name of the project
+project_name = find_playground
+#### django project name
+django_project_name = fpg
+## path of the git clone dir. /home/arun/workspace/organic
+project_root = /home/vertis/pyapps/find_playground
+## root of the venv folder. ex: /home/vertis/pyenvs
+venv_root = /home/vertis/pyenvs
+## name of the venv folder. ex organic
+venv_name = find_playground
+
+
+####sudo user for the machine on which application is being setup
+#### you can comment this and pass them as command line argument
+#### for example: fab command_name -u user -p password
+#user =
+#password =
+
+
+################django settings######################
+db_name = fpg
+db_user = postgres
+db_passwd = postgres
+
+# admins = (('Arun', 'arun@vertisinfotech.com'))
+admins = (('Arun', 'arun@vertisinfotech.com'))
+
+#managers = (('Arun', 'arun@vertisinfotech.com'))
+managers = (('Arun', 'arun@vertisinfotech.com'))
+
+#allowed_hosts = ["organic.pydevs.vertis"]
+allowed_hosts = ["*"]
+
+#### EMAIL Server config
+email_host = smtp.gmail.com
+email_port = 587
+email_host_user = noreply@vertisinfotech.com
+email_host_passwd = somepassword
+email_default_from_email = noreply@vertisinfotech.com
+
+
+static_url = /static/find_playground/
+static_root = /var/www/static/find_playground/
+
+media_url = /media/
+media_root = /home/vertis/pyapps/find_playground/media
+
+time_zone = Asia/Calcutta
+
+email_subject_prefix = [FPG-PYDEVS]
+
+################apache config################
+apache_server_name = fpg.pydevs.vertis
+apache_server_alias = fpg.pydevs.vertis
+apache_server_admin_email = arun@vertisinfotech.com
+
+
+################celery config################
+## root log dir. ex: /home/vertis/pyapps/organic/logs
+log_dir = /home/vertis/pyapps/find_playground/logs
+
+# celery log dir. ex:  /home/vertis/pyapps/organic/celery
+celery_log_dir = /home/vertis/pyapps/find_playground/logs/celery
+
