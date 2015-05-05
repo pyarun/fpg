@@ -5,7 +5,7 @@ from tempfile import NamedTemporaryFile
 
 from fabric.api import env, prefix, run, sudo, task, cd, prompt, get, put
 
-
+#temp
 curr_dir = os.path.abspath(os.path.dirname(__file__))
 
 APTGET_PACKAGES = ["pkg-config",
