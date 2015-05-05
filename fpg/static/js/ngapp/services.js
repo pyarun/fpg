@@ -106,6 +106,43 @@ services.service('clubService', ['Restangular', '$cookies', function (Restangula
 }]);
 
 
+
+services.service('resourceService', ['Restangular', '$cookies', function (Restangular, $cookies) {
+    var _db = Restangular.service("resource");
+    Restangular.extendModel('resources', function(model){
+//        model.open_time = new Date(model.open_time)
+//        model.close_time = new Date(model.close_time)
+        model.edit=false;
+        return model;
+    });
+    return{
+        list: function (queryParams) {
+            queryParams = queryParams || {};
+            return _db.getList(queryParams);
+        },
+        save: function (item) {
+            if (item.id) {
+                debugger;
+                return item.save({}, {
+                    "X-CSRFToken": $cookies['csrftoken']
+                });
+            }
+            else {
+                return _db.post(item, {}, {
+                    "X-CSRFToken": $cookies['csrftoken']
+                });
+            }
+        },
+          remove: function(item){
+          return item.remove({}, {
+
+                "X-CSRFToken": $cookies['csrftoken']
+            });
+        }
+    }
+}]);
+
+
 services.service("confirmBox", ["SETTINGS", "$modal",
     function (SETTINGS, $modal) {
         return {
