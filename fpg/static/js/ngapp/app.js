@@ -65,7 +65,11 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
         url: '/register',
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'auth/register.html';
-        },controller: "RegisterCtrl"
+        },
+        controller: "RegisterCtrl",
+        data:{
+              requireLogin:false
+        }
       }).state('forgot_password', {
         url: '/forgot_password',
         templateUrl: function ($stateParams) {
