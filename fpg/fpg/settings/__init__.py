@@ -59,8 +59,12 @@ INSTALLED_APPS = (
     'djangular',
     'rest_framework.authtoken',
     'rest_auth',
-    # 'allauth',
-    # 'allauth.account',
+    'registration',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount',
     # 'rest_auth.registration',
 
     #custom apps
@@ -84,6 +88,15 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'fpg.urls'
+
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook':
+       {'SCOPE': ['email', 'public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'METHOD': 'oauth2',
+        'LOCALE_FUNC': 'path.to.callable',
+        'VERIFIED_EMAIL': True,
+        'VERSION': 'v2.3'}}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -120,6 +133,25 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
 
     'django.contrib.messages.context_processors.messages',
+
+
+     # Required by `allauth` template tags
+    'django.core.context_processors.request',
+
+    # `allauth` specific context processors
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',
+
+
+)
+
+AUTHENTICATION_BACKENDS = (
+
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
 
 )
 
@@ -215,13 +247,34 @@ ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window; you may, of course, u
 
 LOGIN_REDIRECT_URL = '/'
 
+
 AUTH_USER_MODEL = 'auth.User'
 
 
 REST_SESSION_LOGIN = True
 
+
+
+
+
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
+
+
+
+
+
+
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+
 REST_FRAMEWORK = {
-   'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.TokenAuthentication',
+    ),
+
 }
 
 

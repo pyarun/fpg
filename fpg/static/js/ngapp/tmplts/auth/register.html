@@ -9,7 +9,7 @@
     <div class="col-xs-12 col-md-6 col-md-offset-3 ">
       <div class="panel panel-default">
         <div class="panel-body">
-          <form class="form-horizontal ajax-post" role="form" action="{% url 'rest_register' %}">
+          <form class="form-horizontal" role="form" name="registerForm">
             <h1>sign up</h1>
 
 
@@ -20,34 +20,34 @@
                   <div class="form-group">
 
                     <input name="email" type="text" class="form-control" id="email"
-                           placeholder="Email">
+                           placeholder="Email" ng-model="registerModel.email">
 
                   </div>
 
                   <div class="form-group">
 
-                    <input name="username" type="text" class="form-control" id="username"
-                           placeholder="Username">
+                    <input name="username" type="text" class="form-control"
+                           placeholder="Username" ng-model="registerModel.username">
 
                   </div>
 
                   <div class="form-group">
 
-                    <input name="password1" type="password" class="form-control" id="password1"
-                           placeholder="Password">
+                    <input name="password1" type="password" class="form-control"
+                           placeholder="Password" ng-model="registerModel.password1">
 
                   </div>
 
                   <div class="form-group">
 
-                    <input name="password2" type="password" class="form-control" id="password2"
-                           placeholder="Repeat password">
+                    <input name="password2" type="password" class="form-control"
+                           placeholder="Repeat password" ng-model="registerModel.password2">
 
                   </div>
 
                   <div class="form-group">
 
-                    <button type="submit" class="btn btn-default">Sign up</button>
+                    <button type="submit" class="btn btn-default" ng-click="register()">Sign up</button>
 
                   </div>
                   <div class="form-group">
