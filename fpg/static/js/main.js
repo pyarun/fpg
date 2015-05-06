@@ -3,6 +3,14 @@
  * Set up backstretch background wallpaper
 * */
 $.backstretch([
-    "/static/img/football_10-wallpaper-1280x1024.jpg",
-    '/static/img/abstract_playground-wallpaper-1280x720.jpg'
+    djsettings.STATIC_URL + "img/abstract.jpg",
+    djsettings.STATIC_URL + "img/cricket.jpeg",
+    djsettings.STATIC_URL + "img/Baseball.jpg",
+    djsettings.STATIC_URL + "img/female.jpg",
+    djsettings.STATIC_URL + "img/tennis.jpg",
+    djsettings.STATIC_URL + "img/wembley.jpg",
+    djsettings.STATIC_URL + "img/golf.jpg",
+    djsettings.STATIC_URL + "img/billiards.jpg",
+    djsettings.STATIC_URL + "img/unnamed.png"
+
   ], {duration: 3000, fade: 750});

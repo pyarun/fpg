@@ -155,7 +155,6 @@ controllers.controller("MyClubsCtrl", ["$scope", "clubService", "$log", "toastr"
             form.showFormErrors = true;
         }
 
-
     }
 
     $scope.clubRemove = function(club){
@@ -164,29 +163,26 @@ controllers.controller("MyClubsCtrl", ["$scope", "clubService", "$log", "toastr"
 
     }
 
-    $scope.addClub = function () {
-        if($scope.newClubCreated == false) {
-            $scope.newClubCreated = true
-            var newClub = {
-                "owner": $rootScope.currentUser.id,
-                "name": "new club",
-                "description": "",
-                "contact_number": "",
-                "address": {
-                    "line1": "",
-                    "line2": "",
-                    "area": "",
-                    "city": "",
-                    "state": "",
-                    "country": "",
-                    "latitude": null,
-                    "longitude": null
-                }
-            };
-            $scope.objectList.push(newClub);
-            newClub.edit = true;
-        }
-       };
+$scope.addClub = function () {
+        var newClub= {
+            "owner": $rootScope.currentUser.id,
+            "name": "new club",
+            "description": "",
+            "contact_number": "",
+            "address": {
+                "line1": "",
+                "line2": "",
+                "area": "",
+                "city": "",
+                "state": "",
+                "country": "",
+                "latitude": null,
+                "longitude": null
+            }
+        };
+        $scope.objectList.push(newClub);
+        newClub.edit = true;
+   };
 
     $scope.remove = function(item){
         confirmBox.pop(function(){
@@ -198,6 +194,88 @@ controllers.controller("MyClubsCtrl", ["$scope", "clubService", "$log", "toastr"
             });
         });
     };
+
+    $scope.loadData();
+}]);
+
+
+
+
+
+controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", "toastr",
+    "$rootScope","confirmBox","clubService","$stateParams", "$state",
+    function ($scope, resourceService, $log, toastr, $rootScope, confirmBox,clubService,$stateParams,$state) {
+    $scope.queryParams = {club:$stateParams.club};
+    $scope.objectList = [];
+
+    if(!$stateParams.club)
+    {
+        $state.go("club")
+    }
+
+    $scope.club = $stateParams
+
+
+    $scope.loadData = function () {
+        /**
+         * Get list from service and store it in objectList
+         */
+        $scope.newResourceCreated = false;
+        return resourceService.list($scope.queryParams).then(function (response) {
+            $scope.objectList = response;
+            $log.debug($scope.objectList);
+        });
+    };
+
+    $scope.resourceRemove = function(club){
+    $scope.newClubCreated = false
+    $scope.objectList = _.without($scope.objectList, club)
+    $scope.newResourceCreated = false;
+    }
+
+    $scope.save = function(object, form){
+        if(form.$valid){
+            resourceService.save(object).then(function (response) {
+                angular.copy(response, object);
+                object.edit = false;
+                $scope.newResourceCreated = false;
+                toastr.success('Saved Successfully');
+//                $scope.newClubCreated = false
+            })
+        }
+        else{
+            form.showFormErrors = true;
+        }
+    }
+
+    $scope.remove = function(item){
+        confirmBox.pop(function(){
+            resourceService.remove(item).then(function(){
+               $scope.objectList = _.without($scope.objectList, item);
+               toastr.success('Deleted')
+            },function(){
+                toastr.error('Error while deleting.');
+            });
+        });
+    };
+
+    $scope.addResource = function () {
+            if($scope.newResourceCreated == false) {
+                $scope.newResourceCreated = true;
+                var newResource = {
+                    "name": "new resource",
+                    "description": "",
+                    "club": 1,
+                    "open_time": "",
+                    "close_time": "",
+                    "fee": 0,
+                    sport: 1,
+                    "status": ""
+                };
+                $scope.objectList.push(newResource);
+                newResource.edit = true;
+            }
+       };
 
     $scope.loadData();
 }]);

@@ -5,7 +5,7 @@ from tempfile import NamedTemporaryFile
 
 from fabric.api import env, prefix, run, sudo, task, cd, prompt, get, put
 
-
+#temp
 curr_dir = os.path.abspath(os.path.dirname(__file__))
 
 APTGET_PACKAGES = ["pkg-config",
@@ -291,7 +291,7 @@ def sync_app():
     print "sync application"
     with cd(djapp()):
         with prefix(venv()):
-            run("python manage.py syncdb")
+            run("python manage.py makemigrations")
             run("python manage.py migrate")
             run("python manage.py collectstatic  --noinput")
             # run("python manage.py compress --force")

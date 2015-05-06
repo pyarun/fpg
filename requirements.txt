@@ -1,12 +1,8 @@
 Django==1.7.7
-<<<<<<< HEAD
-django-address==0.1.1
 django-allauth==0.19.1
-=======
 Fabric==1.10.1
 Pillow==2.8.1
 argparse==1.2.1
->>>>>>> 07e302feb852ef48c759a935345f8d800daaee60
 django-angular==0.7.13
 django-countries==3.3
 django-debug-toolbar==1.3.0
@@ -22,14 +18,12 @@ django-rest-auth==0.3.4
 django-sortedm2m==0.9.4
 djangorestframework==3.1.1
 ecdsa==0.13
-Fabric==1.10.1
 ipdb==0.8
 ipython==3.1.0
 mock==1.0.1
 oauthlib==0.7.2
 iso3166==0.7
 paramiko==1.15.2
-Pillow==2.8.1
 ply==3.4
 psycopg2==2.6
 pycrypto==2.6.1
