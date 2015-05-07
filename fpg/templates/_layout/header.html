@@ -25,29 +25,21 @@
           </li>
 
           {% verbatim %}
-          <li><a ui-sref="home" >Home</a></li>
-          <li ng-if="! currentUser.is_authenticated"><a ui-sref="login" >Login</a></li>
-          <li ng-if="currentUser.is_authenticated" class="dropdown" dropdown on-toggle="toggled(open)">
-            <a type="button" class="dropdown-toggle" dropdown-toggle ng-disabled="disabled">
-              {{ currentUser.full_name || currentUser.email }}<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
+            <li><a ui-sref="home" >Home</a></li>
+            <li ng-if="! currentUser.is_authenticated"><a ui-sref="login" >Login</a></li>
+            <li ng-if="currentUser.is_authenticated" class="dropdown" dropdown on-toggle="toggled(open)">
+              <a type="button" class="dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+                {{ currentUser.full_name || currentUser.email }}<span class="caret"></span>
+              </a>
+          <ul class="dropdown-menu" role="menu">
 
-              <li><a href="">Profile</a></li>
-               {% endverbatim %}
-              <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-
-
-                <li><a ui-sref="profile" href="#/profile">My Profile</a></li>
-                <li><a ui-sref="club" href="#/club">Club</a></li>
-              <li><a href="">Logout</a></li>
-
-            </ul>
+          {% endverbatim %}
+           <li><a ui-sref="profile" href="#/profile">My Profile</a></li>
+           <li><a ui-sref="club" href="#/club">Club</a></li>
+           <li><a href="{% url "rest_framework:logout"  %}">Logout</a></li>
+           </ul>
           </li>
-
-
         </ul>
-
       </div>
     </div>
   </div>

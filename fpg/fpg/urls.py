@@ -14,16 +14,18 @@ urlpatterns = patterns('',
 
                        # apis
                        url(r"^api/v1/", include('fpg.api_urls')),
+
+                       # login and password reset urls
                        url(r'^api/v1/auth/', include('rest_auth.urls')),
+                       # registration url
+                       url(r'^api/v1/auth/', include('rest_auth.registration.urls')),
 
                        # url(r'^api/v1/auth/registration/', include('rest_auth.registration.urls')),
                        url(r'^account-confirm-email/(?P<key>\w+)/$', ConfirmEmailView.as_view(template_name= '_layout/base.html'),
                        name='account_confirm_email'),
 
                        # social auth
-
-                       url(r'^accounts/profile/$', RedirectView.as_view(url='/'),
-                        name='profile-redirect'),
+                       url(r'^accounts/profile/$', RedirectView.as_view(url='/'), name='profile-redirect'),
 
                        # home
                        url(r'^$', HomeTemplateView.as_view(), name="home"),

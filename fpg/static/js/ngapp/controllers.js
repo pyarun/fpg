@@ -39,14 +39,12 @@ controllers.controller("LoginCtrl", ["$scope", "$rootScope", "$log", "toastr", "
     $scope.login = function(){
       if($scope.loginForm.$valid){
 
-
-
         $log.debug($scope.loginModel);
         $http.post(djangoUrl.reverse('rest_login'), $scope.loginModel).success(function (response) {
           var key = response.key;
 
           currentUserService.promise().then(function (response) {
-//            $rootScope.currentUser=response;
+            $rootScope.currentUser=response;
             $rootScope.currentUser.setKey(key);
             $log.info($rootScope.currentUser);
           });
@@ -109,7 +107,8 @@ controllers.controller("RegisterCtrl", ["$scope", "$rootScope", "$log", "toastr"
 
 
          toastr.success("Email is sent to : "+response.email);
-
+         $state.go("conformation_link")
+         $scope.reset();
 
         }).error(function(response){
 
@@ -121,6 +120,10 @@ controllers.controller("RegisterCtrl", ["$scope", "$rootScope", "$log", "toastr"
 
       }
     }
+
+    $scope.reset = function(){
+        $scope.registerModel = {};
+    };
 
 }]);
 
@@ -197,9 +200,6 @@ $scope.addClub = function () {
 
     $scope.loadData();
 }]);
-
-
-
 
 
 controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", "toastr",

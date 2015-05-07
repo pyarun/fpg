@@ -80,7 +80,14 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'auth/reset_password.html';
         }
-
+      }).state('conformation_link', {
+       url: '/conformation_link',
+       templateUrl: function ($stateParams) {
+         return SETTINGS.TEMPLATE_DIR + 'auth/conformation_link.html';
+       },
+       data:{
+         requireLogin:false
+       }
       }).state('email_confirm',{
           url:'/email_confirm'
       }).state('profile', {
