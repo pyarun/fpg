@@ -2,56 +2,56 @@
 //starting point of angular application
 // all the angular configurations will be maintained here
 var fpg = angular.module("fpgApp", ["ui.router", "ui.bootstrap", "restangular", "ngCookies", "toastr",
-   "ng.django.urls",
-    "fpgApp.controllers", 'fpgApp.services'
+  "ng.django.urls",
+   "fpgApp.controllers", 'fpgApp.services'
 ]);
 
 
 fpg.constant("SETTINGS", {
-  "STATIC_URL": djsettings.STATIC_URL,
-  "TEMPLATE_DIR": djsettings.STATIC_URL + 'js/ngapp/tmplts/'
+ "STATIC_URL": djsettings.STATIC_URL,
+ "TEMPLATE_DIR": djsettings.STATIC_URL + 'js/ngapp/tmplts/'
 });
 
 fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProvider", "toastrConfig",
-    "$httpProvider","$locationProvider",
-    function ($stateProvider, $urlRouterProvider, SETTINGS, RestangularProvider, toastrConfig,
-        $httpProvider,$locationProvider) {
+   "$httpProvider","$locationProvider",
+   function ($stateProvider, $urlRouterProvider, SETTINGS, RestangularProvider, toastrConfig,
+       $httpProvider,$locationProvider) {
 
 //    $locationProvider.html5Mode(true);
-    $urlRouterProvider.otherwise('home');
+   $urlRouterProvider.otherwise('home');
 
-    RestangularProvider.setBaseUrl('/api/v1');
-    RestangularProvider.setRequestSuffix("/");
-    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+   RestangularProvider.setBaseUrl('/api/v1');
+   RestangularProvider.setRequestSuffix("/");
+   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
-    //As a convention in web applications, Ajax requests shall send the HTTP-Header
-      $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+   //As a convention in web applications, Ajax requests shall send the HTTP-Header
+     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-      //Error pages
-      $stateProvider.state('page403', {
-        url: '/forbidden',
-        templateUrl: function ($stateParams) {
-          return SETTINGS.TEMPLATE_DIR + 'err/403.html';
-        }
-      });
+     //Error pages
+     $stateProvider.state('page403', {
+       url: '/forbidden',
+       templateUrl: function ($stateParams) {
+         return SETTINGS.TEMPLATE_DIR + 'err/403.html';
+       }
+     });
 
-      angular.extend(toastrConfig, {
-        closeButton: true,
-        timeOut: 2000,
-        positionClass: 'toast-top-right'
-      });
+     angular.extend(toastrConfig, {
+       closeButton: true,
+       timeOut: 2000,
+       positionClass: 'toast-top-right'
+     });
 
 
-      //Routes
-      $stateProvider.state('home', {
-        url: '/home',
-        templateUrl: function ($stateParams) {
-          return SETTINGS.TEMPLATE_DIR + 'home.html';
-        },
-        data:{
-          requireLogin:true
-        }
+     //Routes
+     $stateProvider.state('home', {
+       url: '/home',
+       templateUrl: function ($stateParams) {
+         return SETTINGS.TEMPLATE_DIR + 'home.html';
+       },
+       data:{
+         requireLogin:true
+       }
       }).state('login', {
         url: '/login',
         templateUrl: function ($stateParams) {
@@ -65,17 +65,31 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
         url: '/register',
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'auth/register.html';
+        },
+        controller: "RegisterCtrl",
+        data:{
+              requireLogin:false
         }
       }).state('forgot_password', {
         url: '/forgot_password',
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'auth/forgot_password.html';
-        }
+        },controller: "passwordCtrl"
       }).state('reset_password', {
         url: '/reset_password',
         templateUrl: function ($stateParams) {
           return SETTINGS.TEMPLATE_DIR + 'auth/reset_password.html';
         }
+      }).state('conformation_link', {
+       url: '/conformation_link',
+       templateUrl: function ($stateParams) {
+         return SETTINGS.TEMPLATE_DIR + 'auth/conformation_link.html';
+       },
+       data:{
+         requireLogin:false
+       }
+      }).state('email_confirm',{
+          url:'/email_confirm'
       }).state('profile', {
         url: '/profile',
         templateUrl: function ($stateParams) {
@@ -109,8 +123,8 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
         }
       });
 
-}]);
 
+}]);
 
 
 fpg.run(["$rootScope", "SETTINGS", "currentUserService", "$state",

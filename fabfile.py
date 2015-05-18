@@ -299,7 +299,7 @@ def sync_app():
 
 def touch():
     """ touch wsgi file to trigger reload """
-    wsgi_path = os.path.join(djapp(), env.project_name, 'wsgi.py')
+    wsgi_path = os.path.join(djapp(), env.django_project_name, 'wsgi.py')
     run('touch {}'.format(wsgi_path))
 
 

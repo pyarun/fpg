@@ -85,9 +85,13 @@
 
 <!-- site js -->
 <script src="{{ STATIC_URL }}js/main.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bower_components/angular-toastr/dist/angular-toastr.css" />
 
 <!-- angular js stuff -->
 <script src="{{ STATIC_URL }}bower_components/angular/angular.js"></script>
+<script
+    src="{{ STATIC_URL }}bower_components/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
+
 <script
     src="{{ STATIC_URL }}bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 <script
@@ -95,8 +99,7 @@
 <script src="{{ STATIC_URL }}bower_components/restangular/dist/restangular.min.js"></script>
 <script src="{{ STATIC_URL }}bower_components/lodash/lodash.min.js"></script>
 <script src="{{ STATIC_URL }}bower_components/angular-cookies/angular-cookies.min.js"></script>
-<script
-    src="{{ STATIC_URL }}bower_components/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
+
 
 {#plugins#}
 <script src="{{ STATIC_URL }}djangular/js/django-angular.js"></script>
