@@ -49,6 +49,7 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
        templateUrl: function ($stateParams) {
          return SETTINGS.TEMPLATE_DIR + 'home.html';
        },
+        controller: "HomeCtrl",
        data:{
          requireLogin:true
        }
@@ -121,9 +122,18 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
         data:{
           requireLogin:true
         }
+      }).state('result', {
+        url: '/result',
+        templateUrl: function ($stateParams) {
+          return SETTINGS.TEMPLATE_DIR + 'search_results.html';
+
+        },
+        controller : 'searchCtrl',
+        data:{
+          requireLogin:true
+        }
+
       });
-
-
 }]);
 
 

@@ -61,18 +61,6 @@ services.service("currentUserService", ["Restangular", "$log", "$q", "$cookies",
   }]);
 
 
-//services.service("CountryService",['Restangular', '$cookies', function(Restangular, $cookies){
-// var url="country/";
-// var _db=Restangular.all(url);
-// return {
-//   list: function(params){
-//       params = params || {};
-//       return _db.getList(params);
-//   }
-// };
-//}]);
-
-
 services.service('clubService', ['Restangular', '$cookies', function (Restangular, $cookies) {
     var _db = Restangular.service("club");
     Restangular.extendModel('clubs', function(model){
@@ -122,7 +110,6 @@ services.service('resourceService', ['Restangular', '$cookies', function (Restan
         },
         save: function (item) {
             if (item.id) {
-                debugger;
                 return item.save({}, {
                     "X-CSRFToken": $cookies['csrftoken']
                 });
@@ -172,3 +159,61 @@ services.service("confirmBox", ["SETTINGS", "$modal",
             }
         };
     }]);
+
+
+services.service("SportService",['Restangular', '$cookies', function(Restangular, $cookies){
+var url="sport";
+var _db=Restangular.all(url);
+return {
+   list: function(params){
+       params = params || {};
+       return _db.getList(params);
+   }
+};
+}]);
+
+
+services.service("AddressService",['Restangular', '$cookies', function(Restangular, $cookies){
+var url="address";
+var _db=Restangular.all(url);
+return {
+   list: function(params){
+       params = params || {};
+       return _db.getList(params);
+   }
+};
+}]);
+
+services.service('productService', function() {
+  var productList = [];
+
+  var addProduct = function(newObj) {
+      productList.push(newObj);
+  };
+
+  var getProducts = function(){
+      return productList;
+  };
+
+  return {
+    addProduct: addProduct,
+    getProducts: getProducts
+  };
+
+});
+
+
+services.service('BookingService', ['Restangular', '$cookies', function (Restangular, $cookies) {
+    var _db = Restangular.service("booking");
+    Restangular.extendModel('booking', function(model){
+        model.edit=false;
+        return model;
+    });
+    return{
+        list: function (queryParams) {
+            queryParams = queryParams || {};
+            return _db.getList(queryParams);
+        }
+
+    }
+}]);

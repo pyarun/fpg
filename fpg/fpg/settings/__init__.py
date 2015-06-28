@@ -278,6 +278,12 @@ REST_FRAMEWORK = {
 }
 
 
+REST_FRAMEWORK = {
+   'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+   'DATE_INPUT_FORMATS': ('iso-8601', '%m/%d/%Y'),
+   'DATE_FORMAT': '%m/%d/%Y',
+   'DATETIME_INPUT_FORMATS': ('iso-8601', '%m/%d/%Y'),
+}
 
 try:
     from local_settings import *

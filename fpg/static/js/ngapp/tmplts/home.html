@@ -9,35 +9,43 @@
           <small>Lorem Ipsum</small>
 
           <form class="form-inline">
-            <div class="">
+            <div>
               <div class="form-group">
                 <label class="sr-only">Choose Your Location</label>
-                <select id="location" name="location" class="form-control">
-                  <option value="1">Pune</option>
+                <select id="location" name="location" class="form-control" ng-model="filterform.address">
+                  <option ng-repeat="address in AddressList" value="{{address.id}}">{{ address.area }}, {{ address.city }} </option>
                 </select>
               </div>
               <div class="form-group">
                 <label class="sr-only">Choose Your Sport</label>
-                <select id="sport" name="sport" class="form-control">
-                  <option value="1">list</option>
-                  <option value="2">of </option>
-                  <option value="3">sports</option>
+                <select id="sport" name="sport" class="form-control" ng-model="filterform.sport">
+                  <option ng-repeat="sport in SportList" value="{{sport.id}}">{{ sport.name }} </option>
+
                 </select>
               </div>
 
               <div class="form-group">
                 <label class="sr-only">Choose Date</label>
-                <div class="pos-rel">
-                <input type="text" name="datepicker" id="datepicker" placeholder="Choose Date" class="form-control hasDatepicker">
-                  <span id="dp" class="date"></span>
-                </div>
+
+             <div class="col-md-12">
+             <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup is-open="opened"
+                     min-date="'{{ mindate }}'" max-date="'{{ maxdate }}'" datepicker-options="dateOptions"
+                     date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"
+                     ng-model="filterform.date" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+              </div>
               </div>
 
-              <button style="display2:none"  class="btn btn-primary" type="button">SEARCH</button>
+                <a class="btn btn-primary" style="display2:none" ng-click="loadData()" >SEARCH</a>
 
             </div>
 
           </form>
+
 
         </div>
       </div>

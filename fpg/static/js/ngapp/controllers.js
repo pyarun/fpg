@@ -62,6 +62,9 @@ controllers.controller("LoginCtrl", ["$scope", "$rootScope", "$log", "toastr", "
 
     }
 
+
+
+
 }]);
 
 controllers.controller("passwordCtrl", ["$scope", "$rootScope", "$log", "toastr", "djangoUrl", "$http", "$state",
@@ -185,6 +188,7 @@ $scope.addClub = function () {
         };
         $scope.objectList.push(newClub);
         newClub.edit = true;
+        $scope.newClubCreated = true
    };
 
     $scope.remove = function(item){
@@ -203,8 +207,8 @@ $scope.addClub = function () {
 
 
 controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", "toastr",
-    "$rootScope","confirmBox","clubService","$stateParams", "$state",
-    function ($scope, resourceService, $log, toastr, $rootScope, confirmBox,clubService,$stateParams,$state) {
+    "$rootScope","confirmBox","clubService","$stateParams", "$state","AddressService",
+    function ($scope, resourceService, $log, toastr, $rootScope, confirmBox,clubService,$stateParams,$state,AddressService) {
     $scope.queryParams = {club:$stateParams.club};
     $scope.objectList = [];
 
@@ -214,6 +218,21 @@ controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", 
     }
 
     $scope.club = $stateParams
+
+
+
+    $scope.loadAddress = function () {
+        /**
+         * Get list from service and store it in objectList
+         */
+        return AddressService.list().then(function (response) {
+            $scope.AddressList = response;
+//            debugger;
+            $log.debug($scope.objectList);
+        });
+    };
+
+    $scope.loadAddress();
 
 
     $scope.loadData = function () {
@@ -278,4 +297,193 @@ controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", 
        };
 
     $scope.loadData();
+}]);
+
+
+controllers.controller("HomeCtrl", ["$scope", "$log", "$rootScope", "$state", "AddressService", "SportService",
+    "resourceService", "productService","$location", "$window",
+    function ($scope, $log, $rootScope, $state, AddressService, SportService, resourceService, productService, $location, $window) {
+
+    $scope.filterform = {};
+    $scope.AddressList = [];
+    $scope.SportList = [];
+    $scope.objectList = [];
+    $scope.resource_filter_list = [];
+        $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
+
+      };
+
+
+    $scope.loadAddress = function () {
+        /**
+         * Get list from service and store it in objectList
+         */
+        return AddressService.list().then(function (response) {
+            $scope.AddressList = response;
+        });
+    };
+
+    $scope.loadSports = function () {
+        /**
+         * Get list from service and store it in objectList
+         */
+        return SportService.list().then(function (response) {
+            $scope.SportList = response;
+        });
+    };
+
+    $scope.loadAddress();
+    $scope.loadSports();
+
+    var min_date = new Date();
+    $scope.mindate = min_date.getFullYear() + '-' + (min_date.getMonth()+1) + '-' + min_date.getDate();
+
+        function addDays(theDate, days) {
+        return new Date(theDate.getTime() + days*24*60*60*1000);
+    }
+
+     var max_date = addDays(new Date(), 30);
+     $scope.maxdate =  max_date.getFullYear() + '-' + (max_date.getMonth()+1)  + '-' + max_date.getDate()
+
+
+   $scope.loadData = function () {
+        /**
+         * Get list from service and store it in objectList
+         */
+
+       var request_date =  $scope.filterform.date
+       $scope.filterform.date = (request_date.getMonth()+1) + '/' + request_date.getDate()+ '/' + request_date.getFullYear()
+
+       return resourceService.list($scope.filterform).then(function (response) {
+           $scope.objectList = response;
+           for(var i = 0; i < $scope.objectList.length; i++)
+           {
+               productService.addProduct($scope.objectList[i])
+           }
+//           $window.location.href = "/#/result"
+           $location.url('result')
+        });
+
+    };
+
+}]);
+
+
+
+controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", "AddressService", "SportService",
+    "resourceService", "productService","BookingService",
+    function ($scope, $log, $rootScope, $state, AddressService, SportService, resourceService, productService,
+              BookingService) {
+
+    $scope.filterform = {};
+    $scope.filterbooking = {};
+    $scope.AddressList = [];
+    $scope.SportList = [];
+    $scope.objectList = [];
+    $scope.bookingDateList = [];
+
+        $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
+      };
+
+        $scope.open1 = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened1 = true;
+
+      };
+
+    $scope.objectList = productService.getProducts();
+
+    $scope.loadAddress = function () {
+        /**
+         * Get list from service and store it in objectList
+         */
+        return AddressService.list().then(function (response) {
+            $scope.AddressList = response;
+        });
+    };
+
+    $scope.loadSports = function () {
+        /**
+         * Get list from service and store it in objectList
+         */
+        return SportService.list().then(function (response) {
+            $scope.SportList = response;
+        });
+    };
+
+    $scope.loadAddress();
+    $scope.loadSports();
+
+    var min_date = new Date();
+    $scope.mindate = min_date.getFullYear() + '-' + (min_date.getMonth()+1) + '-' + min_date.getDate();
+
+        function addDays(theDate, days) {
+        return new Date(theDate.getTime() + days*24*60*60*1000);
+    }
+
+     var max_date = addDays(new Date(), 30);
+     $scope.maxdate =  max_date.getFullYear() + '-' + (max_date.getMonth()+1)  + '-' + max_date.getDate()
+
+
+      $scope.loadData = function () {
+        /**
+         * Get list from service and store it in objectList
+         */
+
+       var request_date =  $scope.filterform.date
+       $scope.filterform.date = (request_date.getMonth()+1) + '/' + request_date.getDate()+ '/' + request_date.getFullYear()
+
+       return resourceService.list($scope.filterform).then(function (response) {
+          $scope.objectList = response;
+
+        });
+    };
+
+
+      $scope.loadSlots = function (resource) {
+        /**
+         * Get list from service and store it in objectList
+         */
+
+       $scope.filterbooking.resource = resource
+       var request_date =  $scope.filterbooking.date
+       $scope.filterbooking.date = (request_date.getMonth()+1) + '/' + request_date.getDate()+ '/' + request_date.getFullYear()
+
+       var date_ot = new Date($scope.filterbooking.date + ", " + resource.open_time)
+       var open_time = date_ot.getTime()
+       var date_ct = new Date($scope.filterbooking.date + ", " + resource.close_time)
+       var close_time = date_ct.getTime()
+
+        for(var i = open_time; i < close_time; i+=3600000)
+        {
+            var orignal_st_time = new Date(i);
+            var start_time = orignal_st_time.toTimeString().split(" ")[0]
+
+            var orignal_ed_time = new Date(i+3600000);
+            var end_time = orignal_ed_time.toTimeString().split(" ")[0]
+            $scope.bookingDateList.push({
+                "start_time": start_time,
+                "end_time": end_time
+            })
+
+        }
+
+
+       return BookingService.list($scope.filterbooking).then(function (response) {
+          $scope.bookingList = response;
+
+        });
+
+    };
+
 }]);
