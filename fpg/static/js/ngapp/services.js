@@ -186,18 +186,25 @@ return {
 
 services.service('productService', function() {
   var productList = [];
+  var filterform = {};
 
-  var addProduct = function(newObj) {
-      productList.push(newObj);
+  var addProduct = function(newObj, filter) {
+//      productList= push(newObj);
+        productList = newObj;
+        filterform = filter;
   };
 
   var getProducts = function(){
       return productList;
   };
+  var getFilter = function () {
+      return filterform;
+  };
 
   return {
     addProduct: addProduct,
-    getProducts: getProducts
+    getProducts: getProducts,
+    getFilter: getFilter
   };
 
 });
@@ -213,6 +220,19 @@ services.service('BookingService', ['Restangular', '$cookies', function (Restang
         list: function (queryParams) {
             queryParams = queryParams || {};
             return _db.getList(queryParams);
+        },
+        save: function (item) {
+            item.date = (item.date.getMonth()+1) + '/' + item.date.getDate()+ '/' + item.date.getFullYear()
+            if (item.id) {
+                return item.save({}, {
+                    "X-CSRFToken": $cookies['csrftoken']
+                });
+            }
+            else {
+                return _db.post(item, {}, {
+                    "X-CSRFToken": $cookies['csrftoken']
+                });
+            }
         }
 
     }

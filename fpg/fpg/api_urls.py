@@ -1,7 +1,7 @@
 from rest_framework import routers
 from django.conf.urls import url, include, patterns
 
-from facility.api import ClubView, ResourceView, BookingView, SlotView
+from facility.api import ClubView, ResourceView, BookingView
 from profiles.api import UserProfileViewSet, CurrentUserViewSet
 from utils.api import SportsView, AddressView
 
@@ -15,10 +15,6 @@ router.register(r"resource", ResourceView, base_name="resource")
 router.register(r"booking", BookingView, base_name="booking")
 router.register(r"sport", SportsView, base_name="sport")
 router.register(r"address", AddressView, base_name="address")
-router.register(r"slot", SlotView, base_name="slot")
-
-# router.register(r"country", CountryViewSet, base_name="country")
-
 
 urlpatterns = router.urls
 

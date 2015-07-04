@@ -135,8 +135,57 @@
             </div>
             <div class="col-lg-6" ng-if="resource.photo ">
                 <img src="{{resource.photo}}" alt="Resource.name" style="width:304px;height:228px">
+            <br>
+            <br>
+            <button class="btn btn-primary " type="button" data-toggle="collapse"
+                    data-target="#slots-view-{{$index}}"
+                    aria-expanded="true" aria-controls="collapseExample">Check Availability
+            </button>
+
             </div>
+
             </div>
+
+
+                <div class="row">
+                    <div class="collapse" id="slots-view-{{$index}}">
+                        <div class="well">
+                <!--<button class="btn btn-sm btn-success" ng-click="open1($event)" >pick date</button>-->
+                <!--<h3>We can use <a href="http://mattlewis92.github.io/angular-bootstrap-calendar/">this</a> pulgin to show slots and bookings</h3>-->
+
+                            <div class="col-md-2">
+                                <p class="input-group">
+                                    <input type="text" class="form-control" datepicker-popup is-open="resource.opened"
+                                           min-date="'{{ mindate }}'" max-date="'{{ maxdate }}'"
+                                           date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"
+                                           ng-model="resource.filterbooking.date"/>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event, resource)"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                                </p>
+                            </div>
+                            <a class="btn btn-success" style="display2:none" ng-click="loadSlots(resource)">GO</a>
+
+
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x: auto">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                    <tr>
+                                        <th ng-class="slot.isBooked?'':'success'" data-ng-click="slotModelBox(slot, resource)"
+                                            ng-repeat="slot in resource.slotList">
+                                            {{slot.start_time.split(':')[0] + ':' + slot.start_time.split(':')[1]}} -
+                                            {{slot.end_time.split(':')[0] + ':' + slot.end_time.split(':')[1]}}
+                                        </th>
+
+                                    <tbody>
+                                </table>
+                                    </div>
+                            </div>
+
+                   </div>
+
 
                 <!-- Edit mode -->
                  <div class="row" ng-show="resource.edit">

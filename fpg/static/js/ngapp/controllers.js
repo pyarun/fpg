@@ -207,8 +207,9 @@ $scope.addClub = function () {
 
 
 controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", "toastr",
-    "$rootScope","confirmBox","clubService","$stateParams", "$state","AddressService",
-    function ($scope, resourceService, $log, toastr, $rootScope, confirmBox,clubService,$stateParams,$state,AddressService) {
+    "$rootScope","confirmBox","clubService","$stateParams", "$state","AddressService","BookingService",
+    function ($scope, resourceService, $log, toastr, $rootScope, confirmBox,clubService,$stateParams,
+              $state,AddressService,BookingService) {
     $scope.queryParams = {club:$stateParams.club};
     $scope.objectList = [];
 
@@ -220,6 +221,13 @@ controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", 
     $scope.club = $stateParams
 
 
+    $scope.open = function($event, resource) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    resource.opened = true;
+
+  };
+
 
     $scope.loadAddress = function () {
         /**
@@ -227,7 +235,6 @@ controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", 
          */
         return AddressService.list().then(function (response) {
             $scope.AddressList = response;
-//            debugger;
             $log.debug($scope.objectList);
         });
     };
@@ -297,6 +304,57 @@ controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", 
        };
 
     $scope.loadData();
+
+       $scope.loadSlots = function (resource) {
+        /**
+         * Get list from service and store it in objectList
+         */
+       resource.slotList = [];
+//       resource.filterbooking = {};
+
+
+       resource.filterbooking.resource = resource
+       var request_date =  resource.filterbooking.date
+       request_date = (request_date.getMonth()+1) + '/' + request_date.getDate()+ '/' + request_date.getFullYear()
+
+       var date_ot = new Date(request_date + ", " + resource.open_time)
+       var open_time = date_ot.getTime()
+       var date_ct = new Date(request_date + ", " + resource.close_time)
+       var close_time = date_ct.getTime()
+
+          BookingService.list({"date":request_date, "resource":resource.id}).then(function (response) {
+          $scope.bookingList = response;
+
+        for(var i = open_time; i < close_time; i+=3600000)
+        {
+            var st_time_date = new Date(i);
+            var start_time = st_time_date.toTimeString().split(" ")[0]
+
+            var end_date_time = new Date(i+3600000);
+            var end_time = end_date_time.toTimeString().split(" ")[0]
+
+            var dict = {
+                "start_time": start_time,
+                "end_time": end_time,
+                "isBooked": false
+            }
+
+            for (var j = 0; j < $scope.bookingList.length; j++)
+            {
+                if($scope.bookingList[j].start_time == start_time && $scope.bookingList[j].end_time == end_time )
+                {
+                     dict.isBooked = true;
+                }
+            }
+
+            resource.slotList.push(dict)
+
+        }
+
+        });
+
+    };
+
 }]);
 
 
@@ -339,15 +397,15 @@ controllers.controller("HomeCtrl", ["$scope", "$log", "$rootScope", "$state", "A
     $scope.loadAddress();
     $scope.loadSports();
 
-    var min_date = new Date();
-    $scope.mindate = min_date.getFullYear() + '-' + (min_date.getMonth()+1) + '-' + min_date.getDate();
+//    var min_date = new Date();
+//    $scope.mindate = min_date.getFullYear() + '-' + (min_date.getMonth()+1) + '-' + min_date.getDate();
 
-        function addDays(theDate, days) {
-        return new Date(theDate.getTime() + days*24*60*60*1000);
-    }
-
-     var max_date = addDays(new Date(), 30);
-     $scope.maxdate =  max_date.getFullYear() + '-' + (max_date.getMonth()+1)  + '-' + max_date.getDate()
+//        function addDays(theDate, days) {
+//        return new Date(theDate.getTime() + days*24*60*60*1000);
+//    }
+//
+//     var max_date = addDays(new Date(), 30);
+//     $scope.maxdate =  max_date.getFullYear() + '-' + (max_date.getMonth()+1)  + '-' + max_date.getDate()
 
 
    $scope.loadData = function () {
@@ -355,15 +413,17 @@ controllers.controller("HomeCtrl", ["$scope", "$log", "$rootScope", "$state", "A
          * Get list from service and store it in objectList
          */
 
-       var request_date =  $scope.filterform.date
-       $scope.filterform.date = (request_date.getMonth()+1) + '/' + request_date.getDate()+ '/' + request_date.getFullYear()
+//       var request_date =  $scope.filterform.date
+//       $scope.filterform.date = (request_date.getMonth()+1) + '/' + request_date.getDate()+ '/' + request_date.getFullYear()
 
        return resourceService.list($scope.filterform).then(function (response) {
            $scope.objectList = response;
-           for(var i = 0; i < $scope.objectList.length; i++)
-           {
-               productService.addProduct($scope.objectList[i])
-           }
+//           for(var i = 0; i < $scope.objectList.length; i++)
+//           {
+//               productService.addProduct($scope.objectList[i])
+//           }
+           productService.addProduct($scope.objectList, $scope.filterform)
+
 //           $window.location.href = "/#/result"
            $location.url('result')
         });
@@ -375,16 +435,15 @@ controllers.controller("HomeCtrl", ["$scope", "$log", "$rootScope", "$state", "A
 
 
 controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", "AddressService", "SportService",
-    "resourceService", "productService","BookingService",
+    "resourceService", "productService","BookingService","$modal","SETTINGS","toastr","$window",
     function ($scope, $log, $rootScope, $state, AddressService, SportService, resourceService, productService,
-              BookingService) {
+              BookingService, $modal, SETTINGS, toastr,$window) {
 
     $scope.filterform = {};
-    $scope.filterbooking = {};
     $scope.AddressList = [];
     $scope.SportList = [];
     $scope.objectList = [];
-    $scope.bookingDateList = [];
+    $scope.bookingList = [];
 
         $scope.open = function($event) {
         $event.preventDefault();
@@ -393,14 +452,13 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
         $scope.opened = true;
       };
 
-        $scope.open1 = function($event) {
+        $scope.open1 = function($event, resource) {
         $event.preventDefault();
         $event.stopPropagation();
-
-        $scope.opened1 = true;
+        resource.opened1 = true;
 
       };
-
+    $scope.filterform = productService.getFilter();
     $scope.objectList = productService.getProducts();
 
     $scope.loadAddress = function () {
@@ -440,11 +498,11 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
          * Get list from service and store it in objectList
          */
 
-       var request_date =  $scope.filterform.date
-       $scope.filterform.date = (request_date.getMonth()+1) + '/' + request_date.getDate()+ '/' + request_date.getFullYear()
+//       var request_date = $scope.filterform.date
+//       $scope.filterform.date = (request_date.getMonth() + 1) + '/' + request_date.getDate() + '/' + request_date.getFullYear()
 
        return resourceService.list($scope.filterform).then(function (response) {
-          $scope.objectList = response;
+       $scope.objectList = response;
 
         });
     };
@@ -454,36 +512,108 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
         /**
          * Get list from service and store it in objectList
          */
+       resource.slotList = [];
+//       resource.filterbooking = {};
 
-       $scope.filterbooking.resource = resource
-       var request_date =  $scope.filterbooking.date
-       $scope.filterbooking.date = (request_date.getMonth()+1) + '/' + request_date.getDate()+ '/' + request_date.getFullYear()
 
-       var date_ot = new Date($scope.filterbooking.date + ", " + resource.open_time)
+       resource.filterbooking.resource = resource
+       var request_date =  resource.filterbooking.date
+       request_date = (request_date.getMonth()+1) + '/' + request_date.getDate()+ '/' + request_date.getFullYear()
+
+       var date_ot = new Date(request_date + ", " + resource.open_time)
        var open_time = date_ot.getTime()
-       var date_ct = new Date($scope.filterbooking.date + ", " + resource.close_time)
+       var date_ct = new Date(request_date + ", " + resource.close_time)
        var close_time = date_ct.getTime()
+
+          BookingService.list({"date":request_date, "resource":resource.id}).then(function (response) {
+          $scope.bookingList = response;
 
         for(var i = open_time; i < close_time; i+=3600000)
         {
-            var orignal_st_time = new Date(i);
-            var start_time = orignal_st_time.toTimeString().split(" ")[0]
+            var st_time_date = new Date(i);
+            var start_time = st_time_date.toTimeString().split(" ")[0]
 
-            var orignal_ed_time = new Date(i+3600000);
-            var end_time = orignal_ed_time.toTimeString().split(" ")[0]
-            $scope.bookingDateList.push({
+            var end_date_time = new Date(i+3600000);
+            var end_time = end_date_time.toTimeString().split(" ")[0]
+
+            var dict = {
                 "start_time": start_time,
-                "end_time": end_time
-            })
+                "end_time": end_time,
+                "isBooked": false
+            }
+
+            for (var j = 0; j < $scope.bookingList.length; j++)
+            {
+                if($scope.bookingList[j].start_time == start_time && $scope.bookingList[j].end_time == end_time )
+                {
+                     dict.isBooked = true;
+                }
+            }
+
+            resource.slotList.push(dict)
 
         }
-
-
-       return BookingService.list($scope.filterbooking).then(function (response) {
-          $scope.bookingList = response;
 
         });
 
     };
 
+
+        $scope.slotModelBox = function (slot, resource) {
+            if(slot.isBooked)
+            {
+                toastr.error("Slot already boooked.");
+                return;
+            }
+            var modalInstance = $modal.open({
+                templateUrl: SETTINGS.TEMPLATE_DIR + 'slot-result.html',
+                controller: slotCtrl,
+                size: "sm",
+                resolve: {
+                    resource: function () {
+                        return resource;
+                    },
+                    slot: function() {
+                        return slot;
+                    }
+
+                }
+
+            });
+            modalInstance.result.then(function(){
+                $scope.loadSlots(resource);
+            })
+        };
+
 }]);
+
+function slotCtrl($scope, $rootScope, resource, slot, BookingService, toastr, $modalInstance,$cookies,$window){
+
+    $window.Stripe.setPublishableKey('pk_test_y5oUXrezhpsYQ4apkZwAO0F4');
+    $scope.CSRF = $cookies['csrftoken']
+    $scope.stripeCallback = function (code, result) {
+        if (result.error) {
+            window.alert('it failed! error: ' + result.error.message);
+        } else {
+            $scope.save(result.id)
+            window.alert('success! token: ' + result.id);
+        }
+    };
+
+    $scope.save = function(token){
+            var newBooking = {
+                "user": $rootScope.currentUser.id,
+                "date": resource.filterbooking.date,
+                "start_time": slot.start_time,
+                "end_time" : slot.end_time,
+                "resource": resource.id,
+                "token": token,
+                "fee": resource.fee
+            }
+            BookingService.save(newBooking).then(function (response) {
+                angular.copy(response, newBooking);
+                toastr.success('Booked Successfully');
+                $modalInstance.close("close");
+            })
+        }
+}

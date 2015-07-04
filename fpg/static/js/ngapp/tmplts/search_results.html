@@ -12,14 +12,6 @@
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="../fpg/static/css/bootstrap-simplex-theme.css" type="text/css">
 
-    <!--&lt;!&ndash; Custom Fonts &ndash;&gt;
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
--->
-    <!-- Plugin CSS -->
-   <!-- <link rel="stylesheet" href="css/animate.min.css" type="text/css">
--->
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../fpg/static/css/custom-theme.css" type="text/css">
     <link rel="stylesheet" href="../fpg/static/css/site.css" type="text/css">
@@ -27,161 +19,251 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
-  <div class="navbar navbar-default navbar-fixed-top">
+<div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-      <div class="navbar-header">
-        <a href="https://bootswatch.com/" class="navbar-brand">Find Playground</a>
-        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      <div class="navbar-collapse collapse" id="navbar-main">
+        <div class="navbar-header">
+            <a href="#/home" class="navbar-brand">Find Playground</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
 
 
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">RAW Page links <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="./landing.html">Landing Page</a></li>
-              <li><a href="#/result">Search Results</a></li>
-              <li><a href="./club.html">Club</a></li>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">RAW
+                        Page links <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="./landing.html">Landing Page</a></li>
+                        <li><a href="#/result">Search Results</a></li>
+                        <li><a href="./club.html">Club</a></li>
+                    </ul>
+                </li>
+                <li><a href="#/home">Home</a></li>
+                <li><a href="#">Login</a></li>
             </ul>
-          </li>
-          <li><a href="#/home" >Home</a></li>
-          <li><a href="#" >Login</a></li>
-        </ul>
-
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-
-    <section>
-      <div class="panel panel-default transparent text-center">
-        <div class='panel-body'>
-          <form class="form-inline">
-            <div class="">
-              <div class="form-group">
-                <label class="sr-only">Choose Your Location</label>
-                <select id="location" name="location" class="form-control" ng-model="filterform.address">
-                  <option ng-repeat="address in AddressList" value="{{address.id}}">{{ address.area }}, {{ address.city }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="sr-only">Choose Your Sport</label>
-               <select id="sport" name="sport" class="form-control" ng-model="filterform.sport">
-                  <option ng-repeat="sport in SportList" value="{{sport.id}}">{{ sport.name }} </option>
-               </select>
-             </div>
-
-              <div class="form-group">
-                <label class="sr-only">Choose Date</label>
-
-             <div class="col-md-12">
-             <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup is-open="opened"
-                     min-date="'{{ mindate }}'" max-date="'{{ maxdate }}'" datepicker-options="dateOptions"
-                     date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"
-                     ng-model="filterform.date" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
-              </div>
-              </div>
-             <a class="btn btn-primary" style="display2:none" ng-click="loadData()">SEARCH</a>
-
-            </div>
-
-          </form>
 
         </div>
-      </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <section>
+        <div class="panel panel-default transparent text-center">
+            <div class='panel-body'>
+                <form class="form-inline">
+                    <div class="">
+                        <div class="form-group">
+                            <select id="location" name="location" class="form-control" ng-model="filterform.address">
+                                <option value="" disabled selected>Choose Your Location</option>
+                                <option ng-selected="filterform.address == address.id" ng-repeat="address in AddressList" value="{{address.id}}">{{ address.area }}, {{
+                                    address.city }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="sport" name="sport" class="form-control" ng-model="filterform.sport">
+                                <option value="" disabled selected>Choose Your Sport</option>
+                                <option ng-selected="filterform.sport == sport.id" ng-repeat="sport in SportList" value="{{sport.id}}">{{ sport.name }}</option>
+                            </select>
+                        </div>
+
+                        <a class="btn btn-primary" style="display2:none" ng-click="loadData()">SEARCH</a>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
     </section>
 
     <section id="search-results">
 
 
- <div class="row well transparent bkg-white" ng-repeat="resource in objectList track by $index">
-        <div class="col-xs-12">
-          <div class="row">
-            <div class='col-sm-9'>
-              <h3>{{resource.name}}</h3><small>{{resource.name}}</small>
-              <p>Description : {{resource.description}}
-              </p>
-            </div>
-            <div class='col-sm-3'>
-              <a href="#" class="thumbnail"><img src="{{resource.photo}}" style="width:250px;height:87px"></a>
-              <button class="btn btn-primary pull-right" type="button" data-toggle="collapse"
-                      data-target="#slots-view-{{$index}}"
-                      aria-expanded="true" aria-controls="collapseExample">Check Availability</button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="collapse" id="slots-view-{{$index}}">
-              <div class="well">
+        <div class="row well transparent bkg-white" ng-repeat="resource in objectList track by $index">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class='col-sm-9'>
+
+
+                        <div class="row ng-scope" ng-show="!club.edit">
+                <dl class="dl-horizontal">
+                    <dd>
+                    <h3>{{resource.club_details.name}}</h3>
+                    </dd>
+                    <dt>
+                        <span class="glyphicon glyphicon-record">
+                        </span>
+
+                      Resource:
+                    </dt>
+                    <dd class="text-capitalize ng-binding">{{resource.name}}</dd>
+
+                <!--<br>-->
+
+                <span class="ng-scope"><strong><dt>
+                    <span class="glyphicon glyphicon-home">
+                    </span>
+                    Address:
+
+                </dt></strong>
+
+                <dd>
+                {{ resource.club_details.address.lane1 ? resource.club_details.address.lane1 + ',' : ''}}
+                {{ resource.club_details.address.lane2 ? resource.club_details.address.lane2 + ',' : ''}}
+                </dd>
+
+                <dd>
+                    {{ resource.club_details.address.area ? resource.club_details.address.area + ',' : '' }}
+                    {{ resource.club_details.address.city ? resource.club_details.address.city + ',': ''}}
+                </dd>
+
+                <dd>{{ resource.club_details.address.state ? resource.club_details.address.state + ',' : ''}}
+                {{ resource.club_details.address.country }}
+
+                    <!--<a href="https://www.google.com/maps/@-{{ currentUser.profile.address.lattitude }},{{ currentUser.profile.address.longitude }},8z">-->
+                      <!--<span class="glyphicon glyphicon-map-marker"></span>-->
+                      <!--Show on map-->
+                    <!--</a>-->
+
+                </dd>
+              </span>
+
+               <!--<br>-->
+
+              <span ng-if="resource.club_details.contact_number"><strong><dt>
+                    <span class="glyphicon glyphicon-phone-alt">
+                    </span>
+                    Contact:
+
+                </dt></strong>
+
+                <dd>{{ resource.club_details.contact_number }}</dd>
+
+              </span>
+
+                <!--<br>-->
+
+                <span ng-if="resource.club_details.contact_number"><strong><dt>
+                <span class="glyphicon glyphicon-usd">
+                </span>
+                Rate per hour:
+
+                </dt></strong>
+
+                <dd>{{ resource.fee }}</dd>
+
+              </span>
+
+                <!--<br>-->
+
+
+              <span ng-if="resource.description"><strong><dt>
+                    <span class="glyphicon glyphicon-comment">
+                    </span>
+                    Description:
+
+                </dt></strong>
+
+                <dd>{{ resource.description }}</dd>
+
+              </span>
+
+              <span ng-if="!resource.description"><strong><dt>
+                    <span class="glyphicon glyphicon-comment">
+                    </span>
+                    Description:
+
+                </dt></strong>
+
+                <dd>Not Available</dd>
+
+              </span>
+              <!--<br>-->
+
+            </dl>
+
+                </div>
+
+                    </div>
+                    <div class='col-sm-3'>
+                        <a href="#" class="thumbnail"><img src="{{resource.photo}}" style="width:250px;height:130px"></a>
+                        <button class="btn btn-primary pull-right" type="button" data-toggle="collapse"
+                                data-target="#slots-view-{{$index}}"
+                                aria-expanded="true" aria-controls="collapseExample">Check Availability
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="collapse" id="slots-view-{{$index}}">
+                        <div class="well">
                 <!--<button class="btn btn-sm btn-success" ng-click="open1($event)" >pick date</button>-->
                 <!--<h3>We can use <a href="http://mattlewis92.github.io/angular-bootstrap-calendar/">this</a> pulgin to show slots and bookings</h3>-->
 
-            <div class="col-md-2">
-            <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup is-open="opened1"
-                     min-date="'{{ mindate }}'" max-date="'{{ maxdate }}'" datepicker-options="dateOptions"
-                     date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"
-                     ng-model="filterbooking.date" />
+                            <div class="col-md-2">
+                                <p class="input-group">
+                                    <input type="text" class="form-control" datepicker-popup is-open="resource.opened1"
+                                           min-date="'{{ mindate }}'" max-date="'{{ maxdate }}'"
+                                           date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"
+                                           ng-model="resource.filterbooking.date"/>
               <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                <button type="button" class="btn btn-default" ng-click="open1($event, resource)"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
               </span>
-            </p>
+                                </p>
+                            </div>
+                            <a class="btn btn-success" style="display2:none" ng-click="loadSlots(resource)">GO</a>
+
+
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x: auto">
+                                <table class="table table-bordered special">
+                                    <tbody>
+                                    <tr>
+                                        <th nowrap ng-class="slot.isBooked?'':'success'" data-ng-click="slotModelBox(slot, resource)"
+                                            ng-repeat="slot in resource.slotList">
+                                            {{slot.start_time.split(':')[0] + ':' + slot.start_time.split(':')[1]}} -
+                                            {{slot.end_time.split(':')[0] + ':' + slot.end_time.split(':')[1]}}
+                                        </th>
+
+                                    <tbody>
+                                </table>
+                                    </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-            <a class="btn btn-success" style="display2:none" ng-click="loadSlots(resource)">GO</a>
-
-
-<div class="bs-example" data-example-id="bordered-table">
-    <table class="table table-bordered">
-      <tbody>
-        <tr>
-        <th scope="row" ng-repeat="object in bookingDateList">{{object.start_time}}-{{object.end_time}} </th>
-
-        <tbody>
-    </table>
-  </div>
-
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
 
-  </section>
-
-
-  </div>
+    </section>
 
 
+</div>
 
 
-
-  <footer class="footer">
+<footer class="footer">
     <div class="container">
-      <p class="text-muted">Place sticky footer content here.</p>
+        <p class="text-muted">Place sticky footer content here.</p>
     </div>
-  </footer>
+</footer>
 
-  <script src="../fpg/static/bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="../fpg/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src='../fpg/static/js/jquery.backstretch.min.js'></script>
+<script src="../fpg/static/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../fpg/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src='../fpg/static/js/jquery.backstretch.min.js'></script>
 
-  <script src="../fpg/static/js/main.js"></script>
+<script src="../fpg/static/js/main.js"></script>
 
 </body>
 </html>

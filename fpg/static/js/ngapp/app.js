@@ -2,7 +2,7 @@
 //starting point of angular application
 // all the angular configurations will be maintained here
 var fpg = angular.module("fpgApp", ["ui.router", "ui.bootstrap", "restangular", "ngCookies", "toastr",
-  "ng.django.urls",
+  "ng.django.urls", "angularPayments",
    "fpgApp.controllers", 'fpgApp.services'
 ]);
 
