@@ -596,7 +596,7 @@ function slotCtrl($scope, $rootScope, resource, slot, BookingService, toastr, $m
             window.alert('it failed! error: ' + result.error.message);
         } else {
             $scope.save(result.id)
-            window.alert('success! token: ' + result.id);
+//            window.alert('success! token: ' + result.id);
         }
     };
 
