@@ -1,64 +1,67 @@
 <div class="container-fluid">
-  <div class="row">
+<div class="row">
 
-    <!-- Sidebar -->
-      <br>
-    <div class="col-sm-3 col-md-2 sidebar">
-      <ul class="nav nav-sidebar">
+<!-- Sidebar -->
+<br>
+
+<div class="col-sm-3 col-md-2 sidebar">
+    <ul class="nav nav-sidebar">
         <li class="active"><a ui-sref="profile">Profile</a></li>
         <li><a ui-sref="club">My Clubs</a></li>
-      </ul>
-    </div>
+    </ul>
+</div>
 
-    <!-- My Clubs -->
-    <div class="col-sm-9 col-md-10">
-      <div>
-        <div class="panel panel-default" id="insider">
-          <div class="panel-heading">
-             <div class="row">
-              <div class="col-sm-10">
-                <h4 class=""><strong>My Resources</strong></h4>
-              </div>
-              <div class="col-sm-2">
-                <button class="pull-right btn btn-primary btn-sm" ng-click="addResource()"
-                        ng-show="newResourceCreated==false">Add Resources</button>
-              </div>
-                </div>
-            </div>
-          <div class="panel-body">
-            <accordion close-others="true">
-              <accordion-group heading="{{resource.name}}" ng-repeat="resource in objectList track by $index">
-                <accordion-heading>
-                    {{resource.name}}
-                    <span class="pull-right glyphicon glyphicon-remove" ng-show="!resource.id" ng-click="resourceRemove(resource)"></span>
-                  </accordion-heading>
-                  <div class="row" ng-show="!resource.edit">
-                   <div class="col-lg-6">
-                  <dl class="dl-horizontal">
-                    <dt>
+<!-- My Clubs -->
+<div class="col-sm-9 col-md-10">
+<div>
+<div class="panel panel-default" id="insider">
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-sm-10">
+            <h4 class=""><strong>My Resources</strong></h4>
+        </div>
+        <div class="col-sm-2">
+            <button class="pull-right btn btn-primary btn-sm" ng-click="addResource()"
+                    ng-show="newResourceCreated==false">Add Resources
+            </button>
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+<accordion close-others="true">
+<accordion-group heading="{{resource.name}}" ng-repeat="resource in objectList track by $index">
+<accordion-heading>
+    {{resource.name}}
+    <span class="pull-right glyphicon glyphicon-remove" ng-show="!resource.id"
+          ng-click="resourceRemove(resource)"></span>
+</accordion-heading>
+<div class="row" ng-show="!resource.edit">
+    <div class="col-lg-6">
+        <dl class="dl-horizontal">
+            <dt>
                         <span class="glyphicon glyphicon-screenshot">
                         </span>
 
-                      Name:
-                    </dt>
-                    <dd class="text-capitalize">{{resource.name}}</dd>
+                Name:
+            </dt>
+            <dd class="text-capitalize">{{resource.name}}</dd>
 
-                <br>
-                    <dt>
+            <br>
+            <dt>
                         <span class="glyphicon glyphicon-star">
                         </span>
 
-                      Sport:
-                    </dt>
-                    <dd>{{resource.sport_details.name}}</dd>
+                Sport:
+            </dt>
+            <dd>{{resource.sport_details.name}}</dd>
 
-                    <br>
+            <br>
                     <span ng-if="resource.type">
                     <dt>
                         <span class="glyphicon glyphicon-tag">
                         </span>
 
-                      Type:
+                        Type:
                     </dt>
                     <dd class="text-capitalize">{{resource.type}}</dd>
                     </span>
@@ -68,202 +71,212 @@
                         <span class="glyphicon glyphicon-tag">
                         </span>
 
-                      Type:
+                        Type:
                     </dt>
                     <dd>Not Available</dd>
                 </span>
 
-                    <br>
-                    <dt>
+            <br>
+            <dt>
                         <span class="glyphicon glyphicon-bookmark">
                         </span>
 
-                      Club:
-                    </dt>
-                    <dd>{{resource.club_details.name}}</dd>
+                Club:
+            </dt>
+            <dd>{{resource.club_details.name}}</dd>
 
-                    <br>
-                    <dt>
+            <br>
+            <dt>
                         <span class="glyphicon glyphicon-time">
                         </span>
 
-                      <strong>Open Time:</strong>
-                    </dt>
-                    <dd>{{resource.open_time}}</dd>
-                    <br>
-                    <dt>
+                <strong>Open Time:</strong>
+            </dt>
+            <dd>{{resource.open_time}}</dd>
+            <br>
+            <dt>
                         <span class="glyphicon glyphicon-time">
                         </span>
 
-                      Close Time:
-                    </dt>
-                    <dd>{{resource.close_time}}</dd>
-                    <br>
-                    <dt>
+                Close Time:
+            </dt>
+            <dd>{{resource.close_time}}</dd>
+            <br>
+            <dt>
                         <span class="glyphicon glyphicon-usd">
                         </span>
 
-                      Fee's per hour:
-                    </dt>
-                    <dd>{{resource.fee}}</dd>
+                Fee's per hour:
+            </dt>
+            <dd>{{resource.fee}}</dd>
 
-                    <br>
-                    <dt>
+            <br>
+            <dt>
                         <span class="glyphicon glyphicon-tag">
                         </span>
 
-                      Status:
-                    </dt>
-                    <dd>{{resource.status}}</dd>
+                Status:
+            </dt>
+            <dd>{{resource.status}}</dd>
 
-                    <br>
-                    <dt>
+            <br>
+            <dt>
                         <span class="glyphicon glyphicon-info-sign">
                         </span>
 
-                      Description:
-                    </dt>
-                    <dd>{{resource.description}}</dd>
-                    <br>
-
-                <dt>
-                   <dd> <button class="btn btn-primary btn-sm" ng-click="resource.edit=true">Edit</button>
-                    <button class="btn btn-danger btn-sm" ng-click="remove(resource)">Delete</button></dd>
-                </dt>
-
-            </dl>
-            </div>
-            <div class="col-lg-6" ng-if="resource.photo ">
-                <img src="{{resource.photo}}" alt="Resource.name" style="width:304px;height:228px">
+                Description:
+            </dt>
+            <dd>{{resource.description}}</dd>
             <br>
-            <br>
-            <button class="btn btn-primary " type="button" data-toggle="collapse"
-                    data-target="#slots-view-{{$index}}"
-                    aria-expanded="true" aria-controls="collapseExample">Check Availability
-            </button>
 
-            </div>
+            <dt>
+            <dd>
+                <button class="btn btn-primary btn-sm" ng-click="resource.edit=true">Edit</button>
+                <button class="btn btn-danger btn-sm" ng-click="remove(resource)">Delete</button>
+            </dd>
+            </dt>
 
-            </div>
+        </dl>
+    </div>
+    <div class="col-lg-6" ng-if="resource.photo ">
+        <img src="{{resource.photo}}" alt="Resource.name" style="width:304px;height:228px">
+        <br>
+        <br>
+        <button class="btn btn-primary " type="button" data-toggle="collapse"
+                data-target="#slots-view-{{$index}}"
+                aria-expanded="true" aria-controls="collapseExample">Check Availability
+        </button>
+
+    </div>
+
+</div>
 
 
-                <div class="row">
-                    <div class="collapse" id="slots-view-{{$index}}">
-                        <div class="well">
-                <!--<button class="btn btn-sm btn-success" ng-click="open1($event)" >pick date</button>-->
-                <!--<h3>We can use <a href="http://mattlewis92.github.io/angular-bootstrap-calendar/">this</a> pulgin to show slots and bookings</h3>-->
+<div class="row">
+    <div class="collapse" id="slots-view-{{$index}}">
+        <div class="well">
+            <!--<button class="btn btn-sm btn-success" ng-click="open1($event)" >pick date</button>-->
+            <!--<h3>We can use <a href="http://mattlewis92.github.io/angular-bootstrap-calendar/">this</a> pulgin to show slots and bookings</h3>-->
 
-                            <div class="col-md-2">
-                                <p class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup is-open="resource.opened"
-                                           min-date="'{{ mindate }}'" max-date="'{{ maxdate }}'"
-                                           date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"
-                                           ng-model="resource.filterbooking.date"/>
+            <div class="col-md-2">
+                <p class="input-group">
+                    <input type="text" class="form-control" datepicker-popup is-open="resource.opened"
+                           min-date="'{{ mindate }}'" max-date="'{{ maxdate }}'"
+                           date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"
+                           ng-model="resource.filterbooking.date"/>
                       <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="open($event, resource)"><i
                                 class="glyphicon glyphicon-calendar"></i></button>
                       </span>
-                                </p>
-                            </div>
-                            <a class="btn btn-success" style="display2:none" ng-click="loadSlots(resource)">GO</a>
+                </p>
+            </div>
+            <a class="btn btn-success" style="display2:none" ng-click="loadSlots(resource)">GO</a>
 
 
-                            <div class="row">
-                                <div class="col-md-12" style="overflow-x: auto">
-                                <table class="table table-bordered">
-                                    <tbody>
-                                    <tr>
-                                        <th ng-class="slot.isBooked?'':'success'" data-ng-click="slotModelBox(slot, resource)"
-                                            ng-repeat="slot in resource.slotList">
-                                            {{slot.start_time.split(':')[0] + ':' + slot.start_time.split(':')[1]}} -
-                                            {{slot.end_time.split(':')[0] + ':' + slot.end_time.split(':')[1]}}
-                                        </th>
+            <div class="row">
+                <div class="col-md-12" style="overflow-x: auto">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th ng-class="slot.isBooked?'':'success'" data-ng-click="slotModelBox(slot, resource)"
+                                ng-repeat="slot in resource.slotList">
+                                {{slot.start_time.split(':')[0] + ':' + slot.start_time.split(':')[1]}} -
+                                {{slot.end_time.split(':')[0] + ':' + slot.end_time.split(':')[1]}}
+                            </th>
 
-                                    <tbody>
-                                </table>
-                                    </div>
-                            </div>
+                        <tbody>
+                    </table>
+                </div>
+            </div>
 
-                   </div>
+        </div>
 
 
-                <!-- Edit mode -->
-                 <div class="row" ng-show="resource.edit">
-                  <form novalidate="" name="editForm">
-                    <div class="col-md-6">
-                      <div class="row">
+        <!-- Edit mode -->
+        <div class="row" ng-show="resource.edit">
+            <form novalidate="" name="editForm">
+                <div class="col-md-6">
+                    <div class="row">
                         <div class="col-md-6">
-                        <div class="form-group" ng-class="{'has-error':editForm.resource_name.$error.required && (!editForm.resource_name.$pristine || editForm.showFormErrors)}">
-                        <label for="resource">Resource Name</label>
-                        <input type="text" name="resource_name" class="form-control" ng-model="resource.name"
-                               placeholder="Club Name" required>
-                      </div>
-                      </div>
-                      <div class="col-md-6">
-                       <div class="form-group" ng-class="{'has-error':editForm.resource_type.$error.required && (!editForm.resource_type.$pristine || editForm.showFormErrors)}">
-                        <label for="type">Resource Type</label>
-                        <input type="text" name="type" class="form-control" ng-model="resource.type"
-                               placeholder="Resource Type" required>
-                    </div>
-                    </div>
+                            <div class="form-group"
+                                 ng-class="{'has-error':editForm.resource_name.$error.required && (!editForm.resource_name.$pristine || editForm.showFormErrors)}">
+                                <label for="resource">Resource Name</label>
+                                <input type="text" name="resource_name" class="form-control" ng-model="resource.name"
+                                       placeholder="Club Name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group"
+                                 ng-class="{'has-error':editForm.resource_type.$error.required && (!editForm.resource_type.$pristine || editForm.showFormErrors)}">
+                                <label for="type">Resource Type</label>
+                                <input type="text" name="type" class="form-control" ng-model="resource.type"
+                                       placeholder="Resource Type" required>
+                            </div>
+                        </div>
                     </div>
 
 
                     <div class="row">
                         <div class="col-md-6">
-                        <div class="form-group" ng-class="{'has-error':editForm.resource_name.$error.required && (!editForm.open_time.$pristine || editForm.showFormErrors)}">
-                        <label for="open_time">Open Time</label>
-                        <input type="text" name="open_time" class="form-control" ng-model="resource.open_time"
-                               placeholder="Club Name" required>
-                      </div>
-                      </div>
-                      <div class="col-md-6">
-                       <div class="form-group" ng-class="{'has-error':editForm.close_time.$error.required && (!editForm.close_time.$pristine || editForm.showFormErrors)}">
-                        <label for="close_time">Close Time</label>
-                        <input type="text" name="close_time" class="form-control" ng-model="resource.close_time"
-                               placeholder="Close Time" required>
-                    </div>
-                    </div>
+                            <div class="form-group"
+                                 ng-class="{'has-error':editForm.resource_name.$error.required && (!editForm.open_time.$pristine || editForm.showFormErrors)}">
+                                <label for="open_time">Open Time</label>
+                                <input type="text" name="open_time" class="form-control" ng-model="resource.open_time"
+                                       placeholder="Club Name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group"
+                                 ng-class="{'has-error':editForm.close_time.$error.required && (!editForm.close_time.$pristine || editForm.showFormErrors)}">
+                                <label for="close_time">Close Time</label>
+                                <input type="text" name="close_time" class="form-control" ng-model="resource.close_time"
+                                       placeholder="Close Time" required>
+                            </div>
+                        </div>
                     </div>
 
-                       <div class="form-group" ng-class="{'has-error':editForm.description.$error.required && (!editForm.description.$pristine || editForm.showFormErrors)}">
+                    <div class="form-group"
+                         ng-class="{'has-error':editForm.description.$error.required && (!editForm.description.$pristine || editForm.showFormErrors)}">
                         <label for="description">Description</label>
                         <input type="text" name="description" class="form-control" ng-model="resource.description"
                                placeholder="Close Time" required>
                     </div>
 
 
-                     <div class="form-group" ng-class="{'has-error':editForm.status.$error.required && (!editForm.status.$pristine || editForm.showFormErrors)}">
+                    <div class="form-group"
+                         ng-class="{'has-error':editForm.status.$error.required && (!editForm.status.$pristine || editForm.showFormErrors)}">
                         <label for="status">Status</label>
                         <!--<input type="text" name="description" class="form-control" ng-model="resource.description"-->
-                               <!--placeholder="Close Time" required>-->
+                        <!--placeholder="Close Time" required>-->
                         <select ng-model="resource.status">
-                          <option value="available">Available</option>
-                          <option value="unavailable">Unavailable</option>
+                            <option value="available">Available</option>
+                            <option value="unavailable">Unavailable</option>
                         </select>
                     </div>
 
-                     <div class="form-group" ng-class="{'has-error':editForm.status.$error.required && (!editForm.status.$pristine || editForm.showFormErrors)}">
+                    <div class="form-group"
+                         ng-class="{'has-error':editForm.status.$error.required && (!editForm.status.$pristine || editForm.showFormErrors)}">
                         <label for="sport">Sport</label>
                         <input type="text" name="sport" class="form-control" ng-model="resource.sport_details.name"
                                placeholder="Sport" required>
                     </div>
 
-                      <button class="btn btn-primary pull-right" ng-click="save(resource,editForm)">Save</button>
+                    <button class="btn btn-primary pull-right" ng-click="save(resource,editForm)">Save</button>
 
-                      <button class="btn btn-danger pull-right" ng-click="resource.edit=false" style="
+                    <button class="btn btn-danger pull-right" ng-click="resource.edit=false" style="
                         margin-right: 8px;
-                        ">Cancel</button>
-                       </div>
-                  </form>
+                        ">Cancel
+                    </button>
                 </div>
-
-              </accordion-group>
-            </accordion>
-          </div>
+            </form>
         </div>
-      </div>
-    </div>
-  </div>
+
+</accordion-group>
+</accordion>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 </div>

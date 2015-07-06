@@ -122,9 +122,6 @@ class BookingSerializer(serializers.ModelSerializer):
     """
     resource_details = serializers.SerializerMethodField('resource_info')
 
-    # stripe_token = serializers.CharField(max_length=500)
-
-
     class Meta:
         model = Booking
         fields = ('id', 'user', 'title', 'date', 'start_time', 'end_time', 'resource',

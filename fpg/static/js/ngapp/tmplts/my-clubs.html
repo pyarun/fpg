@@ -1,59 +1,67 @@
 <div class="container-fluid">
-  <div class="row">
+<div class="row">
 
-    <!-- Sidebar -->
-      <br>
-    <div class="col-sm-3 col-md-2 sidebar">
-      <ul class="nav nav-sidebar">
+<!-- Sidebar -->
+<br>
+
+<div class="col-sm-3 col-md-2 sidebar">
+    <ul class="nav nav-sidebar">
         <li class="active"><a ui-sref="profile">Profile</a></li>
         <li><a ui-sref="club">My Clubs</a></li>
-      </ul>
-    </div>
+    </ul>
+</div>
 
-    <!-- My Clubs -->
-    <div class="col-sm-9 col-md-10">
-      <div>
+<!-- My Clubs -->
+<div class="col-sm-9 col-md-10">
+    <div>
         <div class="panel panel-default" id="insider">
-          <div class="panel-heading">
-             <div class="row">
-              <div class="col-sm-10">
-                <h4 class=""><strong>My Clubs</strong></h4>
-              </div>
-              <div class="col-sm-2">
-                <button class="pull-right btn btn-primary btn-sm" ng-click="addClub()" ng-show="newClubCreated==false">Add Club</button>
-              </div>
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <h4 class=""><strong>My Clubs</strong></h4>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="pull-right btn btn-primary btn-sm" ng-click="addClub()"
+                                ng-show="newClubCreated==false">Add Club
+                        </button>
+                    </div>
                 </div>
             </div>
-          <div class="panel-body">
-            <accordion close-others="true">
-              <accordion-group heading="{{club.name}}" ng-repeat="club in objectList track by $index">
-                <accordion-heading>
-                    {{club.name}}
-                    <span class="pull-right glyphicon glyphicon-remove" ng-show="!club.id" ng-click="clubRemove(club)"></span>
-                  </accordion-heading>
-                <a class="pull-right btn btn-primary btn-sm" ui-sref="resource({ club: {{club.id}} })">Resources</a>
-                  <div class="row" ng-show="!club.edit">
-                <dl class="dl-horizontal">
-                    <dt>
+            <div class="panel-body">
+                <accordion close-others="true">
+                    <accordion-group heading="{{club.name}}" ng-repeat="club in objectList track by $index">
+                        <accordion-heading>
+                            {{club.name}}
+                            <span class="pull-right glyphicon glyphicon-remove" ng-show="!club.id"
+                                  ng-click="clubRemove(club)"></span>
+                        </accordion-heading>
+                        <a class="pull-right btn btn-primary btn-sm"
+                           ui-sref="resource({ club: {{club.id}} })">Resources</a>
+
+                        <div class="row" ng-show="!club.edit">
+                            <dl class="dl-horizontal">
+                                <dt>
                         <span class="glyphicon glyphicon-user">
                         </span>
 
-                      Name:
-                    </dt>
-                    <dd class="text-capitalize">{{club.name}}</dd>
+                                    Name:
+                                </dt>
+                                <dd class="text-capitalize">{{club.name}}</dd>
 
-                <br>
+                                <br>
 
-                <span ng-if="currentUser.profile"><strong><dt>
+                <span ng-if="currentUser.profile"><strong>
+                    <dt>
                     <span class="glyphicon glyphicon-home">
                     </span>
-                    Address:
+                        Address:
 
-                </dt></strong>
+                    </dt>
+                </strong>
 
                 <dd>
-                {{ club.address.lane1 ? club.address.lane1 + ',' : ''}}
-                {{ club.address.lane2 ? club.address.lane2 + ',' : ''}}
+                    {{ club.address.lane1 ? club.address.lane1 + ',' : ''}}
+                    {{ club.address.lane2 ? club.address.lane2 + ',' : ''}}
                 </dd>
 
                 <dd>
@@ -62,149 +70,177 @@
                 </dd>
 
                 <dd>{{ club.address.state ? club.address.state + ',' : ''}}
-                {{ club.address.country }}
+                    {{ club.address.country }}
 
                     <a href="https://www.google.com/maps/@-{{ currentUser.profile.address.lattitude }},{{ currentUser.profile.address.longitude }},8z">
-                      <span class="glyphicon glyphicon-map-marker"></span>
-                      Show on map
+                        <span class="glyphicon glyphicon-map-marker"></span>
+                        Show on map
                     </a>
 
                 </dd>
               </span>
 
-               <br>
+                                <br>
 
-              <span ng-if="club.contact_number"><strong><dt>
+              <span ng-if="club.contact_number"><strong>
+                  <dt>
                     <span class="glyphicon glyphicon-phone-alt">
                     </span>
-                    Contact:
+                      Contact:
 
-                </dt></strong>
+                  </dt>
+              </strong>
 
                 <dd>{{ club.contact_number }}</dd>
 
               </span>
 
-                <br>
+                                <br>
 
 
-              <span ng-if="club.description"><strong><dt>
+              <span ng-if="club.description"><strong>
+                  <dt>
                     <span class="glyphicon glyphicon-comment">
                     </span>
-                    Description:
+                      Description:
 
-                </dt></strong>
+                  </dt>
+              </strong>
 
                 <dd>{{ club.description }}</dd>
 
               </span>
 
-              <span ng-if="!club.description"><strong><dt>
+              <span ng-if="!club.description"><strong>
+                  <dt>
                     <span class="glyphicon glyphicon-comment">
                     </span>
-                    Description:
+                      Description:
 
-                </dt></strong>
+                  </dt>
+              </strong>
 
                 <dd>Not Available</dd>
 
               </span>
-              <br>
+                                <br>
 
-              <dt>
-                   <dd> <button class="btn btn-primary btn-sm" ng-click="club.edit=true">Edit</button>
-                    <button class="btn btn-danger btn-sm" ng-click="remove(club)">Delete</button></dd>
-                </dt>
+                                <dt>
+                                <dd>
+                                    <button class="btn btn-primary btn-sm" ng-click="club.edit=true">Edit</button>
+                                    <button class="btn btn-danger btn-sm" ng-click="remove(club)">Delete</button>
+                                </dd>
+                                </dt>
 
-            </dl>
+                            </dl>
 
-                </div>
+                        </div>
 
-                <!-- Edit mode -->
-                <div class="row" ng-show="club.edit">
-                  <form novalidate="" name="editForm">
-                    <div class="col-md-6">
-                      <div class="form-group" ng-class="{'has-error':editForm.club_name.$error.required && (!editForm.club_name.$pristine || editForm.showFormErrors)}">
-                        <label for="clubname">Club Name</label>
-                        <input type="text" name="club_name" class="form-control" ng-model="club.name"
-                               placeholder="Club Name" required>
-                      </div>
-                      <div class="form-group" ng-class="{'has-error':editForm.description.$error.required && (!editForm.desc.$pristine || editForm.showFormErrors)}">
-                        <label for="description">Description</label>
-                        <textarea name="description" class="form-control" ng-model="club.description"
-                                  placeholder="Description" ></textarea>
-                      </div>
-                      <div class="form-group" ng-class="{'has-error':editForm.contact.$error.required && (!editForm.contact.$pristine || editForm.showFormErrors)}">
-                        <label for="contact">Contact Number</label>
-                        <input type="text" name="contact" class="form-control" ng-model="club.contact_number"
-                               placeholder="Contact Number" required>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-md-6" ng-class="{'has-error':editForm.lattitude.$error.required && (!editForm.lattitude.$pristine || editForm.showFormErrors)}">
-                          <label for="lattitude">Lattitude</label>
-                          <input type="text" name="lattitude" class="form-control" ng-model="club.address.latitude"
-                                 placeholder="lattitude" required>
-                        </div>
-                        <div class="form-group col-md-6" ng-class="{'has-error':editForm.longitude.$error.required && (!editForm.longitude.$pristine || editForm.showFormErrors)}">
-                          <label for="longitude">Longitude</label>
-                          <input type="text" name="longitude" class="form-control" ng-model="club.address.longitude"
-                                 placeholder="longitude" required>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group" ng-class="{'has-error':editForm.lane1.$error.required && (!editForm.lane1.$pristine || editForm.showFormErrors)}">
-                        <label for="lane1">Address Line 1</label>
-                        <input type="text" name="lane1" class="form-control" ng-model="club.address.lane1"
-                               placeholder="Address line 1" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="lane2">Address Line 2</label>
-                        <input type="text" name="lane2" class="form-control" ng-model="club.address.lane2"
-                               placeholder="Address line 2">
-                      </div><br/>
-                      <div class="row">
-                        <div class="form-group col-md-6" ng-class="{'has-error':editForm.area.$error.required && (!editForm.area.$pristine || editForm.showFormErrors)}">
-                          <label for="area">Area</label>
-                          <input type="text" name="area" class="form-control" ng-model="club.address.area"
-                                 placeholder="Area" >
-                        </div>
-                        <div class="form-group col-md-6" ng-class="{'has-error':editForm.city.$error.required && (!editForm.city.$pristine || editForm.showFormErrors)}">
-                          <label for="city">City</label>
-                          <input type="text" name="city" class="form-control" ng-model="club.address.city"
-                                 placeholder="City" required>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-md-6" ng-class="{'has-error':editForm.state.$error.required && (!editForm.state.$pristine || editForm.showFormErrors)}">
-                          <label for="state">State</label>
-                          <input type="text" name="state" class="form-control" ng-model="club.address.state"
-                                 placeholder="State" required>
-                        </div>
-                        <div class="form-group col-md-6" ng-class="{'has-error':editForm.country.$error.required && (!editForm.country.$pristine || editForm.showFormErrors)}">
-                          <label for="country">Country</label>
-                          <input type="text" name="country" class="form-control" ng-model="club.address.country"
-                                 placeholder="Country" required>
-                        </div>
-                      </div>
-                      <button class="btn btn-primary pull-right" ng-click="save(club,editForm)">Save</button>
+                        <!-- Edit mode -->
+                        <div class="row" ng-show="club.edit">
+                            <form novalidate="" name="editForm">
+                                <div class="col-md-6">
+                                    <div class="form-group"
+                                         ng-class="{'has-error':editForm.club_name.$error.required && (!editForm.club_name.$pristine || editForm.showFormErrors)}">
+                                        <label for="clubname">Club Name</label>
+                                        <input type="text" name="club_name" class="form-control" ng-model="club.name"
+                                               placeholder="Club Name" required>
+                                    </div>
+                                    <div class="form-group"
+                                         ng-class="{'has-error':editForm.description.$error.required && (!editForm.desc.$pristine || editForm.showFormErrors)}">
+                                        <label for="description">Description</label>
+                                        <textarea name="description" class="form-control" ng-model="club.description"
+                                                  placeholder="Description"></textarea>
+                                    </div>
+                                    <div class="form-group"
+                                         ng-class="{'has-error':editForm.contact.$error.required && (!editForm.contact.$pristine || editForm.showFormErrors)}">
+                                        <label for="contact">Contact Number</label>
+                                        <input type="text" name="contact" class="form-control"
+                                               ng-model="club.contact_number"
+                                               placeholder="Contact Number" required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6"
+                                             ng-class="{'has-error':editForm.lattitude.$error.required && (!editForm.lattitude.$pristine || editForm.showFormErrors)}">
+                                            <label for="lattitude">Lattitude</label>
+                                            <input type="text" name="lattitude" class="form-control"
+                                                   ng-model="club.address.latitude"
+                                                   placeholder="lattitude" required>
+                                        </div>
+                                        <div class="form-group col-md-6"
+                                             ng-class="{'has-error':editForm.longitude.$error.required && (!editForm.longitude.$pristine || editForm.showFormErrors)}">
+                                            <label for="longitude">Longitude</label>
+                                            <input type="text" name="longitude" class="form-control"
+                                                   ng-model="club.address.longitude"
+                                                   placeholder="longitude" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group"
+                                         ng-class="{'has-error':editForm.lane1.$error.required && (!editForm.lane1.$pristine || editForm.showFormErrors)}">
+                                        <label for="lane1">Address Line 1</label>
+                                        <input type="text" name="lane1" class="form-control"
+                                               ng-model="club.address.lane1"
+                                               placeholder="Address line 1" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lane2">Address Line 2</label>
+                                        <input type="text" name="lane2" class="form-control"
+                                               ng-model="club.address.lane2"
+                                               placeholder="Address line 2">
+                                    </div>
+                                    <br/>
 
-                      <button class="btn btn-danger pull-right" ng-click="club.edit=false" style="
+                                    <div class="row">
+                                        <div class="form-group col-md-6"
+                                             ng-class="{'has-error':editForm.area.$error.required && (!editForm.area.$pristine || editForm.showFormErrors)}">
+                                            <label for="area">Area</label>
+                                            <input type="text" name="area" class="form-control"
+                                                   ng-model="club.address.area"
+                                                   placeholder="Area">
+                                        </div>
+                                        <div class="form-group col-md-6"
+                                             ng-class="{'has-error':editForm.city.$error.required && (!editForm.city.$pristine || editForm.showFormErrors)}">
+                                            <label for="city">City</label>
+                                            <input type="text" name="city" class="form-control"
+                                                   ng-model="club.address.city"
+                                                   placeholder="City" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6"
+                                             ng-class="{'has-error':editForm.state.$error.required && (!editForm.state.$pristine || editForm.showFormErrors)}">
+                                            <label for="state">State</label>
+                                            <input type="text" name="state" class="form-control"
+                                                   ng-model="club.address.state"
+                                                   placeholder="State" required>
+                                        </div>
+                                        <div class="form-group col-md-6"
+                                             ng-class="{'has-error':editForm.country.$error.required && (!editForm.country.$pristine || editForm.showFormErrors)}">
+                                            <label for="country">Country</label>
+                                            <input type="text" name="country" class="form-control"
+                                                   ng-model="club.address.country"
+                                                   placeholder="Country" required>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary pull-right" ng-click="save(club,editForm)">Save
+                                    </button>
+
+                                    <button class="btn btn-danger pull-right" ng-click="club.edit=false" style="
                         margin-right: 8px;
-                        ">Cancel</button>
-                       </div>
-                  </form>
-                </div>
+                        ">Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
 
-              </accordion-group>
-            </accordion>
-          </div>
-          <!--<div class="panel-footer">-->
-            <!--<button class="btn btn-primary btn-sm" ng-click="addNew()">Add Club</button>-->
-          <!--</div>-->
+                    </accordion-group>
+                </accordion>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
+</div>
 
 </div>

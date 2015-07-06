@@ -5,11 +5,6 @@ controllers.controller("ProfileCtrl", ["$scope", "$log" ,"$rootScope", "currentU
 
   function ($scope, $log, $rootScope, currentUserService) {
 
-//    CountryService.list().then(function(response){
-//    $scope.countryList = response;
-//
-//    });
-
     $scope.save = function (object, form) {
       /**
        * Get list from service and store it in objectList
@@ -28,6 +23,7 @@ controllers.controller("ProfileCtrl", ["$scope", "$log" ,"$rootScope", "currentU
     };
 
   }]);
+
 
 controllers.controller("LoginCtrl", ["$scope", "$rootScope", "$log", "toastr", "djangoUrl", "$http", "$state",
 
@@ -67,6 +63,7 @@ controllers.controller("LoginCtrl", ["$scope", "$rootScope", "$log", "toastr", "
 
 }]);
 
+
 controllers.controller("passwordCtrl", ["$scope", "$rootScope", "$log", "toastr", "djangoUrl", "$http", "$state",
     "currentUserService","$cookies",
   function($scope, $rootScope, $log, toastr, djangoUrl, $http, $state, currentUserService,$cookies){
@@ -97,6 +94,7 @@ controllers.controller("passwordCtrl", ["$scope", "$rootScope", "$log", "toastr"
     }
 
 }]);
+
 
 controllers.controller("RegisterCtrl", ["$scope", "$rootScope", "$log", "toastr", "djangoUrl", "$http", "$state",
     "currentUserService","$cookies",
@@ -266,7 +264,6 @@ controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", 
                 object.edit = false;
                 $scope.newResourceCreated = false;
                 toastr.success('Saved Successfully');
-//                $scope.newClubCreated = false
             })
         }
         else{
@@ -375,7 +372,6 @@ controllers.controller("HomeCtrl", ["$scope", "$log", "$rootScope", "$state", "A
 
       };
 
-
     $scope.loadAddress = function () {
         /**
          * Get list from service and store it in objectList
@@ -397,41 +393,20 @@ controllers.controller("HomeCtrl", ["$scope", "$log", "$rootScope", "$state", "A
     $scope.loadAddress();
     $scope.loadSports();
 
-//    var min_date = new Date();
-//    $scope.mindate = min_date.getFullYear() + '-' + (min_date.getMonth()+1) + '-' + min_date.getDate();
-
-//        function addDays(theDate, days) {
-//        return new Date(theDate.getTime() + days*24*60*60*1000);
-//    }
-//
-//     var max_date = addDays(new Date(), 30);
-//     $scope.maxdate =  max_date.getFullYear() + '-' + (max_date.getMonth()+1)  + '-' + max_date.getDate()
-
-
    $scope.loadData = function () {
         /**
          * Get list from service and store it in objectList
          */
-
-//       var request_date =  $scope.filterform.date
-//       $scope.filterform.date = (request_date.getMonth()+1) + '/' + request_date.getDate()+ '/' + request_date.getFullYear()
-
        return resourceService.list($scope.filterform).then(function (response) {
            $scope.objectList = response;
-//           for(var i = 0; i < $scope.objectList.length; i++)
-//           {
-//               productService.addProduct($scope.objectList[i])
-//           }
            productService.addProduct($scope.objectList, $scope.filterform)
 
-//           $window.location.href = "/#/result"
            $location.url('result')
         });
 
     };
 
 }]);
-
 
 
 controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", "AddressService", "SportService",
@@ -463,7 +438,7 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
 
     $scope.loadAddress = function () {
         /**
-         * Get list from service and store it in objectList
+         * Get list from service and store it in AddressList
          */
         return AddressService.list().then(function (response) {
             $scope.AddressList = response;
@@ -472,7 +447,7 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
 
     $scope.loadSports = function () {
         /**
-         * Get list from service and store it in objectList
+         * Get list from service and store it in SportList
          */
         return SportService.list().then(function (response) {
             $scope.SportList = response;
@@ -498,23 +473,17 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
          * Get list from service and store it in objectList
          */
 
-//       var request_date = $scope.filterform.date
-//       $scope.filterform.date = (request_date.getMonth() + 1) + '/' + request_date.getDate() + '/' + request_date.getFullYear()
-
        return resourceService.list($scope.filterform).then(function (response) {
        $scope.objectList = response;
 
         });
     };
 
-
       $scope.loadSlots = function (resource) {
         /**
          * Get list from service and store it in objectList
          */
        resource.slotList = [];
-//       resource.filterbooking = {};
-
 
        resource.filterbooking.resource = resource
        var request_date =  resource.filterbooking.date
@@ -528,6 +497,7 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
           BookingService.list({"date":request_date, "resource":resource.id}).then(function (response) {
           $scope.bookingList = response;
 
+        // This loop will create slots according to the open-time and close-time of resources
         for(var i = open_time; i < close_time; i+=3600000)
         {
             var st_time_date = new Date(i);
@@ -541,7 +511,7 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
                 "end_time": end_time,
                 "isBooked": false
             }
-
+            // This loop will check whether booking entry is made in the database and set isBooked flag accordingly
             for (var j = 0; j < $scope.bookingList.length; j++)
             {
                 if($scope.bookingList[j].start_time == start_time && $scope.bookingList[j].end_time == end_time )
@@ -596,7 +566,6 @@ function slotCtrl($scope, $rootScope, resource, slot, BookingService, toastr, $m
             window.alert('it failed! error: ' + result.error.message);
         } else {
             $scope.save(result.id)
-//            window.alert('success! token: ' + result.id);
         }
     };
 

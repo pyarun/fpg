@@ -65,7 +65,8 @@
                         <div class="form-group">
                             <select id="location" name="location" class="form-control" ng-model="filterform.address">
                                 <option value="" disabled selected>Choose Your Location</option>
-                                <option ng-selected="filterform.address == address.id" ng-repeat="address in AddressList" value="{{address.id}}">{{ address.area }}, {{
+                                <option ng-selected="filterform.address == address.id"
+                                        ng-repeat="address in AddressList" value="{{address.id}}">{{ address.area }}, {{
                                     address.city }}
                                 </option>
                             </select>
@@ -73,7 +74,9 @@
                         <div class="form-group">
                             <select id="sport" name="sport" class="form-control" ng-model="filterform.sport">
                                 <option value="" disabled selected>Choose Your Sport</option>
-                                <option ng-selected="filterform.sport == sport.id" ng-repeat="sport in SportList" value="{{sport.id}}">{{ sport.name }}</option>
+                                <option ng-selected="filterform.sport == sport.id" ng-repeat="sport in SportList"
+                                        value="{{sport.id}}">{{ sport.name }}
+                                </option>
                             </select>
                         </div>
 
@@ -97,30 +100,32 @@
 
 
                         <div class="row ng-scope" ng-show="!club.edit">
-                <dl class="dl-horizontal">
-                    <dd>
-                    <h3>{{resource.club_details.name}}</h3>
-                    </dd>
-                    <dt>
+                            <dl class="dl-horizontal">
+                                <dd>
+                                    <h3>{{resource.club_details.name}}</h3>
+                                </dd>
+                                <dt>
                         <span class="glyphicon glyphicon-record">
                         </span>
 
-                      Resource:
-                    </dt>
-                    <dd class="text-capitalize ng-binding">{{resource.name}}</dd>
+                                    Resource:
+                                </dt>
+                                <dd class="text-capitalize ng-binding">{{resource.name}}</dd>
 
-                <!--<br>-->
+                                <!--<br>-->
 
-                <span class="ng-scope"><strong><dt>
+                <span class="ng-scope"><strong>
+                    <dt>
                     <span class="glyphicon glyphicon-home">
                     </span>
-                    Address:
+                        Address:
 
-                </dt></strong>
+                    </dt>
+                </strong>
 
                 <dd>
-                {{ resource.club_details.address.lane1 ? resource.club_details.address.lane1 + ',' : ''}}
-                {{ resource.club_details.address.lane2 ? resource.club_details.address.lane2 + ',' : ''}}
+                    {{ resource.club_details.address.lane1 ? resource.club_details.address.lane1 + ',' : ''}}
+                    {{ resource.club_details.address.lane2 ? resource.club_details.address.lane2 + ',' : ''}}
                 </dd>
 
                 <dd>
@@ -129,75 +134,76 @@
                 </dd>
 
                 <dd>{{ resource.club_details.address.state ? resource.club_details.address.state + ',' : ''}}
-                {{ resource.club_details.address.country }}
+                    {{ resource.club_details.address.country }}
 
-                    <!--<a href="https://www.google.com/maps/@-{{ currentUser.profile.address.lattitude }},{{ currentUser.profile.address.longitude }},8z">-->
-                      <!--<span class="glyphicon glyphicon-map-marker"></span>-->
-                      <!--Show on map-->
-                    <!--</a>-->
 
                 </dd>
               </span>
 
-               <!--<br>-->
 
-              <span ng-if="resource.club_details.contact_number"><strong><dt>
+              <span ng-if="resource.club_details.contact_number"><strong>
+                  <dt>
                     <span class="glyphicon glyphicon-phone-alt">
                     </span>
-                    Contact:
+                      Contact:
 
-                </dt></strong>
+                  </dt>
+              </strong>
 
                 <dd>{{ resource.club_details.contact_number }}</dd>
 
               </span>
 
-                <!--<br>-->
 
-                <span ng-if="resource.club_details.contact_number"><strong><dt>
+                <span ng-if="resource.club_details.contact_number"><strong>
+                    <dt>
                 <span class="glyphicon glyphicon-usd">
                 </span>
-                Rate per hour:
+                        Rate per hour:
 
-                </dt></strong>
+                    </dt>
+                </strong>
 
                 <dd>{{ resource.fee }}</dd>
 
               </span>
 
-                <!--<br>-->
 
-
-              <span ng-if="resource.description"><strong><dt>
+              <span ng-if="resource.description"><strong>
+                  <dt>
                     <span class="glyphicon glyphicon-comment">
                     </span>
-                    Description:
+                      Description:
 
-                </dt></strong>
+                  </dt>
+              </strong>
 
                 <dd>{{ resource.description }}</dd>
 
               </span>
 
-              <span ng-if="!resource.description"><strong><dt>
+              <span ng-if="!resource.description"><strong>
+                  <dt>
                     <span class="glyphicon glyphicon-comment">
                     </span>
-                    Description:
+                      Description:
 
-                </dt></strong>
+                  </dt>
+              </strong>
 
                 <dd>Not Available</dd>
 
               </span>
-              <!--<br>-->
+                                <!--<br>-->
 
-            </dl>
+                            </dl>
 
-                </div>
+                        </div>
 
                     </div>
                     <div class='col-sm-3'>
-                        <a href="#" class="thumbnail"><img src="{{resource.photo}}" style="width:250px;height:130px"></a>
+                        <a href="#" class="thumbnail"><img src="{{resource.photo}}"
+                                                           style="width:250px;height:130px"></a>
                         <button class="btn btn-primary pull-right" type="button" data-toggle="collapse"
                                 data-target="#slots-view-{{$index}}"
                                 aria-expanded="true" aria-controls="collapseExample">Check Availability
@@ -207,8 +213,8 @@
                 <div class="row">
                     <div class="collapse" id="slots-view-{{$index}}">
                         <div class="well">
-                <!--<button class="btn btn-sm btn-success" ng-click="open1($event)" >pick date</button>-->
-                <!--<h3>We can use <a href="http://mattlewis92.github.io/angular-bootstrap-calendar/">this</a> pulgin to show slots and bookings</h3>-->
+                            <!--<button class="btn btn-sm btn-success" ng-click="open1($event)" >pick date</button>-->
+                            <!--<h3>We can use <a href="http://mattlewis92.github.io/angular-bootstrap-calendar/">this</a> pulgin to show slots and bookings</h3>-->
 
                             <div class="col-md-2">
                                 <p class="input-group">
@@ -227,18 +233,20 @@
 
                             <div class="row">
                                 <div class="col-md-12" style="overflow-x: auto">
-                                <table class="table table-bordered special">
-                                    <tbody>
-                                    <tr>
-                                        <th nowrap ng-class="slot.isBooked?'':'success'" data-ng-click="slotModelBox(slot, resource)"
-                                            ng-repeat="slot in resource.slotList">
-                                            {{slot.start_time.split(':')[0] + ':' + slot.start_time.split(':')[1]}} -
-                                            {{slot.end_time.split(':')[0] + ':' + slot.end_time.split(':')[1]}}
-                                        </th>
+                                    <table class="table table-bordered special">
+                                        <tbody>
+                                        <tr>
+                                            <th nowrap ng-class="slot.isBooked?'':'success'"
+                                                data-ng-click="slotModelBox(slot, resource)"
+                                                ng-repeat="slot in resource.slotList">
+                                                {{slot.start_time.split(':')[0] + ':' + slot.start_time.split(':')[1]}}
+                                                -
+                                                {{slot.end_time.split(':')[0] + ':' + slot.end_time.split(':')[1]}}
+                                            </th>
 
-                                    <tbody>
-                                </table>
-                                    </div>
+                                        <tbody>
+                                    </table>
+                                </div>
                             </div>
 
                         </div>
