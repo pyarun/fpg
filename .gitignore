@@ -146,7 +146,6 @@ local.properties
 .texlipse
 
 
-fpg/static/bower_components
 fpg/fpg.sqlite
 arun_fabric.rc
 fpg/fpg/settings/local_settings.py
