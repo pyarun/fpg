@@ -148,7 +148,6 @@ controllers.controller("MyClubsCtrl", ["$scope", "clubService", "$log", "toastr"
     $scope.clubRemove = function(club){
         $scope.newClubCreated = false
         $scope.objectList = _.without($scope.objectList, club)
-
     }
 
 $scope.addClub = function () {
@@ -189,11 +188,13 @@ $scope.addClub = function () {
 
 
 controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", "toastr",
-    "$rootScope","confirmBox","clubService","$stateParams", "$state","AddressService","BookingService",
+    "$rootScope","confirmBox","clubService","$stateParams", "$state","AddressService","BookingService","SportService",
     function ($scope, resourceService, $log, toastr, $rootScope, confirmBox,clubService,$stateParams,
-              $state,AddressService,BookingService) {
+              $state,AddressService,BookingService, SportService) {
     $scope.queryParams = {club:$stateParams.club};
     $scope.objectList = [];
+    $scope.SportList = [];
+    $scope.filterform = {};
 
     if(!$stateParams.club)
     {
@@ -210,6 +211,13 @@ controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", 
 
   };
 
+    $scope.loadSports = function () {
+        return SportService.list().then(function (response) {
+            $scope.SportList = response;
+            debugger;
+        });
+    };
+    $scope.loadSports();
 
     $scope.loadAddress = function () {
         /**
@@ -242,7 +250,9 @@ controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", 
 
     $scope.save = function(object, form){
         if(form.$valid){
+            object.club = $scope.queryParams.club
             resourceService.save(object).then(function (response) {
+                debugger;
                 angular.copy(response, object);
                 object.edit = false;
                 $scope.newResourceCreated = false;
