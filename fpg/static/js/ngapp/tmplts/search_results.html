@@ -1,29 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <title>FindPlayground</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="../fpg/static/css/bootstrap-simplex-theme.css" type="text/css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../fpg/static/css/custom-theme.css" type="text/css">
-    <link rel="stylesheet" href="../fpg/static/css/site.css" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
-<body>
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -43,11 +18,11 @@
                         Page links <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="./landing.html">Landing Page</a></li>
-                        <li><a href="#/result">Search Results</a></li>
+                        <li><a ui-sref="result">Search Results</a></li>
                         <li><a href="./club.html">Club</a></li>
                     </ul>
                 </li>
-                <li><a href="#/home">Home</a></li>
+                <li><a ui-sref="home">Home</a></li>
                 <li><a href="#">Login</a></li>
             </ul>
 
@@ -213,8 +188,6 @@
                 <div class="row">
                     <div class="collapse" id="slots-view-{{$index}}">
                         <div class="well">
-                            <!--<button class="btn btn-sm btn-success" ng-click="open1($event)" >pick date</button>-->
-                            <!--<h3>We can use <a href="http://mattlewis92.github.io/angular-bootstrap-calendar/">this</a> pulgin to show slots and bookings</h3>-->
 
                             <div class="col-md-2">
                                 <p class="input-group">
@@ -248,7 +221,6 @@
                                     </table>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -259,19 +231,3 @@
 
 
 </div>
-
-
-<footer class="footer">
-    <div class="container">
-        <p class="text-muted">Place sticky footer content here.</p>
-    </div>
-</footer>
-
-<script src="../fpg/static/bower_components/jquery/dist/jquery.min.js"></script>
-<script src="../fpg/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src='../fpg/static/js/jquery.backstretch.min.js'></script>
-
-<script src="../fpg/static/js/main.js"></script>
-
-</body>
-</html>

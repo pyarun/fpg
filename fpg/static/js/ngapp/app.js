@@ -17,7 +17,6 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
    function ($stateProvider, $urlRouterProvider, SETTINGS, RestangularProvider, toastrConfig,
        $httpProvider,$locationProvider) {
 
-//    $locationProvider.html5Mode(true);
    $urlRouterProvider.otherwise('home');
 
    RestangularProvider.setBaseUrl('/api/v1');

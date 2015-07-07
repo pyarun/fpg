@@ -3,7 +3,7 @@ from utils.models import Sports, Address
 from utils.serializers import SportSerializer, AddressSerializer
 
 
-class SportsView(viewsets.ModelViewSet):
+class SportsViewSet(viewsets.ModelViewSet):
     """
         create, delete, update, list sports
     """
@@ -12,7 +12,7 @@ class SportsView(viewsets.ModelViewSet):
     queryset = Sports.objects.all()
 
 
-class AddressView(viewsets.ModelViewSet):
+class AddressViewSet(viewsets.ModelViewSet):
     """
         create, delete, update, list address
     """

@@ -285,6 +285,8 @@ REST_FRAMEWORK = {
    'DATETIME_INPUT_FORMATS': ('iso-8601', '%m/%d/%Y'),
 }
 
+STRIPE_API_KEY = "sk_test_QBpIvo5lNrftaWto9c9hYrKY"
+
 try:
     from local_settings import *
 except:

@@ -6,7 +6,6 @@ var services = angular.module("fpgApp.services", []);
 services.service("currentUserService", ["Restangular", "$log", "$q", "$cookies", "$rootScope",
     "$state",
     function (Restangular, $log, $q, $cookies, $rootScope, $state) {
-        $log.debug("hellosdfsdfsdf");
         var _user = $q.defer();
         var user = undefined;
 

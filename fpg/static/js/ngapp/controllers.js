@@ -6,19 +6,13 @@ controllers.controller("ProfileCtrl", ["$scope", "$log" ,"$rootScope", "currentU
   function ($scope, $log, $rootScope, currentUserService) {
 
     $scope.save = function (object, form) {
-      /**
-       * Get list from service and store it in objectList
-       */
       if (form.$valid) {
         currentUserService.save(object).then(function (response) {
           object.edit = false;
-          //toastr.success('Saved Successfully');
         }, function () {
-          //toastr.error('Error while saving.');
         });
       } else {
         form.showFormErrors = true;
-        //toastr.error('Correct form errors');
       }
     };
 
@@ -54,13 +48,7 @@ controllers.controller("LoginCtrl", ["$scope", "$rootScope", "$log", "toastr", "
       }else{
         toastr.error("error");
       }
-
-
     }
-
-
-
-
 }]);
 
 
@@ -89,10 +77,7 @@ controllers.controller("passwordCtrl", ["$scope", "$rootScope", "$log", "toastr"
       }else{
          alert(_.values(response));
       }
-
-
     }
-
 }]);
 
 
@@ -125,7 +110,6 @@ controllers.controller("RegisterCtrl", ["$scope", "$rootScope", "$log", "toastr"
     $scope.reset = function(){
         $scope.registerModel = {};
     };
-
 }]);
 
 
@@ -135,10 +119,10 @@ controllers.controller("MyClubsCtrl", ["$scope", "clubService", "$log", "toastr"
     $scope.objectList = [];
 
 
+    /**
+     * Get list from service and store it in objectList
+     */
     $scope.loadData = function () {
-        /**
-         * Get list from service and store it in objectList
-         */
         $scope.newClubCreated = false;
         return clubService.list($scope.queryParams).then(function (response) {
             $scope.objectList = response;
@@ -239,7 +223,6 @@ controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", 
 
     $scope.loadAddress();
 
-
     $scope.loadData = function () {
         /**
          * Get list from service and store it in objectList
@@ -302,13 +285,11 @@ controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", 
 
     $scope.loadData();
 
+    /**
+     * Get list from service and store it in objectList
+     */
        $scope.loadSlots = function (resource) {
-        /**
-         * Get list from service and store it in objectList
-         */
        resource.slotList = [];
-//       resource.filterbooking = {};
-
 
        resource.filterbooking.resource = resource
        var request_date =  resource.filterbooking.date
@@ -349,9 +330,7 @@ controllers.controller("MyResourcesCtrl", ["$scope", "resourceService", "$log", 
         }
 
         });
-
     };
-
 }]);
 
 
@@ -372,19 +351,19 @@ controllers.controller("HomeCtrl", ["$scope", "$log", "$rootScope", "$state", "A
 
       };
 
+    /**
+     * Get list from service and store it in objectList
+     */
     $scope.loadAddress = function () {
-        /**
-         * Get list from service and store it in objectList
-         */
         return AddressService.list().then(function (response) {
             $scope.AddressList = response;
         });
     };
 
+    /**
+     * Get list from service and store it in objectList
+     */
     $scope.loadSports = function () {
-        /**
-         * Get list from service and store it in objectList
-         */
         return SportService.list().then(function (response) {
             $scope.SportList = response;
         });
@@ -393,19 +372,17 @@ controllers.controller("HomeCtrl", ["$scope", "$log", "$rootScope", "$state", "A
     $scope.loadAddress();
     $scope.loadSports();
 
+    /**
+     * Get list from service and store it in objectList
+     */
    $scope.loadData = function () {
-        /**
-         * Get list from service and store it in objectList
-         */
        return resourceService.list($scope.filterform).then(function (response) {
            $scope.objectList = response;
            productService.addProduct($scope.objectList, $scope.filterform)
 
            $location.url('result')
         });
-
     };
-
 }]);
 
 
@@ -436,19 +413,19 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
     $scope.filterform = productService.getFilter();
     $scope.objectList = productService.getProducts();
 
+    /**
+     * Get list from service and store it in AddressList
+     */
     $scope.loadAddress = function () {
-        /**
-         * Get list from service and store it in AddressList
-         */
         return AddressService.list().then(function (response) {
             $scope.AddressList = response;
         });
     };
 
+    /**
+     * Get list from service and store it in SportList
+     */
     $scope.loadSports = function () {
-        /**
-         * Get list from service and store it in SportList
-         */
         return SportService.list().then(function (response) {
             $scope.SportList = response;
         });
@@ -468,10 +445,10 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
      $scope.maxdate =  max_date.getFullYear() + '-' + (max_date.getMonth()+1)  + '-' + max_date.getDate()
 
 
+    /**
+     * Get list from service and store it in objectList
+     */
       $scope.loadData = function () {
-        /**
-         * Get list from service and store it in objectList
-         */
 
        return resourceService.list($scope.filterform).then(function (response) {
        $scope.objectList = response;
@@ -479,10 +456,10 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
         });
     };
 
+    /**
+     * Get list from service and store it in slotList
+     */
       $scope.loadSlots = function (resource) {
-        /**
-         * Get list from service and store it in objectList
-         */
        resource.slotList = [];
 
        resource.filterbooking.resource = resource
@@ -523,9 +500,7 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
             resource.slotList.push(dict)
 
         }
-
         });
-
     };
 
 
@@ -554,7 +529,6 @@ controllers.controller("searchCtrl", ["$scope", "$log", "$rootScope", "$state", 
                 $scope.loadSlots(resource);
             })
         };
-
 }]);
 
 function slotCtrl($scope, $rootScope, resource, slot, BookingService, toastr, $modalInstance,$cookies,$window){
