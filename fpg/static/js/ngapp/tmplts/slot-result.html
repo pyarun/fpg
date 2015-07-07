@@ -1,0 +1,40 @@
+
+ <div dw-loading="config-modal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" data-ng-click="cancel();"><span
+                aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title">Do you want to conform Booking?</h3>
+    </div>
+
+    <div class="modal-body">
+
+
+        <form stripe-form="stripeCallback" name="checkoutForm">
+        <div class="form-group">
+            <input class="form-control" ng-model="number" placeholder="Card Number"
+                     payments-format="card" payments-validate="card" name="card" />
+
+        </div>
+
+        <div class="form-group">
+            <input class="form-control" ng-model="expiry" placeholder="Expiration"
+                     payments-format="expiry" payments-validate="expiry"
+                     name="expiry" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" ng-model="cvc" placeholder="CVC" payments-format="cvc" payments-validate="cvc" name="cvc" />
+        </div>
+
+            <button class="btn btn-success" type="submit">Pay</button>
+        </form>
+
+    </div>
+
+    <!--<div class="modal-footer">-->
+        <!--<div>-->
+            <!--<button class="btn btn-primary" ng-click="update();">Update</button>-->
+
+        <!--</div>-->
+    <!--</div>-->
+
+ </div>

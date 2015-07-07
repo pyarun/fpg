@@ -2,7 +2,7 @@
 //starting point of angular application
 // all the angular configurations will be maintained here
 var fpg = angular.module("fpgApp", ["ui.router", "ui.bootstrap", "restangular", "ngCookies", "toastr",
-  "ng.django.urls",
+  "ng.django.urls", "angularPayments",
    "fpgApp.controllers", 'fpgApp.services'
 ]);
 
@@ -17,7 +17,6 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
    function ($stateProvider, $urlRouterProvider, SETTINGS, RestangularProvider, toastrConfig,
        $httpProvider,$locationProvider) {
 
-//    $locationProvider.html5Mode(true);
    $urlRouterProvider.otherwise('home');
 
    RestangularProvider.setBaseUrl('/api/v1');
@@ -49,6 +48,7 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
        templateUrl: function ($stateParams) {
          return SETTINGS.TEMPLATE_DIR + 'home.html';
        },
+        controller: "HomeCtrl",
        data:{
          requireLogin:true
        }
@@ -121,9 +121,18 @@ fpg.config(["$stateProvider", "$urlRouterProvider", "SETTINGS", "RestangularProv
         data:{
           requireLogin:true
         }
+      }).state('result', {
+        url: '/result',
+        templateUrl: function ($stateParams) {
+          return SETTINGS.TEMPLATE_DIR + 'search_results.html';
+
+        },
+        controller : 'searchCtrl',
+        data:{
+          requireLogin:true
+        }
+
       });
-
-
 }]);
 
 

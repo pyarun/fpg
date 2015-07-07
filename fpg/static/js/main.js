@@ -6,7 +6,6 @@ $.backstretch([
     djsettings.STATIC_URL + "img/abstract.jpg",
     djsettings.STATIC_URL + "img/cricket.jpeg",
     djsettings.STATIC_URL + "img/Baseball.jpg",
-    djsettings.STATIC_URL + "img/female.jpg",
     djsettings.STATIC_URL + "img/tennis.jpg",
     djsettings.STATIC_URL + "img/wembley.jpg",
     djsettings.STATIC_URL + "img/golf.jpg",

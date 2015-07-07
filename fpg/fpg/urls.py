@@ -4,6 +4,7 @@ from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
+# from facility.views import payment_callback_view
 from fpg.views import HomeTemplateView
 
 
@@ -29,6 +30,10 @@ urlpatterns = patterns('',
 
                        # home
                        url(r'^$', HomeTemplateView.as_view(), name="home"),
+
+                       # # payment
+                       # url(r'^payment$', payment_callback_view, name="payment"),
+                       #
 
                        # third party
                        url(r'^photologue/', include('photologue.urls', namespace='photologue')),
