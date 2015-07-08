@@ -6,7 +6,7 @@ from facility.models import Booking
 
 class ResourceFilter(BaseFilterBackend):
     """
-    Returns queryset containing
+    Returns queryset containing resources
     """
     def filter_queryset(self, request, queryset, view):
         address = request.query_params.get('address', None)
@@ -29,7 +29,7 @@ class ResourceFilter(BaseFilterBackend):
 
 class BookingFilter(BaseFilterBackend):
     """
-    Returns queryset containing ...
+    Returns queryset containing bookings
     """
     # queryset = super(BookingViewSet, self).get_queryset()
     def filter_queryset(self, request, queryset, view):
