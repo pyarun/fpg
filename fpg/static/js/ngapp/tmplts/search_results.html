@@ -1,0 +1,233 @@
+
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="#/home" class="navbar-brand">Find Playground</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">RAW
+                        Page links <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="./landing.html">Landing Page</a></li>
+                        <li><a ui-sref="result">Search Results</a></li>
+                        <li><a href="./club.html">Club</a></li>
+                    </ul>
+                </li>
+                <li><a ui-sref="home">Home</a></li>
+                <li><a href="#">Login</a></li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <section>
+        <div class="panel panel-default transparent text-center">
+            <div class='panel-body'>
+                <form class="form-inline">
+                    <div class="">
+                        <div class="form-group">
+                            <select id="location" name="location" class="form-control" ng-model="filterform.address">
+                                <option value="" disabled selected>Choose Your Location</option>
+                                <option ng-selected="filterform.address == address.id"
+                                        ng-repeat="address in AddressList" value="{{address.id}}">{{ address.area }}, {{
+                                    address.city }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="sport" name="sport" class="form-control" ng-model="filterform.sport">
+                                <option value="" disabled selected>Choose Your Sport</option>
+                                <option ng-selected="filterform.sport == sport.id" ng-repeat="sport in SportList"
+                                        value="{{sport.id}}">{{ sport.name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <a class="btn btn-primary" style="display2:none" ng-click="loadData()">SEARCH</a>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="search-results">
+
+
+        <div class="row well transparent bkg-white" ng-repeat="resource in objectList track by $index">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class='col-sm-9'>
+
+
+                        <div class="row ng-scope" ng-show="!club.edit">
+                            <dl class="dl-horizontal">
+                                <dd>
+                                    <h3>{{resource.club_details.name}}</h3>
+                                </dd>
+                                <dt>
+                        <span class="glyphicon glyphicon-record">
+                        </span>
+
+                                    Resource:
+                                </dt>
+                                <dd class="text-capitalize ng-binding">{{resource.name}}</dd>
+
+                                <!--<br>-->
+
+                <span class="ng-scope"><strong>
+                    <dt>
+                    <span class="glyphicon glyphicon-home">
+                    </span>
+                        Address:
+
+                    </dt>
+                </strong>
+
+                <dd>
+                    {{ resource.club_details.address.lane1 ? resource.club_details.address.lane1 + ',' : ''}}
+                    {{ resource.club_details.address.lane2 ? resource.club_details.address.lane2 + ',' : ''}}
+                </dd>
+
+                <dd>
+                    {{ resource.club_details.address.area ? resource.club_details.address.area + ',' : '' }}
+                    {{ resource.club_details.address.city ? resource.club_details.address.city + ',': ''}}
+                </dd>
+
+                <dd>{{ resource.club_details.address.state ? resource.club_details.address.state + ',' : ''}}
+                    {{ resource.club_details.address.country }}
+
+
+                </dd>
+              </span>
+
+
+              <span ng-if="resource.club_details.contact_number"><strong>
+                  <dt>
+                    <span class="glyphicon glyphicon-phone-alt">
+                    </span>
+                      Contact:
+
+                  </dt>
+              </strong>
+
+                <dd>{{ resource.club_details.contact_number }}</dd>
+
+              </span>
+
+
+                <span ng-if="resource.club_details.contact_number"><strong>
+                    <dt>
+                <span class="glyphicon glyphicon-usd">
+                </span>
+                        Rate per hour:
+
+                    </dt>
+                </strong>
+
+                <dd>{{ resource.fee }}</dd>
+
+              </span>
+
+
+              <span ng-if="resource.description"><strong>
+                  <dt>
+                    <span class="glyphicon glyphicon-comment">
+                    </span>
+                      Description:
+
+                  </dt>
+              </strong>
+
+                <dd>{{ resource.description }}</dd>
+
+              </span>
+
+              <span ng-if="!resource.description"><strong>
+                  <dt>
+                    <span class="glyphicon glyphicon-comment">
+                    </span>
+                      Description:
+
+                  </dt>
+              </strong>
+
+                <dd>Not Available</dd>
+
+              </span>
+                                <!--<br>-->
+
+                            </dl>
+
+                        </div>
+
+                    </div>
+                    <div class='col-sm-3'>
+                        <a href="#" class="thumbnail"><img src="{{resource.photo}}"
+                                                           style="width:250px;height:130px"></a>
+                        <button class="btn btn-primary pull-right" type="button" data-toggle="collapse"
+                                data-target="#slots-view-{{$index}}"
+                                aria-expanded="true" aria-controls="collapseExample">Check Availability
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="collapse" id="slots-view-{{$index}}">
+                        <div class="well">
+
+                            <div class="col-md-2">
+                                <p class="input-group">
+                                    <input type="text" class="form-control" datepicker-popup is-open="resource.opened1"
+                                           min-date="'{{ mindate }}'" max-date="'{{ maxdate }}'"
+                                           date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"
+                                           ng-model="resource.filterbooking.date"/>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open1($event, resource)"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+                                </p>
+                            </div>
+                            <a class="btn btn-success" style="display2:none" ng-click="loadSlots(resource)">GO</a>
+
+
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x: auto">
+                                    <table class="table table-bordered special">
+                                        <tbody>
+                                        <tr>
+                                            <th nowrap ng-class="slot.isBooked?'':'success'"
+                                                data-ng-click="slotModelBox(slot, resource)"
+                                                ng-repeat="slot in resource.slotList">
+                                                {{slot.start_time.split(':')[0] + ':' + slot.start_time.split(':')[1]}}
+                                                -
+                                                {{slot.end_time.split(':')[0] + ':' + slot.end_time.split(':')[1]}}
+                                            </th>
+
+                                        <tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+</div>

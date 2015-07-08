@@ -19,7 +19,6 @@ class ClubSerializer(serializers.ModelSerializer):
         """
         This function is overidden to allow nested writable serialization
         """
-        import ipdb;ipdb.set_trace()
         addrdict = validated_data.pop('address')
         addrobj = Address.objects.create(**addrdict)
         validated_data['address'] = addrobj
@@ -117,7 +116,6 @@ class ResourceSerializer(serializers.ModelSerializer):
         return sport_dict
 
 
-
 class BookingSerializer(serializers.ModelSerializer):
     """
         For create, update, list, delete bookings
@@ -127,7 +125,7 @@ class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = ('id', 'user', 'title', 'date', 'start_time', 'end_time', 'resource',
-                  'resource_details' )
+                  'resource_details')
 
 
     def resource_info(self, obj):
