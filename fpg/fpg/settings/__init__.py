@@ -20,7 +20,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 
 DJANGO_DIR = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 BASE_DIR = os.path.abspath(os.path.dirname(DJANGO_DIR))
@@ -39,7 +38,6 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,7 +47,11 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    #3rd party plugins
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # 3rd party plugins
     'django_extensions',
     'django_js_reverse',
     'debug_toolbar',
@@ -60,8 +62,8 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'rest_auth',
     'registration',
-    'allauth',
-    'allauth.account',
+    # 'allauth',
+    # 'allauth.account',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
     # 'allauth.socialaccount'
@@ -88,18 +90,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'fpg.urls'
-
-SOCIALACCOUNT_PROVIDERS = \
-    {'facebook':
-       {'SCOPE': ['email', 'public_profile', 'user_friends'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'METHOD': 'oauth2',
-        'LOCALE_FUNC': 'path.to.callable',
-        'VERIFIED_EMAIL': True,
-        'VERSION': 'v2.3'}}
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -135,13 +125,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
 
 
-     # Required by `allauth` template tags
+    # Required by `allauth` template tags
     'django.core.context_processors.request',
 
     # `allauth` specific context processors
     'allauth.account.context_processors.account',
     'allauth.socialaccount.context_processors.socialaccount',
-
 
 )
 
@@ -153,6 +142,7 @@ AUTHENTICATION_BACKENDS = (
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 
+    'fpg.emailauthbackend.EmailAuthBackend',
 )
 
 # adding languages for django-cms
@@ -172,9 +162,9 @@ MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, "media"))
 
 MEDIA_URL = "/media/"
 
-AUTHENTICATION_BACKENDS = (
-    'fpg.emailauthbackend.EmailAuthBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+# 'fpg.emailauthbackend.EmailAuthBackend',
+# )
 
 ANONYMOUS_USER_ID = None
 
@@ -243,49 +233,46 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window; you may, of course, use a different value.
+ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window; you may, of course, use a different value
 
 LOGIN_REDIRECT_URL = '/'
 
-
 AUTH_USER_MODEL = 'auth.User'
-
 
 REST_SESSION_LOGIN = True
 
-
-
-
-
-ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
-
-
-
-
-
-
+ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window; you may, of course, use a different value
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-    'rest_framework.authentication.SessionAuthentication',
-    'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
 
 }
 
-
 REST_FRAMEWORK = {
-   'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
-   'DATE_INPUT_FORMATS': ('iso-8601', '%m/%d/%Y'),
-   'DATE_FORMAT': '%m/%d/%Y',
-   'DATETIME_INPUT_FORMATS': ('iso-8601', '%m/%d/%Y'),
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+    'DATE_INPUT_FORMATS': ('iso-8601', '%m/%d/%Y'),
+    'DATE_FORMAT': '%m/%d/%Y',
+    'DATETIME_INPUT_FORMATS': ('iso-8601', '%m/%d/%Y'),
 }
 
 STRIPE_API_KEY = "sk_test_QBpIvo5lNrftaWto9c9hYrKY"
+
+
+# SOCIALACCOUNT_PROVIDERS = \
+#     {'facebook':
+#        {'SCOPE': ['email', 'public_profile', 'user_friends'],
+#         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+#         'METHOD': 'oauth2',
+#         'LOCALE_FUNC': 'path.to.callable',
+#         'VERIFIED_EMAIL': False,
+#         'VERSION': 'v2.3'}}
+
 
 try:
     from local_settings import *
