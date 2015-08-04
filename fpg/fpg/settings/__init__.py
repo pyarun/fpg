@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 from django.core.exceptions import ImproperlyConfigured
+import os
 
 """
 Django settings for organic project.

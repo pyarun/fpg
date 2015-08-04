@@ -69,7 +69,7 @@ def rebuild(branch="master"):
     with cd(djapp()):
         checkout_branch(branch)
         update_requirements()
-        build_bower_dependiences()
+        # build_bower_dependiences()
         sync_app()
         touch()
 
@@ -108,7 +108,7 @@ def bootstrap():
         ),
         (
             'Synchronizing django application, You can skip this, by pressing n/N:',
-            [checkout_branch, update_requirements, build_bower_dependiences, sync_app]
+            [checkout_branch, update_requirements, sync_app]
         ),
         # (
         # 'Loading Initial data, You can skip this, by pressing n/N:',
@@ -177,7 +177,7 @@ def generate_apache_vh():
     file_path = os.path.join(djapp(), "apache", env.project_name + ".conf")
     apache_conf_dir = os.path.join(djapp(), "apache")
 
-    run('mkdir {} -p'.format(apache_conf_dir))
+    run('mkdir -p {}'.format(apache_conf_dir))
 
     context = {
         'django_project_name': env.django_project_name,
